@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Technico.Data;
 using Technico.DTO;
 using Technico.Models;
+using Technico.Repositories.Implementations;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using Technico.Validator;
@@ -17,31 +18,42 @@ namespace Technico.Services.Implementations;
 
 public class RepairService : IRepairService
 {
+    private readonly IOwnerRepository _ownerRepository;
     private readonly IRepairRepository _repairRepository;
     private readonly RepairValidator _repairValidator;
 
-    public RepairService(IRepairRepository repairRepository, RepairValidator repairValidator)
+    public RepairService(IOwnerRepository ownerRepository, IRepairRepository repairRepository, RepairValidator repairValidator)
     {
+        _ownerRepository = ownerRepository;
         _repairRepository = repairRepository;
         _repairValidator = repairValidator;
     }
 
-    public async Task<Result<RepairDTO>> CreateRepair(Repair repair, Owner owner)
+    public async Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId)
     {
-        if (!(await _repairValidator.ValidateAsync(repair)).IsValid)
-        {
-            return Result.Failure<RepairDTO>("Invalid input");
-        }
+        //if (!(await _repairValidator.ValidateAsync(repairDto)).IsValid)
+        //{
+        //    return Result.Failure<RepairDTO>("Invalid input");
+        //}
 
-        var repairCreated = await _repairRepository.CreateRepair(repair, owner);
-        if (!repairCreated)
+        var owner = await _ownerRepository.GetOwner(ownerId);
+
+        if (owner == null) 
         {
             return Result.Failure<RepairDTO>("Owner does not exist");
         }
 
-        var repairDTO = MapToRepairDTO(repair);
+        Repair newRepair = Converters.ConvertToRepair(repairDto);
 
-        return Result.Success(repairDTO);
+        var repairCreated = await _repairRepository.CreateRepair(newRepair, owner);
+        if (!repairCreated)
+        {
+            return Result.Failure<RepairDTO>("Failed to create repair");
+        }
+       
+        RepairDTO createdRepairDto = Converters.ConvertToRepairDTO(newRepair);
+        
+        return Result.Success(createdRepairDto);
     }
 
     public async Task<Result<RepairDTO>> GetRepair(int id)
@@ -51,13 +63,10 @@ public class RepairService : IRepairService
         {
             return Result.Failure<RepairDTO>("Repair not found");
         }
-
-        var repairDTO = MapToRepairDTO(repair);
-
-        return Result.Success(repairDTO);
+        return Result.Success(Converters.ConvertToRepairDTO(repair));
     }
 
-    public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, Repair newRepair)
+    public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
         if (repairToUpdate == null)
@@ -65,13 +74,8 @@ public class RepairService : IRepairService
             return Result.Failure<RepairDTO>("The repair you want to update was not found");
         }
 
-        var oldOwner = repairToUpdate.Owner;
-        repairToUpdate = newRepair;
-
-        if (newRepair.Owner == null)
-        {
-            repairToUpdate.Owner = oldOwner;
-        }
+        Repair repair1 = Converters.ConvertToRepair(newRepairDto);
+        repairToUpdate = repair1;
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
 
@@ -79,9 +83,7 @@ public class RepairService : IRepairService
         {
             return Result.Failure<RepairDTO>("Update failed");
         }
-
-        var repairDTO = MapToRepairDTO(repairToUpdate);
-        return Result.Success(repairDTO);
+        return Result.Success(newRepairDto);
     }
 
     public async Task<Result> DeleteRepair(int repairId)
@@ -95,13 +97,5 @@ public class RepairService : IRepairService
         var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
 
         return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
-    }
-
-    private static RepairDTO MapToRepairDTO(Repair repair) // DTO
-    {
-        var repairDTO = new RepairDTO(repair.Id, repair.ScheduledRepair, repair.RepairType, repair.Description,
-            repair.Address, repair.RepairStatus, repair.Cost);
-
-        return repairDTO;
     }
 }

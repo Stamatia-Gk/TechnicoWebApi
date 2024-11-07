@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Technico.DTO;
 
-public class PropertiesWithOwnersDTO//: PropertyDTO
+public class PropertiesWithOwnersDTO: PropertyDTO
 {
     public List<PropertyDTO>? PropertyOwners { get; set; }
 }

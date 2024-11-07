@@ -7,9 +7,9 @@ namespace Technico.Services.Interfaces
 {
     public interface IRepairService
     {
-        Task<Result<RepairDTO>> CreateRepair(Repair repair, Owner owner);
+        Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId);
         Task<Result> DeleteRepair(int repairId);
         Task<Result<RepairDTO>> GetRepair(int id);
-        Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, Repair newRepair);
+        Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto);
     }
 }
