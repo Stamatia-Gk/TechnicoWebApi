@@ -10,6 +10,7 @@ namespace Technico.Services.Interfaces
         Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId);
         Task<Result> DeleteRepair(int repairId);
         Task<Result<RepairDTO>> GetRepair(int id);
+        Task<Result<List<RepairDTO>>> GetAllRepairs();
         Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto);
     }
 }

@@ -66,6 +66,17 @@ public class RepairService : IRepairService
         return Result.Success(Converters.ConvertToRepairDTO(repair));
     }
 
+    public async Task<Result<List<RepairDTO>>> GetAllRepairs()
+    {
+        var repairs = await _repairRepository.GetRepairs();
+        if(repairs == null || repairs.Any())
+        {
+            return Result.Failure<List<RepairDTO>>("No repairs found");
+        }
+        var repairDTOs = repairs.Select(Converters.ConvertToRepairDTO).ToList();
+        return Result.Success(repairDTOs);
+    }
+
     public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
