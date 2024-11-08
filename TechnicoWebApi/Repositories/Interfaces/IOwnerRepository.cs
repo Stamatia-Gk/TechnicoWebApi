@@ -1,6 +1,6 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using Technico.DTO;
 using Technico.Models;
+using Technico.Data;
 
 namespace Technico.Repositories.Interfaces
 {

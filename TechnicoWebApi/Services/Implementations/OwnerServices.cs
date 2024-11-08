@@ -48,6 +48,13 @@ public class OwnerService : IOwnerService
         return Result.Success(Converters.ConvertToOwnerDTO(owner));
     }
 
+    public async Task<Result<List<OwnerDTO>>> GetAllOwners()
+    {
+        var ownersList = await _ownerRepository.GetOwners();
+        var ownerDtos = ownersList.Select(owner => Converters.ConvertToOwnerDTO(owner));
+        return ownerDtos.ToList();
+    }
+
     public async Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwnerDto)
     {
         var ownerToUpdate = await _ownerRepository.GetOwner(oldOwnerId);
