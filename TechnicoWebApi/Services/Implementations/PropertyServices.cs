@@ -22,7 +22,7 @@ public class PropertyService : IPropertyService
 
         var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
 
-        return propertiesListDto;
+        return Result.Success(propertiesListDto);
     }
     public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, string ownersVatNumber)
     {
