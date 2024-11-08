@@ -20,11 +20,18 @@ builder.Services.AddDbContext<TechnicoDbContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+ 
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var dbContext = services.GetRequiredService<TechnicoDbContext>();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+    }
+
 
 app.UseHttpsRedirection();
 

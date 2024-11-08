@@ -8,7 +8,7 @@ namespace Technico.Repositories.Interfaces
         Task<List<PropertyItem>> GetProperties();
         Task<PropertyItem?> GetProperty(int id);
         Task<bool> PropertyExists(int id);
-        Task<bool> CreateProperty(PropertyItem property, string ownerVatNumber);
+        Task<bool> CreateProperty(PropertyItem property, int ownerId);
         Task<bool> UpdateProperty(PropertyItem property);
         Task<bool> DeleteProperty(PropertyItem property);
         Task<bool> Save();

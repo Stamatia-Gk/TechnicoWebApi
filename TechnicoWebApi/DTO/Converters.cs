@@ -71,7 +71,7 @@ public static class Converters
     public static PropertyItem ConvertPropertyItem(PropertyDTO propertyDto)
     {
         return new PropertyItem()
-        {   Id = propertyDto.Id,
+        { 
             IdentificationNumber = propertyDto.IdentificationNumber,
             Address = propertyDto.Address,
             ConstructionYear = propertyDto.ConstructionYear,
@@ -83,8 +83,7 @@ public static class Converters
     public static PropertyDTO ConvertToPropertyDto(PropertyItem propertyItem)
     {
         return new PropertyDTO()
-        {
-            Id = propertyItem.Id,
+        {   Id = propertyItem.Id,
             IdentificationNumber = propertyItem.IdentificationNumber,
             Address = propertyItem.Address,
             ConstructionYear = propertyItem.ConstructionYear,
