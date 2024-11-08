@@ -27,7 +27,7 @@ namespace TechnicoWebApi.Controllers
             }
             else 
             {
-                return BadRequest(result.Error);
+                return NotFound(result.Error);
             }
         }
 

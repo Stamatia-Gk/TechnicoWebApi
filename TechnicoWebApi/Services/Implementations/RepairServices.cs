@@ -38,21 +38,22 @@ public class RepairService : IRepairService
 
         var owner = await _ownerRepository.GetOwner(ownerId);
 
-        if (owner == null) 
+        if (owner == null)
         {
             return Result.Failure<RepairDTO>("Owner does not exist");
         }
 
         Repair newRepair = Converters.ConvertToRepair(repairDto);
+        newRepair.Id = ownerId;
 
-        var repairCreated = await _repairRepository.CreateRepair(newRepair, owner);
+        var repairCreated = await _repairRepository.CreateRepair(newRepair);
         if (!repairCreated)
         {
             return Result.Failure<RepairDTO>("Failed to create repair");
         }
-       
+
         RepairDTO createdRepairDto = Converters.ConvertToRepairDTO(newRepair);
-        
+
         return Result.Success(createdRepairDto);
     }
 
@@ -69,7 +70,7 @@ public class RepairService : IRepairService
     public async Task<Result<List<RepairDTO>>> GetAllRepairs()
     {
         var repairs = await _repairRepository.GetRepairs();
-        if(repairs == null || repairs.Any())
+        if (repairs == null || repairs.Any())
         {
             return Result.Failure<List<RepairDTO>>("No repairs found");
         }
@@ -77,6 +78,29 @@ public class RepairService : IRepairService
         return Result.Success(repairDTOs);
     }
 
+    public async Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId) 
+     {
+        if(endDate < startDate)
+        {
+            return Result.Failure<List<RepairDTO>>("End date must be greater or equal than the start date");
+        }
+        var owner = await _ownerRepository.GetOwner(userId);
+
+        if (owner == null)
+        {
+            return Result.Failure<List<RepairDTO>>("Owner does not exist");
+        }
+        var repairs = await _repairRepository.Search(startDate, endDate ,owner.Id);
+
+        if (repairs == null) 
+        {
+            return Result.Failure<List<RepairDTO>>("No repairs found with the specified criteria.");
+        }
+
+        var repairsDTO = repairs.Select(Converters.ConvertToRepairDTO).ToList();
+
+        return Result.Success(repairsDTO);
+     } 
     public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
