@@ -1,19 +1,12 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Technico.Data;
+
+using CSharpFunctionalExtensions;
+using Technico.DTO;
 using Technico.Models;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
-using Technico.Validator;
-using CSharpFunctionalExtensions;
-using Technico.DTO;
-using FluentValidation;
 
-namespace Technico.Services.Implementations;
+namespace TechnicoWebApi.Services.Implementations;
 public class OwnerService : IOwnerService
 {
     private readonly IOwnerRepository _ownerRepository;

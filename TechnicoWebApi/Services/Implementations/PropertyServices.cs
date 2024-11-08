@@ -1,43 +1,39 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
+
 using CSharpFunctionalExtensions;
-using FluentValidation.Validators;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Technico.Data;
 using Technico.DTO;
 using Technico.Models;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
-using Technico.Validator;
 
-namespace Technico.Services.Implementations;
+namespace TechnicoWebApi.Services.Implementations;
 
 public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
-    private readonly PropertyValidator _propertyValidator;
-    public PropertyService(IPropertyRepository propertyRepository, PropertyValidator propertyValidator)
+    public PropertyService(IPropertyRepository propertyRepository)
     {
         _propertyRepository = propertyRepository;
-        _propertyValidator = propertyValidator;
     }
-    public async Task<Result<PropertyDTO>> CreateProperty(PropertyItem property, List<string> ownersVatNumbers)
+
+    public async Task<Result<List<PropertyDTO>>> GetAllProperties()
     {
-        if (!(await _propertyValidator.ValidateAsync(property)).IsValid)
-        {
-            return Result.Failure<PropertyDTO>("Invalid input");
-        }
-        var propertyCreated = await _propertyRepository.CreateProperty(property, ownersVatNumbers);
+        var propertiesList = await _propertyRepository.GetProperties();
+
+        var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
+
+        return propertiesListDto;
+    }
+    public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, string ownersVatNumber)
+    {
+        var propertyToCreate = Converters.ConvertPropertyItem(propertyDto);
+        var propertyCreated = await _propertyRepository.CreateProperty(propertyToCreate, ownersVatNumber);
         if (!propertyCreated)
         {
             return Result.Failure<PropertyDTO>("Owners not found");
         }
-
-        var propertyDTO = MapToPropertyDTO(property);
-
-        return Result.Success(propertyDTO);
+        
+        return Result.Success(propertyDto);
     }
 
     public async Task<Result<PropertyDTO>> GetProperty(int id)
@@ -48,19 +44,21 @@ public class PropertyService : IPropertyService
             return Result.Failure<PropertyDTO>("Property Not Found");
         }
 
-        var propertyDTO = MapToPropertyDTO(property);
+        var propertyDto = Converters.ConvertToPropertyDto(property);
 
-        return Result.Success(propertyDTO);
+        return Result.Success(propertyDto);
     }
 
-    public async Task<Result<PropertyDTO>> UpdateProperty(int oldPropertyId, PropertyItem newProperty)
+    public async Task<Result<PropertyDTO>> UpdateProperty(int oldPropertyId, PropertyDTO propertyDto)
     {
         var propertyToUpdate = await _propertyRepository.GetProperty(oldPropertyId);
         if (propertyToUpdate == null)
         {
             return Result.Failure<PropertyDTO>("The property you want to update was not found");
         }
+       
         var oldOwners = propertyToUpdate.Owners;
+        var newProperty = Converters.ConvertPropertyItem(propertyDto);
         propertyToUpdate = Clone(propertyToUpdate, newProperty);
 
         if (propertyToUpdate.Owners.Count == 0)
@@ -74,9 +72,8 @@ public class PropertyService : IPropertyService
         {
             return Result.Failure<PropertyDTO>("Update failed");
         }
-
-        var propertyDTO = MapToPropertyDTO(propertyToUpdate);
-        return Result.Success(propertyDTO);
+        
+        return Result.Success(propertyDto);
     }
 
     public async Task<Result> DeleteProperty(int propertyId)
@@ -93,13 +90,7 @@ public class PropertyService : IPropertyService
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
-    private PropertyDTO MapToPropertyDTO(PropertyItem property) // DTO
-    {
-        var propertyDTO = new PropertyDTO(property.Id, property.IdentificationNumber, property.Address,
-            property.ConstructionYear, property.PropertyType);
-
-        return propertyDTO;
-    }
+  
 
     private static PropertyItem Clone(PropertyItem oldProperty, PropertyItem newProperty)
     {

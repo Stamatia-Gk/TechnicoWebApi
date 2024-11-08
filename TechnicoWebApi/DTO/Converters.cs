@@ -68,6 +68,30 @@ public static class Converters
         };
     }
 
+    public static PropertyItem ConvertPropertyItem(PropertyDTO propertyDto)
+    {
+        return new PropertyItem()
+        {   Id = propertyDto.Id,
+            IdentificationNumber = propertyDto.IdentificationNumber,
+            Address = propertyDto.Address,
+            ConstructionYear = propertyDto.ConstructionYear,
+            PropertyType = propertyDto.PropertyType,
+
+        };
+    }
+
+    public static PropertyDTO ConvertToPropertyDto(PropertyItem propertyItem)
+    {
+        return new PropertyDTO()
+        {
+            Id = propertyItem.Id,
+            IdentificationNumber = propertyItem.IdentificationNumber,
+            Address = propertyItem.Address,
+            ConstructionYear = propertyItem.ConstructionYear,
+            PropertyType = propertyItem.PropertyType,
+        };
+    }
+
     /*public static PropertyDTO ConvertProperty(this PropertyItem owner)
     {
         return new PropertyDTO()
