@@ -31,6 +31,20 @@ namespace TechnicoWebApi.Controllers
             }
         }
 
+        [HttpGet, Route("Search")]
+        public async Task<ActionResult<List<RepairDTO>>> Search(DateTime startDate, DateTime endDate, int id)
+        {
+            var result = await _repairService.SearchRepair(startDate, endDate, id);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value.ToList());
+            }
+            else
+            {
+                return NotFound(result.Error);
+            }
+        }
+
         // GET api/<RepairController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairDTO>> Get(int id)

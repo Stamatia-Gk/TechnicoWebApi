@@ -17,7 +17,7 @@ public class TechnicoDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = "Data Source = (local); Initial Catalog = technico; Integrated Security = True; TrustServerCertificate = True;";
+        string connectionString = "Data Source = (local); Initial Catalog = technicowebapi; Integrated Security = True; TrustServerCertificate = True;";
         optionsBuilder.UseSqlServer(connectionString);
     }
 
