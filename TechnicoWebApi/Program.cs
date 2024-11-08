@@ -1,4 +1,7 @@
 using Technico.Data;
+using Technico.Repositories.Implementations;
+using Technico.Repositories.Interfaces;
+using Technico.Services.Implementations;
 using Technico.Services.Interfaces;
 using Technico.Validator;
 
@@ -12,7 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<TechnicoDbContext>();
-builder.Services.AddScoped<IOwnerService, IOwnerService>();
+builder.Services.AddScoped<IOwnerService, OwnerService>();
+builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<OwnerValidator>();
 
 var app = builder.Build();
