@@ -24,10 +24,10 @@ public class PropertyService : IPropertyService
 
         return Result.Success(propertiesListDto);
     }
-    public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, string ownersVatNumber)
+    public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, int ownerId)
     {
         var propertyToCreate = Converters.ConvertPropertyItem(propertyDto);
-        var propertyCreated = await _propertyRepository.CreateProperty(propertyToCreate, ownersVatNumber);
+        var propertyCreated = await _propertyRepository.CreateProperty(propertyToCreate, ownerId);
         if (!propertyCreated)
         {
             return Result.Failure<PropertyDTO>("Owners not found");

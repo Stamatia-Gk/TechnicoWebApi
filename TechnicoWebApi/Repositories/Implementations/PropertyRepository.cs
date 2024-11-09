@@ -36,19 +36,29 @@ public class PropertyRepository : IPropertyRepository
         return await _context.Properties.AnyAsync(p => p.Id == id);
     }
 
-    public async Task<bool> CreateProperty(PropertyItem property, string ownerVatNumber)
-    {
-        var owner = await _context.Owners.Where(o => o.VAT.Trim().Equals(ownerVatNumber)).FirstOrDefaultAsync();
+    public async Task<bool> CreateProperty(PropertyItem property,int ownerId)
+    {   
+        var owner = await _context.Owners.Where(o => o.Id == ownerId).FirstOrDefaultAsync();
         if (owner == null) return false;
-        
-        property.Owners.Add(owner);
 
-        if (!PropertyExists(ownerVatNumber).Result)
+        var fetchedProperty = await GetPropertyByIdentNum(property.IdentificationNumber);
+        if (fetchedProperty == null)
         {
-            _context.Properties.Add(property);
+            property.Owners.Add(owner);
+            _context.Add(property);
+            return await Save();
         }
-
+        
+        var ownerInProperty = fetchedProperty.Owners.Any(o => o.Id == ownerId);
+        if (ownerInProperty)
+        {
+            return false;
+        }
+        
+        fetchedProperty.Owners.Add(owner);
         return await Save();
+
+
 
     }
 
@@ -71,7 +81,15 @@ public class PropertyRepository : IPropertyRepository
     public async Task<bool> Save()
     {
         var saved = _context.SaveChangesAsync();
+        Console.WriteLine(saved);
         return await saved > 0;
+        
+        
+    }
+    
+    public async Task<PropertyItem?> GetPropertyByIdentNum(string IdentNum)
+    {
+        return await _context.Properties.Where(p => p.IdentificationNumber.Equals(IdentNum)).Include(p => p.Owners).FirstOrDefaultAsync();
     }
 
     public async Task<bool> PropertyExists(string identificationNumber)
