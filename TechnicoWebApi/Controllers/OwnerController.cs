@@ -21,34 +21,67 @@ namespace TechnicoWebApi.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public async Task<Result<List<OwnerDTO>>> Get()
+        public async Task<ActionResult<List<OwnerDTO>>> GetOwners()
         {
-            return await _ownerService.GetAllOwners();
+            var result = await _ownerService.GetAllOwners();
+            if(result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<OwnerDTO>> GetOwnerById(int id)
         {
-            return "value";
+            var result = await _ownerService.GetOwner(id);
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<OwnerDTO>> Post([FromBody] OwnerDTOCreate ownerDtoCreate)
         {
+            var result = await _ownerService.CreateOwner(ownerDtoCreate);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<OwnerDTO>> Put(int id, [FromBody] OwnerDTO ownerDto)
         {
+            var result = await _ownerService.UpdateOwner(id, ownerDto);
+            if(result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<bool>> Delete([FromRoute] int id)
         {
+            var result = await _ownerService.DeleteOwner(id);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok();
         }
     }
 }

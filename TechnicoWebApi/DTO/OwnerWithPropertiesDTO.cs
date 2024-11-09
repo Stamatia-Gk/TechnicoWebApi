@@ -9,5 +9,5 @@ namespace Technico.DTO;
 
 public class OwnerWithPropertiesDTO: OwnerDTO
 {
-    public List<OwnerDTO>? OwnerProperties { get; set; }
+    public List<PropertyDTO>? OwnerProperties { get; set; }
 }

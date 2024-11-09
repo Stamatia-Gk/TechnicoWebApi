@@ -12,6 +12,8 @@ using Technico.Validator;
 using CSharpFunctionalExtensions;
 using Technico.DTO;
 using FluentValidation;
+using System.ComponentModel.DataAnnotations;
+using Technico.Repositories.Implementations;
 
 namespace Technico.Services.Implementations;
 public class OwnerService : IOwnerService
@@ -36,10 +38,16 @@ public class OwnerService : IOwnerService
         return Result.Success(ownerDto);
     }
 
-    
+    public async Task<Result<List<OwnerDTO>>> GetAllOwners()
+    {
+        var ownersList = await _ownerRepository.GetOwners();
+        var ownerDtos = ownersList.Select(owner => Converters.ConvertToOwnerDTO(owner));
+        return ownerDtos.ToList();
+    }
+
     public async Task<Result<OwnerDTO>> GetOwner(int id)
     {
-        var owner = await _ownerRepository.GetOwner(id);
+        var owner = await _ownerRepository.GetOwnerById(id);
         if (owner == null)
         {
             return Result.Failure<OwnerDTO>("Owner not found!");
@@ -48,25 +56,16 @@ public class OwnerService : IOwnerService
         return Result.Success(Converters.ConvertToOwnerDTO(owner));
     }
 
-    public async Task<Result<List<OwnerDTO>>> GetAllOwners()
-    {
-        var ownersList = await _ownerRepository.GetOwners();
-        var ownerDtos = ownersList.Select(owner => Converters.ConvertToOwnerDTO(owner));
-        return ownerDtos.ToList();
-    }
-
     public async Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwnerDto)
     {
-        var ownerToUpdate = await _ownerRepository.GetOwner(oldOwnerId);
+        var ownerToUpdate = await _ownerRepository.GetOwnerById(oldOwnerId);
         if (ownerToUpdate == null)
         {
             return Result.Failure<OwnerDTO>("The owner you want to update was not found!");
         }
 
-        Owner ow1 = Converters.ConvertToOwner(newOwnerDto);
-
-        ownerToUpdate = ow1;
-
+        var newOwner = Converters.ConvertToOwner(newOwnerDto);
+        ownerToUpdate = Clone(ownerToUpdate, newOwner);
         var ownerUpdated = await _ownerRepository.UpdateOwner(ownerToUpdate);
 
         if (!ownerUpdated)
@@ -79,7 +78,7 @@ public class OwnerService : IOwnerService
 
     public async Task<Result> DeleteOwner(int ownerId)
     {
-        var ownerToDelete = await _ownerRepository.GetOwner(ownerId);
+        var ownerToDelete = await _ownerRepository.GetOwnerById(ownerId);
 
         if (ownerToDelete == null)
         {
@@ -88,5 +87,20 @@ public class OwnerService : IOwnerService
 
         var ownerDeleted = await _ownerRepository.DeleteOwner(ownerToDelete);
         return ownerDeleted ? Result.Success("Owner successfully deleted.") : Result.Failure("Delete failed.");
+    }
+
+    private static Owner Clone(Owner oldOwner, Owner newOwner)
+    {
+        oldOwner.VAT = newOwner.VAT;
+        oldOwner.Name = newOwner.Name;
+        oldOwner.Surname = newOwner.Surname;
+        oldOwner.Address = newOwner.Address;
+        oldOwner.PhoneNumber = newOwner.PhoneNumber;
+        oldOwner.Email = newOwner.Email;
+        oldOwner.OwnerType = newOwner.OwnerType;
+        oldOwner.Properties = newOwner.Properties;
+        oldOwner.AllRepairs = newOwner.AllRepairs;
+
+        return oldOwner;
     }
 }

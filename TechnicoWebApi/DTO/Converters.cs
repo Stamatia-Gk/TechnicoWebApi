@@ -67,12 +67,4 @@ public static class Converters
             OwnerType = ownerDto.OwnerType
         };
     }
-
-    /*public static PropertyDTO ConvertProperty(this PropertyItem owner)
-    {
-        return new PropertyDTO()
-        {
-            //Id = owner.Id,
-        };
-    }*/
 }
