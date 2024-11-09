@@ -4,6 +4,13 @@ using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Services.Implementations;
 
+using Technico.Data;
+using Technico.Repositories.Implementations;
+using Technico.Repositories.Interfaces;
+using Technico.Services.Implementations;
+using Technico.Services.Interfaces;
+using Technico.Validator;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +23,11 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddDbContext<TechnicoDbContext>();
 
+
+builder.Services.AddDbContext<TechnicoDbContext>();
+builder.Services.AddScoped<IOwnerService, OwnerService>();
+builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+builder.Services.AddScoped<OwnerValidator>();
 
 var app = builder.Build();
 

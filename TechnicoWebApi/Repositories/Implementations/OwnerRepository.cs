@@ -21,6 +21,16 @@ public class OwnerRepository : IOwnerRepository
         _context = context;
     }
 
+    public async Task<List<Owner>> GetOwners()
+    {
+        return await _context.Owners.OrderBy(o => o.Surname).ToListAsync();
+    }
+
+    public async Task<Owner?> GetOwnerById(int id)
+    {
+        return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
+    }
+
     public async Task<bool> CreateOwner(Owner owner)
     {
         if (!OwnerExists(owner.VAT).Result)
@@ -29,11 +39,6 @@ public class OwnerRepository : IOwnerRepository
         }
 
         return await Save();
-    }
-
-    public async Task<List<Owner>> GetOwners()
-    {
-        return await _context.Owners.OrderBy(o => o.Surname).ToListAsync();
     }
 
     public async Task<bool> UpdateOwner(Owner owner)
@@ -53,11 +58,6 @@ public class OwnerRepository : IOwnerRepository
         return await Save();
     }
 
-    public async Task<Owner?> GetOwner(int id)
-    {
-        return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
-    }
-
     public async Task<bool> OwnerExists(string vatNumber)
     {
         return await _context.Owners.AnyAsync(o => o.VAT.Equals(vatNumber.Trim()));
@@ -68,4 +68,22 @@ public class OwnerRepository : IOwnerRepository
         var saved = _context.SaveChangesAsync();
         return await saved > 0;
     }
+
+    /*public async Task<List<PropertyItem>> GetPropertyByOwnerId(int id)
+    {
+        var a = _context.Owners?
+            .Include(p => p.Properties)
+            .Where(p => p.Id == id)
+            .Select(p => p.Properties);
+        return await a;
+    }
+
+    public async Task<List<Repair>> GetRepairByOwnerId(int id)
+    {
+        var a = _context.Owners?
+            .Include(r => r.AllRepairs)
+            .Where(r => r.Id == id)
+            .Select(r => r.AllRepairs);
+        return await a;
+    }*/
 }
