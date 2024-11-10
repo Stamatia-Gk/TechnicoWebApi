@@ -2,13 +2,8 @@ using Technico.Data;
 using Technico.Repositories.Implementations;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
-using TechnicoWebApi.Services.Implementations;
-
-using Technico.Data;
-using Technico.Repositories.Implementations;
-using Technico.Repositories.Interfaces;
-using Technico.Services.Interfaces;
 using Technico.Validator;
+using TechnicoWebApi.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +23,9 @@ builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<OwnerValidator>();
 
+builder.Services.AddScoped<IRepairService, RepairService>();
+builder.Services.AddScoped<IRepairRepository, RepairRepository>();
+builder.Services.AddScoped<RepairValidator>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,7 +39,7 @@ var app = builder.Build();
         var dbContext = services.GetRequiredService<TechnicoDbContext>();
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
-    }
+}
 
 
 app.UseHttpsRedirection();

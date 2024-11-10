@@ -97,4 +97,32 @@ public static class Converters
             //Id = owner.Id,
         };
     }*/
+
+    public static RepairDTO ConvertToRepairDTO(this Repair repair) 
+    {
+        return new RepairDTO()
+        {
+            Id = repair.Id,
+            Description = repair.Description,
+            Address = repair.Address,
+            Cost = repair.Cost,
+            RepairStatus = repair.RepairStatus,
+            RepairType = repair.RepairType,
+            ScheduledRepair = repair.ScheduledRepair,
+           
+        };
+    }
+
+    public static Repair ConvertToRepair (this RepairDTO repairDTO) 
+    {
+        return new Repair()
+        {
+            Description = repairDTO.Description,
+            Address = repairDTO.Address,
+            Cost = repairDTO.Cost,
+            RepairStatus = repairDTO.RepairStatus,
+            RepairType = repairDTO.RepairType,
+            ScheduledRepair = repairDTO.ScheduledRepair,
+        };
+    }
 }
