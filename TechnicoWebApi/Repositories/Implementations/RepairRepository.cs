@@ -32,17 +32,16 @@ public class RepairRepository : IRepairRepository
         return await _context.Repairs.AnyAsync(r => r.Id == id);
     }
 
-    public async Task<bool> CreateRepair(Repair repair, Owner owner)
+    public async Task<List<Repair>> Search(DateTime startDate , DateTime endDate , int ownerId) 
     {
-        var ownerExists = await _ownerRepository.OwnerExists(owner.VAT);
-        if (!ownerExists)
-        {
-            return false;
-        }
-
-        repair.Owner = owner;
-        _context.Add(repair);
-
+        return await _context.Repairs.Where(r => r.Id  == ownerId
+        && r.ScheduledRepair >= startDate
+        && r.ScheduledRepair <= endDate)
+            .ToListAsync();
+    }
+    public async Task<bool> CreateRepair(Repair repair)
+    {       
+        _context.Repairs.Add(repair);
         return await Save();
     }
 

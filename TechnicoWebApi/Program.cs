@@ -1,15 +1,3 @@
-using Technico.Data;
-using Technico.Repositories.Implementations;
-using Technico.Repositories.Interfaces;
-using Technico.Services.Interfaces;
-using TechnicoWebApi.Services.Implementations;
-
-using Technico.Data;
-using Technico.Repositories.Implementations;
-using Technico.Repositories.Interfaces;
-using Technico.Services.Interfaces;
-using Technico.Validator;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

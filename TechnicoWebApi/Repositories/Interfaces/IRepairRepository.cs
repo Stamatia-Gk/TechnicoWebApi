@@ -5,10 +5,11 @@ namespace Technico.Repositories.Interfaces
 {
     public interface IRepairRepository
     {
-        Task<bool> CreateRepair(Repair repair, Owner owner);
+        Task<bool> CreateRepair(Repair repair);
         Task<bool> DeleteRepair(Repair repair);
         Task<Repair?> GetRepair(int id);
         Task<List<Repair>> GetRepairs();
+        Task<List<Repair>> Search(DateTime startDate, DateTime endDate, int ownerId);
         Task<bool> RepairExists(int id);
         Task<bool> Save();
         Task<bool> UpdateRepair(Repair repair);

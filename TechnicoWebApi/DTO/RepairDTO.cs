@@ -4,7 +4,7 @@ using Technico.Models;
 
 namespace Technico.DTO;
 
-/*public class RepairDTO()
+ public class RepairDTO()
 {
     public int Id { get; set; }
     public DateTime ScheduledRepair { get; set; }
@@ -14,6 +14,5 @@ namespace Technico.DTO;
     public RepairStatus RepairStatus { get; set; }
     public decimal Cost { get; set; }
     public OwnerDTO OwnerDto { get; set; } = new();
-}*/
+}
 
-public record RepairDTO(int Id, DateTime ScheduledRepair, RepairType RepairType, string Description, string Address, RepairStatus RepairStatus, decimal Cost);
