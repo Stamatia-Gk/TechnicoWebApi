@@ -67,7 +67,7 @@ namespace TechnicoWebApi.Controllers
             var result = await _repairService.CreateRepair(repairDTO,ownerId);
             if (result.IsSuccess) 
             {
-                return Ok(result);
+                return Ok(result.Value);
             }
             else
             {
@@ -97,7 +97,7 @@ namespace TechnicoWebApi.Controllers
             var result = await _repairService.DeleteRepair(id);
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok();
             }
             else 
             {

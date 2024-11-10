@@ -13,6 +13,5 @@ namespace Technico.DTO;
     public RepairType RepairType { get; set; }
     public RepairStatus RepairStatus { get; set; }
     public decimal Cost { get; set; }
-    public OwnerDTO OwnerDto { get; set; } = new();
 }
 

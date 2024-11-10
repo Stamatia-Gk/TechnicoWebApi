@@ -20,4 +20,6 @@ public class Repair
     [Precision(8, 2)]
     public decimal Cost { get; set; }
     public Owner Owner { get; set; } = new();
+
+
 }

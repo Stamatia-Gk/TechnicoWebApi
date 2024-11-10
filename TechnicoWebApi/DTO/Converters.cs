@@ -105,17 +105,7 @@ public static class Converters
             RepairStatus = repair.RepairStatus,
             RepairType = repair.RepairType,
             ScheduledRepair = repair.ScheduledRepair,
-            OwnerDto = new OwnerDTO()
-            {
-                Id = repair.Owner.Id,
-                Address = repair.Owner.Address,
-                Email = repair.Owner.Email,
-                Name = repair.Owner.Name,
-                OwnerType = repair.Owner.OwnerType,
-                PhoneNumber = repair.Owner.PhoneNumber,
-                Surname = repair.Owner.Surname,
-                VAT = repair.Owner.VAT,
-            }
+           
         };
     }
 
@@ -123,24 +113,12 @@ public static class Converters
     {
         return new Repair()
         {
-            Id = repairDTO.Id,
             Description = repairDTO.Description,
             Address = repairDTO.Address,
             Cost = repairDTO.Cost,
             RepairStatus = repairDTO.RepairStatus,
             RepairType = repairDTO.RepairType,
             ScheduledRepair = repairDTO.ScheduledRepair,
-            Owner = new Owner()
-            {
-               Id = repairDTO.OwnerDto.Id,
-               Address = repairDTO.OwnerDto.Address,
-               Email= repairDTO.OwnerDto.Email,
-               Name= repairDTO.OwnerDto.Name,
-               Surname = repairDTO.OwnerDto.Surname,
-               VAT = repairDTO.OwnerDto.VAT,
-               OwnerType = repairDTO.OwnerDto.OwnerType,
-               PhoneNumber = repairDTO.OwnerDto.PhoneNumber,
-            }
         };
     }
 }

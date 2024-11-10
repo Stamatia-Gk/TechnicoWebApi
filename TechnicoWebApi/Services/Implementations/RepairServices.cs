@@ -29,7 +29,7 @@ public class RepairService : IRepairService
         //    return Result.Failure<RepairDTO>("Invalid input");
         //}
 
-        var owner = await _ownerRepository.GetOwner(ownerId);
+        var owner = await _ownerRepository.GetOwnerById(ownerId);
 
         if (owner == null)
         {
@@ -37,7 +37,6 @@ public class RepairService : IRepairService
         }
 
         Repair newRepair = Converters.ConvertToRepair(repairDto);
-        newRepair.Id = ownerId;
 
         var repairCreated = await _repairRepository.CreateRepair(newRepair);
         if (!repairCreated)
@@ -63,7 +62,7 @@ public class RepairService : IRepairService
     public async Task<Result<List<RepairDTO>>> GetAllRepairs()
     {
         var repairs = await _repairRepository.GetRepairs();
-        if (repairs == null || repairs.Any())
+        if (repairs == null)
         {
             return Result.Failure<List<RepairDTO>>("No repairs found");
         }
@@ -77,7 +76,7 @@ public class RepairService : IRepairService
         {
             return Result.Failure<List<RepairDTO>>("End date must be greater or equal than the start date");
         }
-        var owner = await _ownerRepository.GetOwner(userId);
+        var owner = await _ownerRepository.GetOwnerById(userId);
 
         if (owner == null)
         {
@@ -102,8 +101,9 @@ public class RepairService : IRepairService
             return Result.Failure<RepairDTO>("The repair you want to update was not found");
         }
 
-        Repair repair1 = Converters.ConvertToRepair(newRepairDto);
-        repairToUpdate = repair1;
+        Repair newRepair = Converters.ConvertToRepair(newRepairDto);
+        
+        repairToUpdate = Clone(repairToUpdate, newRepair);
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
 
@@ -125,5 +125,17 @@ public class RepairService : IRepairService
         var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
 
         return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
+    }
+
+    private static Repair Clone(Repair oldRepair , Repair newRepair)
+    {
+        oldRepair.Cost = newRepair.Cost;
+        oldRepair.Description = newRepair.Description;
+        oldRepair.Address = newRepair.Address;
+        oldRepair.RepairStatus = newRepair.RepairStatus;
+        oldRepair.RepairType = newRepair.RepairType;
+        oldRepair.ScheduledRepair = newRepair.ScheduledRepair;
+
+        return oldRepair;
     }
 }
