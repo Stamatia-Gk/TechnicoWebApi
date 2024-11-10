@@ -90,6 +90,7 @@ public class RepairService : IRepairService
      } 
     public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
+        
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
         if (repairToUpdate == null)
         {
@@ -98,7 +99,11 @@ public class RepairService : IRepairService
 
         Repair newRepair = Converters.ConvertToRepair(newRepairDto);
 
-        newRepair.Owner = repairToUpdate.Owner;
+        if (repairToUpdate.Owner != null)
+        {
+            newRepair.Owner = repairToUpdate.Owner;
+        }
+        
         repairToUpdate = Clone(repairToUpdate, newRepair);
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
