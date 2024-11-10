@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 using Technico.DTO;
 using Technico.Models;
-using Technico.Repositories.Implementations;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using Technico.Validator;
@@ -65,9 +64,9 @@ public class RepairService : IRepairService
         return Result.Success(repairDTOs);
     }
 
-    public async Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId) 
-     {
-        if(endDate < startDate)
+    public async Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId)
+    {
+        if (endDate < startDate)
         {
             return Result.Failure<List<RepairDTO>>("End date must be greater or equal than the start date");
         }
@@ -77,9 +76,9 @@ public class RepairService : IRepairService
         {
             return Result.Failure<List<RepairDTO>>("Owner does not exist");
         }
-        var repairs = await _repairRepository.Search(startDate, endDate ,owner.Id);
+        var repairs = await _repairRepository.Search(startDate, endDate, owner.Id);
 
-        if (repairs == null) 
+        if (repairs == null)
         {
             return Result.Failure<List<RepairDTO>>("No repairs found with the specified criteria.");
         }
@@ -87,9 +86,10 @@ public class RepairService : IRepairService
         var repairsDTO = repairs.Select(Converters.ConvertToRepairDTO).ToList();
 
         return Result.Success(repairsDTO);
-     } 
+    }
     public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
+
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
         if (repairToUpdate == null)
         {
@@ -98,7 +98,11 @@ public class RepairService : IRepairService
 
         Repair newRepair = Converters.ConvertToRepair(newRepairDto);
 
-        newRepair.Owner = repairToUpdate.Owner;
+        if (repairToUpdate.Owner != null)
+        {
+            newRepair.Owner = repairToUpdate.Owner;
+        }
+
         repairToUpdate = Clone(repairToUpdate, newRepair);
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
@@ -123,7 +127,7 @@ public class RepairService : IRepairService
         return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
     }
 
-    private static Repair Clone(Repair oldRepair , Repair newRepair)
+    private static Repair Clone(Repair oldRepair, Repair newRepair)
     {
         oldRepair.Cost = newRepair.Cost;
         oldRepair.Description = newRepair.Description;
