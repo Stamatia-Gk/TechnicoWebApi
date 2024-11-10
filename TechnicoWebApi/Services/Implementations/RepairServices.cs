@@ -89,7 +89,7 @@ public class RepairService : IRepairService
     }
     public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
-
+        
         var repairToUpdate = await _repairRepository.GetRepair(oldRepairId);
         if (repairToUpdate == null)
         {
@@ -102,7 +102,7 @@ public class RepairService : IRepairService
         {
             newRepair.Owner = repairToUpdate.Owner;
         }
-
+        
         repairToUpdate = Clone(repairToUpdate, newRepair);
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);

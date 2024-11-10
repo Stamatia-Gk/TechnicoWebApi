@@ -47,6 +47,8 @@ public class RepairRepository : IRepairRepository
 
     public async Task<bool> UpdateRepair(Repair repair)
     {
+        var existingOwner = await _context.Owners.FindAsync(repair.Owner.Id);
+        repair.Owner = existingOwner;
         _context.ChangeTracker.Clear();
         _context.Update(repair);
         return await Save();
