@@ -56,7 +56,7 @@ public class OwnerRepository : IOwnerRepository
     {
         var ownerFound = await _context.Owners.AnyAsync(o => o.VAT.Equals(vatNumber.Trim())
                                                      || o.Email.Equals(email.Trim())
-                                                     || o.Name.Equals(phone.Trim())
+                                                     || o.PhoneNumber.Equals(phone.Trim())
                                                      && o.Id != id);
         return ownerFound;
     }
