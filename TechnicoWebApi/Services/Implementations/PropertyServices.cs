@@ -89,8 +89,6 @@ public class PropertyService : IPropertyService
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
-  
-
     private static PropertyItem Clone(PropertyItem oldProperty, PropertyItem newProperty)
     {
         oldProperty.Address = newProperty.Address;

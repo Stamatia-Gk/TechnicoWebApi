@@ -81,15 +81,15 @@ public class OwnerService : IOwnerService
 
     private static Owner Clone(Owner oldOwner, Owner newOwner)
     {
-        oldOwner.VAT = newOwner.VAT;
-        oldOwner.Name = newOwner.Name;
-        oldOwner.Surname = newOwner.Surname;
-        oldOwner.Address = newOwner.Address;
-        oldOwner.PhoneNumber = newOwner.PhoneNumber;
-        oldOwner.Email = newOwner.Email;
-        oldOwner.OwnerType = newOwner.OwnerType;
-        oldOwner.Properties = newOwner.Properties;
-        oldOwner.AllRepairs = newOwner.AllRepairs;
+        if(newOwner.VAT != null) oldOwner.VAT = newOwner.VAT;
+        if (newOwner.Name != null) oldOwner.Name = newOwner.Name;
+        if (newOwner.Surname != null) oldOwner.Surname = newOwner.Surname;
+        if (newOwner.Address != null) oldOwner.Address = newOwner.Address;
+        if (newOwner.PhoneNumber != null) oldOwner.PhoneNumber = newOwner.PhoneNumber;
+        if (newOwner.Email != null) oldOwner.Email = newOwner.Email;
+        if (newOwner.OwnerType != null) oldOwner.OwnerType = newOwner.OwnerType;
+        if (newOwner.Properties != null) oldOwner.Properties = newOwner.Properties;
+        if (newOwner.AllRepairs != null) oldOwner.AllRepairs = newOwner.AllRepairs;
 
         return oldOwner;
     }
