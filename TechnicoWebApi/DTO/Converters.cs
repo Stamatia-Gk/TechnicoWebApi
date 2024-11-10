@@ -98,9 +98,9 @@ public static class Converters
         };
     }*/
 
-    public static RepairDTO ConvertToRepairDTO(this Repair repair) 
+    public static RepairDTOEmployee ConvertToRepairDTOEmployee(this Repair repair) 
     {
-        return new RepairDTO()
+        return new RepairDTOEmployee()
         {
             Id = repair.Id,
             Description = repair.Description,
@@ -112,7 +112,7 @@ public static class Converters
         };
     }
 
-    public static Repair ConvertToRepair (this RepairDTO repairDTO) 
+    public static Repair ConvertToRepairEmployee(this RepairDTOEmployee repairDTO) 
     {
         return new Repair()
         {
@@ -120,6 +120,29 @@ public static class Converters
             Address = repairDTO.Address,
             Cost = repairDTO.Cost,
             RepairStatus = repairDTO.RepairStatus,
+            RepairType = repairDTO.RepairType,
+            ScheduledRepair = repairDTO.ScheduledRepair,
+        };
+    }
+
+    public static RepairDTOOwner ConvertToRepairDTOOwner(this Repair repair)
+    {
+        return new RepairDTOOwner()
+        {
+            Id = repair.Id,
+            Description = repair.Description,
+            Address = repair.Address,
+            RepairType = repair.RepairType,
+            ScheduledRepair = repair.ScheduledRepair
+        };
+    }
+
+    public static Repair ConvertToRepairOwner(this RepairDTOOwner repairDTO)
+    {
+        return new Repair()
+        {
+            Description = repairDTO.Description,
+            Address = repairDTO.Address,
             RepairType = repairDTO.RepairType,
             ScheduledRepair = repairDTO.ScheduledRepair,
         };

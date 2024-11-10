@@ -89,7 +89,7 @@ public class OwnerService : IOwnerService
 
     private static Owner Clone(Owner oldOwner, Owner newOwner)
     {
-        if(newOwner.VAT != null) oldOwner.VAT = newOwner.VAT;
+        if (newOwner.VAT != null) oldOwner.VAT = newOwner.VAT;
         if (newOwner.Name != null) oldOwner.Name = newOwner.Name;
         if (newOwner.Surname != null) oldOwner.Surname = newOwner.Surname;
         if (newOwner.Address != null) oldOwner.Address = newOwner.Address;

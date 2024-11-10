@@ -8,11 +8,11 @@ namespace Technico.Services.Interfaces
 {
     public interface IRepairService
     {
-        Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId);
+        Task<Result<RepairDTOEmployee>> CreateRepair(RepairDTOEmployee repairDto, int ownerId);
         Task<Result> DeleteRepair(int repairId);
-        Task<Result<RepairDTO>> GetRepair(int id);
-        Task<Result<List<RepairDTO>>> GetAllRepairs();
-        Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId);
-        Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto);
+        Task<Result<RepairDTOEmployee>> GetRepair(int id);
+        Task<Result<List<RepairDTOEmployee>>> GetAllRepairs();
+        Task<Result<List<RepairDTOEmployee>>> SearchRepair(DateTime startDate, DateTime endDate, int userId);
+        Task<Result<RepairDTOEmployee>> UpdateRepair(int oldRepairId, RepairDTOEmployee newRepairDto);
     }
 }

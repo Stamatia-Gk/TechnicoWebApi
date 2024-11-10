@@ -22,7 +22,7 @@ public class RepairRepository : IRepairRepository
         return await _context.Repairs.OrderBy(r => r.ScheduledRepair).ToListAsync();
     }
 
-    public async Task<Repair?> GetRepair(int id)
+    public async Task<Repair?> GetRepairById(int id)
     {
         return await _context.Repairs.Where(r => r.Id == id).FirstOrDefaultAsync();
     }
