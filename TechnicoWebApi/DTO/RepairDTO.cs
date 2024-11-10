@@ -14,4 +14,3 @@ namespace Technico.DTO;
     public RepairStatus RepairStatus { get; set; }
     public decimal Cost { get; set; }
 }
-

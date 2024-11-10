@@ -108,8 +108,7 @@ public static class Converters
             Cost = repair.Cost,
             RepairStatus = repair.RepairStatus,
             RepairType = repair.RepairType,
-            ScheduledRepair = repair.ScheduledRepair,
-           
+            ScheduledRepair = repair.ScheduledRepair
         };
     }
 

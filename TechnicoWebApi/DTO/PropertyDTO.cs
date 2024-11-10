@@ -12,5 +12,3 @@ public class PropertyDTO()
     public int ConstructionYear { get; set; }
     public PropertyType PropertyType { get; set; }
 }
-
-
