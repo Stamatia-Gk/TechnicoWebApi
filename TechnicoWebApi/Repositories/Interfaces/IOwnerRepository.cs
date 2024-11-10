@@ -1,6 +1,5 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Technico.Models;
-using Technico.Data;
 
 namespace Technico.Repositories.Interfaces
 {
@@ -8,7 +7,6 @@ namespace Technico.Repositories.Interfaces
     {
         Task<List<Owner>> GetOwners();
         Task<Owner?> GetOwnerById(int id);
-        //Task<List<PropertyItem>> GetPropertyItemByOwnerId(int id);
         //Task<List<Repair>> GetRepairByOwnerId(int id);
         Task<bool> CreateOwner(Owner owner);
         Task<bool> UpdateOwner(Owner owner);

@@ -1,12 +1,6 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Technico.Data;
-using Technico.DTO;
 using Technico.Models;
 using Technico.Repositories.Interfaces;
 
@@ -68,17 +62,8 @@ public class OwnerRepository : IOwnerRepository
         var saved = _context.SaveChangesAsync();
         return await saved > 0;
     }
-
-    /*public async Task<List<PropertyItem>> GetPropertyByOwnerId(int id)
-    {
-        var a = _context.Owners?
-            .Include(p => p.Properties)
-            .Where(p => p.Id == id)
-            .Select(p => p.Properties);
-        return await a;
-    }
-
-    public async Task<List<Repair>> GetRepairByOwnerId(int id)
+    
+    /*public async Task<List<Repair>> GetRepairByOwnerId(int id)
     {
         var a = _context.Owners?
             .Include(r => r.AllRepairs)

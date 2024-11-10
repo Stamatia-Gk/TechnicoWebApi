@@ -1,11 +1,4 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Technico.Models;
 
 namespace Technico.DTO;

@@ -35,7 +35,7 @@ namespace TechnicoWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
-            var result = await _propertyService.GetProperty(id);
+            var result = await _propertyService.GetPropertyById(id);
             if (result.IsFailure)
             {
                 return NotFound(result.Error);

@@ -1,10 +1,5 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Technico.Data;
 using Technico.Models;
 using Technico.Repositories.Interfaces;

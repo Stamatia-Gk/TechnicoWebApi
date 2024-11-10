@@ -1,5 +1,4 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Technico.DTO;
 using Technico.Services.Interfaces;

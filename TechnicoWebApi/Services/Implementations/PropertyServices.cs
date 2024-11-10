@@ -1,5 +1,4 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-
 using CSharpFunctionalExtensions;
 using Technico.DTO;
 using Technico.Models;
@@ -36,9 +35,9 @@ public class PropertyService : IPropertyService
         return Result.Success(propertyDto);
     }
 
-    public async Task<Result<PropertyDTO>> GetProperty(int id)
+    public async Task<Result<PropertyDTO>> GetPropertyById(int id)
     {
-        var property = await _propertyRepository.GetProperty(id);
+        var property = await _propertyRepository.GetPropertyById(id);
         if (property == null)
         {
             return Result.Failure<PropertyDTO>("Property Not Found");
@@ -51,7 +50,7 @@ public class PropertyService : IPropertyService
 
     public async Task<Result<PropertyDTO>> UpdateProperty(int oldPropertyId, PropertyDTO propertyDto)
     {
-        var propertyToUpdate = await _propertyRepository.GetProperty(oldPropertyId);
+        var propertyToUpdate = await _propertyRepository.GetPropertyById(oldPropertyId);
         if (propertyToUpdate == null)
         {
             return Result.Failure<PropertyDTO>("The property you want to update was not found");
@@ -79,7 +78,7 @@ public class PropertyService : IPropertyService
     public async Task<Result> DeleteProperty(int propertyId)
     {
 
-        var propertyToDelete = await _propertyRepository.GetProperty(propertyId);
+        var propertyToDelete = await _propertyRepository.GetPropertyById(propertyId);
         if (propertyToDelete == null)
         {
             return Result.Failure("This property does not exist");
