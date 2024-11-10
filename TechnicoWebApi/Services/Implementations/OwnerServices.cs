@@ -55,6 +55,14 @@ public class OwnerService : IOwnerService
         }
 
         var newOwner = Converters.ConvertToOwner(newOwnerDto);
+
+        var ownerFieldsAlreadyUsed = await _ownerRepository.OwnerExists(newOwner.Id, newOwner.VAT, newOwner.Email, newOwner.PhoneNumber);
+
+        if(!ownerFieldsAlreadyUsed)
+        {
+            return Result.Failure<OwnerDTO>("Update failed since this owner doesn't exist!");
+        }
+
         ownerToUpdate = Clone(ownerToUpdate, newOwner);
         var ownerUpdated = await _ownerRepository.UpdateOwner(ownerToUpdate);
 

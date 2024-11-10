@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TechnicoWebApi.Migrations
 {
     /// <inheritdoc />
@@ -94,6 +96,15 @@ namespace TechnicoWebApi.Migrations
                         principalTable: "Properties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Owners",
+                columns: new[] { "Id", "Address", "Email", "Name", "OwnerType", "Password", "PhoneNumber", "Surname", "VAT" },
+                values: new object[,]
+                {
+                    { 1, "123 Elm St", "alice.smith@example.com", "Alice", 1, "A1!abcde", "123-456-7890", "Smith", "12345678910" },
+                    { 2, "123 Main St, Anytown, USA", "john.doe@example.com", "Johnathan", 0, "Secure@123", "123-456-7892", "Doe", "12345678901" }
                 });
 
             migrationBuilder.CreateIndex(

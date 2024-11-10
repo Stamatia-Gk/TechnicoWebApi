@@ -15,6 +15,7 @@ public static class Converters
             Surname = owner.Surname,
             Address = owner.Address,
             PhoneNumber = owner.PhoneNumber,
+            Email = owner.Email,
             OwnerType = owner.OwnerType,
             Password = owner.Password
         };
@@ -30,6 +31,7 @@ public static class Converters
             Surname = owner.Surname,
             Address = owner.Address,
             PhoneNumber = owner.PhoneNumber,
+            Email = owner.Email,
             OwnerType = owner.OwnerType,
         };
     }
@@ -44,6 +46,7 @@ public static class Converters
             Surname = ownerDtoPw.Surname,
             Address = ownerDtoPw.Address,
             PhoneNumber = ownerDtoPw.PhoneNumber,
+            Email = ownerDtoPw.Email,
             OwnerType = ownerDtoPw.OwnerType,
             Password = ownerDtoPw.Password
         };
@@ -59,6 +62,7 @@ public static class Converters
             Surname = ownerDto.Surname,
             Address = ownerDto.Address,
             PhoneNumber = ownerDto.PhoneNumber,
+            Email = ownerDto.Email,
             OwnerType = ownerDto.OwnerType
         };
     }

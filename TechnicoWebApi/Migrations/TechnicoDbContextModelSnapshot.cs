@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Technico.Data;
 
@@ -12,11 +11,9 @@ using Technico.Data;
 namespace TechnicoWebApi.Migrations
 {
     [DbContext(typeof(TechnicoDbContext))]
-    [Migration("20241107195344_M1")]
-    partial class M1
+    partial class TechnicoDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,6 +95,32 @@ namespace TechnicoWebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Owners");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Elm St",
+                            Email = "alice.smith@example.com",
+                            Name = "Alice",
+                            OwnerType = 1,
+                            Password = "A1!abcde",
+                            PhoneNumber = "123-456-7890",
+                            Surname = "Smith",
+                            VAT = "12345678910"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "123 Main St, Anytown, USA",
+                            Email = "john.doe@example.com",
+                            Name = "Johnathan",
+                            OwnerType = 0,
+                            Password = "Secure@123",
+                            PhoneNumber = "123-456-7892",
+                            Surname = "Doe",
+                            VAT = "12345678901"
+                        });
                 });
 
             modelBuilder.Entity("Technico.Models.PropertyItem", b =>

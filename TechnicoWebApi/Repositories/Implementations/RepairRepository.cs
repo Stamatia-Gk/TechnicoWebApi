@@ -34,7 +34,7 @@ public class RepairRepository : IRepairRepository
 
     public async Task<bool> CreateRepair(Repair repair, Owner owner)
     {
-        var ownerExists = await _ownerRepository.OwnerExists(owner.VAT);
+        var ownerExists = await _ownerRepository.OwnerExists(owner.Id, owner.VAT, owner.Email, owner.PhoneNumber);
         if (!ownerExists)
         {
             return false;

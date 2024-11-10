@@ -27,7 +27,7 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<bool> CreateOwner(Owner owner)
     {
-        if (!OwnerExists(owner.VAT).Result)
+        if (!OwnerExists(owner.Id, owner.VAT, owner.Email, owner.PhoneNumber).Result)
         {
             _context.Add(owner);
         }
@@ -44,7 +44,7 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<bool> DeleteOwner(Owner owner)
     {
-        if (OwnerExists(owner.VAT).Result)
+        if (OwnerExists(owner.Id, owner.VAT, owner.Email, owner.PhoneNumber).Result)
         {
             _context.Remove(owner);
         }
@@ -52,9 +52,13 @@ public class OwnerRepository : IOwnerRepository
         return await Save();
     }
 
-    public async Task<bool> OwnerExists(string vatNumber)
+    public async Task<bool> OwnerExists(int id, string vatNumber, string email, string phone)
     {
-        return await _context.Owners.AnyAsync(o => o.VAT.Equals(vatNumber.Trim()));
+        var ownerFound = await _context.Owners.AnyAsync(o => o.VAT.Equals(vatNumber.Trim())
+                                                     || o.Email.Equals(email.Trim())
+                                                     || o.Name.Equals(phone.Trim())
+                                                     && o.Id != id);
+        return ownerFound;
     }
 
     public async Task<bool> Save()
