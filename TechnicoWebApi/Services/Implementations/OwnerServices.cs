@@ -58,9 +58,9 @@ public class OwnerService : IOwnerService
 
         var ownerFieldsAlreadyUsed = await _ownerRepository.OwnerExists(newOwner.Id, newOwner.VAT, newOwner.Email, newOwner.PhoneNumber);
 
-        if(!ownerFieldsAlreadyUsed)
+        if(ownerFieldsAlreadyUsed)
         {
-            return Result.Failure<OwnerDTO>("Update failed since this owner doesn't exist!");
+            return Result.Failure<OwnerDTO>("Update failed (duplicated info with existing owner).");
         }
 
         ownerToUpdate = Clone(ownerToUpdate, newOwner);

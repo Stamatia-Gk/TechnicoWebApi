@@ -24,11 +24,6 @@ public class RepairService : IRepairService
 
     public async Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId)
     {
-        //if (!(await _repairValidator.ValidateAsync(repairDto)).IsValid)
-        //{
-        //    return Result.Failure<RepairDTO>("Invalid input");
-        //}
-
         var owner = await _ownerRepository.GetOwnerById(ownerId);
 
         if (owner == null)
@@ -102,7 +97,8 @@ public class RepairService : IRepairService
         }
 
         Repair newRepair = Converters.ConvertToRepair(newRepairDto);
-        
+
+        newRepair.Owner = repairToUpdate.Owner;
         repairToUpdate = Clone(repairToUpdate, newRepair);
 
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
