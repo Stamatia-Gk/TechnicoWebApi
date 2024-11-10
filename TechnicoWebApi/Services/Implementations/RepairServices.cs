@@ -32,7 +32,7 @@ public class RepairService : IRepairService
         }
 
         Repair newRepair = Converters.ConvertToRepair(repairDto);
-
+        newRepair.Owner = owner;
         var repairCreated = await _repairRepository.CreateRepair(newRepair);
         if (!repairCreated)
         {
