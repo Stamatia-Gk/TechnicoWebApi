@@ -17,6 +17,7 @@ namespace TechnicoWebApi.Controllers
         {
             _propertyService = propertyService;
         }
+
         // GET: api/<ValuesController>
         [HttpGet]
         public async Task<ActionResult>Get()
@@ -28,7 +29,6 @@ namespace TechnicoWebApi.Controllers
             }
 
             return Ok(result.Value);
-
         }
 
         [HttpGet("{ownerId}/Properties")]
@@ -42,6 +42,7 @@ namespace TechnicoWebApi.Controllers
 
             return Ok(result.Value);
         }
+
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)

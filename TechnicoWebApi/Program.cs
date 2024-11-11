@@ -29,13 +29,12 @@ builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();
 builder.Services.AddScoped<RepairValidator>();
 
-builder.Services.AddControllers().AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<OwnerDTO>(); fv.AutomaticValidationEnabled = true; });
-builder.Services.AddValidatorsFromAssemblyContaining<OwnerDTO>();
+//builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+//builder.Services.AddValidatorsFromAssemblyContaining<OwnerDTOCreate>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
- 
 
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -45,7 +44,7 @@ var app = builder.Build();
         var dbContext = services.GetRequiredService<TechnicoDbContext>();
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
-}
+    }
 
 
 app.UseHttpsRedirection();

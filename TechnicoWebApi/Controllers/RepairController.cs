@@ -31,6 +31,31 @@ namespace TechnicoWebApi.Controllers
             return Ok(result.Value);
         }
 
+        // GET api/<RepairController>/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RepairDTO>> Get(int id)
+        {
+            var result = await _repairService.GetRepair(id);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+
+        [HttpGet, Route("ownerrepairs/{id}")]
+        public async Task<ActionResult<RepairDTO>> GetRepairsByOwnerId(int id)
+        {
+            var result = await _repairService.GetAllRepairsOfAnOwner(id);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+
         [HttpGet, Route("Search")]
         public async Task<ActionResult<List<RepairDTO>>> Search(DateTime startDate, DateTime endDate, int id)
         {
@@ -41,19 +66,6 @@ namespace TechnicoWebApi.Controllers
             }
 
             return Ok(result.Value.ToList());
-        }
-
-        // GET api/<RepairController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RepairDTO>> Get(int id)
-        {
-            var result = await _repairService.GetRepair(id);
-            if (result.IsFailure)
-            {
-                return BadRequest(result.Error); 
-            }
-
-            return Ok(result.Value);
         }
 
         // POST api/<RepairController>
