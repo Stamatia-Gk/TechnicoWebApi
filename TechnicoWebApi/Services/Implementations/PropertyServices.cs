@@ -27,7 +27,7 @@ public class PropertyService : IPropertyService
     public async Task<Result<List<PropertyDTO>>> GetAllPropertiesOfAnOwner(int ownerId)
     {
         var propertyList = await _propertyRepository.GetPropertiesByOwnerId(ownerId);
-        if (!propertyList.Any())
+        if (propertyList.Count == 0)
         {
             return Result.Failure<List<PropertyDTO>>("No properties found for this owner");
         }
