@@ -12,37 +12,35 @@ namespace TechnicoWebApi.Controllers
     public class RepairController : ControllerBase
     {
         private IRepairService _repairService;
+
         public RepairController(IRepairService repairService)
         {
             _repairService = repairService;
         }
+
         // GET: api/<RepairController>
         [HttpGet]
         public async Task<ActionResult<List<RepairDTOEmployee>>> Get()
         {
             var result = await _repairService.GetAllRepairs();
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok(result.Value);
+                return NotFound(result.Error); 
             }
-            else 
-            {
-                return NotFound(result.Error);
-            }
+
+            return Ok(result.Value);
         }
 
         [HttpGet, Route("Search")]
         public async Task<ActionResult<List<RepairDTOEmployee>>> Search(DateTime startDate, DateTime endDate, int id)
         {
             var result = await _repairService.SearchRepair(startDate, endDate, id);
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok(result.Value.ToList());
+                return NotFound(result.Error); 
             }
-            else
-            {
-                return NotFound(result.Error);
-            }
+
+            return Ok(result.Value.ToList());
         }
 
         // GET api/<RepairController>/5
@@ -50,14 +48,12 @@ namespace TechnicoWebApi.Controllers
         public async Task<ActionResult<RepairDTOEmployee>> Get(int id)
         {
             var result = await _repairService.GetRepair(id);
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok(result.Value);
-            } 
-            else 
-            {
-               return BadRequest(result.Error);
+                return BadRequest(result.Error); 
             }
+
+            return Ok(result.Value);
         }
 
         // POST api/<RepairController>
@@ -65,14 +61,12 @@ namespace TechnicoWebApi.Controllers
         public async Task<ActionResult<RepairDTOEmployee>> Post([FromBody] RepairDTOEmployee repairDTO , int ownerId)
         {
             var result = await _repairService.CreateRepair(repairDTO,ownerId);
-            if (result.IsSuccess) 
+            if (result.IsFailure) 
             {
-                return Ok(result.Value);
+                return BadRequest(result.Error); 
             }
-            else
-            {
-                return BadRequest(result.Error);
-            }
+
+            return Ok(result.Value);
         }
 
         // PUT api/<RepairController>/5
@@ -80,14 +74,12 @@ namespace TechnicoWebApi.Controllers
         public async Task<ActionResult<RepairDTOEmployee>> Put(int id, [FromBody] RepairDTOEmployee repairDTO)
         {
             var result = await _repairService.UpdateRepair(id, repairDTO);
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok(result.Value);
+                return BadRequest(result.Error); 
             }
-            else 
-            {
-                return BadRequest(result.Error) ;
-            }
+
+            return Ok(result.Value);
         }
 
         // DELETE api/<RepairController>/5
@@ -95,14 +87,12 @@ namespace TechnicoWebApi.Controllers
         public async Task<ActionResult<RepairDTOEmployee>> Delete(int id)
         {
             var result = await _repairService.DeleteRepair(id);
-            if (result.IsSuccess)
+            if (result.IsFailure)
             {
-                return Ok();
+                return BadRequest(result.Error); 
             }
-            else 
-            {
-                return BadRequest(result.Error) ;
-            }
+
+            return Ok();
         }
     }
 }

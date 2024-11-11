@@ -16,7 +16,7 @@ public class OwnerValidator : AbstractValidator<Owner>
         RuleFor(o => o.Email).EmailAddress();
         RuleFor(owner => owner.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required.")
-            .Matches(@"^\d{3}-\d{3}-\d{4}$").WithMessage("Invalid phone number format. Expected format: 123-456-7890");
+            .Matches(@"^69\d{8}$").WithMessage("Invalid phone number format. Expected format: 6911111111");
 
         RuleFor(o => o.Name).NotEmpty();
         RuleFor(o => o.Surname).NotEmpty();
