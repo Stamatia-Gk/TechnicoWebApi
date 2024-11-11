@@ -22,27 +22,7 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<Owner?> GetOwnerById(int id)
     {
-        return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
-    }
-
-    public async Task<List<PropertyItem>> GetOwnerProperties(int id)
-    {
-        var allOwnerRepairs = await _context.Owners
-                                .Include(p => p.Properties)
-                                .Where(o => o.Id == id)
-                                .Select(o => o.Properties)
-                                .SingleOrDefaultAsync();
-        return allOwnerRepairs;
-    }
-
-    public async Task<List<Repair>> GetOwnerRepairs(int id)
-    {
-        var allOwnerRepairs = await _context.Owners
-                                .Include(r => r.AllRepairs)
-                                .Where(o => o.Id == id)
-                                .Select(o => o.AllRepairs)
-                                .SingleOrDefaultAsync();
-        return allOwnerRepairs;
+        return await _context.Owners.Where(o => o.Id == id).Include(p => p.Properties).FirstOrDefaultAsync();
     }
 
     public async Task<bool> CreateOwner(Owner owner)

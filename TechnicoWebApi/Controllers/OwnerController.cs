@@ -35,7 +35,7 @@ namespace TechnicoWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OwnerDTO>> GetOwnerById(int id)
         {
-            var result = await _ownerService.GetOwner(id);
+            var result = await _ownerService.GetOwnerById(id);
             if (result.IsFailure)
             {
                 return NotFound(result.Error);
