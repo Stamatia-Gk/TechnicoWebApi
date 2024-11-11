@@ -45,8 +45,8 @@ namespace TechnicoWebApi.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}"), Route("ownersproperties")]
-        public async Task<ActionResult<OwnerDTO>> GetOwnerPropertiesById(int id)
+        [HttpGet, Route("ownersproperties/{id}")] //Task<Result<List<OwnerWithPropertiesDTO>>>
+        public async Task<ActionResult<List<OwnerWithPropertiesDTO>>> GetOwnerPropertiesById([FromRoute] int id)
         {
             var result = await _ownerService.GetOwnerProperties(id);
             if (result.IsFailure)
@@ -58,8 +58,8 @@ namespace TechnicoWebApi.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}"), Route("ownersrepairs")]
-        public async Task<ActionResult<OwnerDTO>> GetOwnerRepairsById(int id)
+        [HttpGet, Route("ownersrepairs/{id}")]
+        public async Task<ActionResult<List<OwnerWithRepairsDTO>>> GetOwnerRepairsById([FromRoute] int id)
         {
             var result = await _ownerService.GetOwnerRepairs(id);
             if (result.IsFailure)
