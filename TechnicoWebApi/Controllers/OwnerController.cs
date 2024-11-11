@@ -44,32 +44,6 @@ namespace TechnicoWebApi.Controllers
             return Ok(result.Value);
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet, Route("ownersproperties/{id}")] //Task<Result<List<OwnerWithPropertiesDTO>>>
-        public async Task<ActionResult<List<OwnerWithPropertiesDTO>>> GetOwnerPropertiesById([FromRoute] int id)
-        {
-            var result = await _ownerService.GetOwnerProperties(id);
-            if (result.IsFailure)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Value);
-        }
-
-        // GET api/<ValuesController>/5
-        [HttpGet, Route("ownersrepairs/{id}")]
-        public async Task<ActionResult<List<OwnerWithRepairsDTO>>> GetOwnerRepairsById([FromRoute] int id)
-        {
-            var result = await _ownerService.GetOwnerRepairs(id);
-            if (result.IsFailure)
-            {
-                return NotFound(result.Error);
-            }
-
-            return Ok(result.Value);
-        }
-
         // POST api/<ValuesController>
         [HttpPost]
         public async Task<ActionResult<OwnerDTO>> Post([FromBody] OwnerDTOCreate ownerDtoCreate)
