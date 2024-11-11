@@ -4,5 +4,5 @@ namespace Technico.DTO;
 
 public class OwnerWithRepairsDTO: OwnerDTO
 {
-    public List<OwnerDTO>? OwnerRepairs { get; set; }
+    public List<RepairDTOOwner>? OwnerRepairs { get; set; }
 }

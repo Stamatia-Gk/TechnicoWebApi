@@ -19,13 +19,13 @@ public class PropertyService : IPropertyService
     {
         var propertiesList = await _propertyRepository.GetProperties();
 
-        var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
+        var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
 
         return Result.Success(propertiesListDto);
     }
     public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, int ownerId)
     {
-        var propertyToCreate = Converters.ConvertPropertyItem(propertyDto);
+        var propertyToCreate = Converters.ConvertToPropertyItem(propertyDto);
         var propertyCreated = await _propertyRepository.CreateProperty(propertyToCreate, ownerId);
         if (!propertyCreated)
         {
@@ -43,7 +43,7 @@ public class PropertyService : IPropertyService
             return Result.Failure<PropertyDTO>("Property Not Found");
         }
 
-        var propertyDto = Converters.ConvertToPropertyDto(property);
+        var propertyDto = Converters.ConvertToPropertyDTO(property);
 
         return Result.Success(propertyDto);
     }
@@ -57,7 +57,7 @@ public class PropertyService : IPropertyService
         }
        
         var oldOwners = propertyToUpdate.Owners;
-        var newProperty = Converters.ConvertPropertyItem(propertyDto);
+        var newProperty = Converters.ConvertToPropertyItem(propertyDto);
         propertyToUpdate = Clone(propertyToUpdate, newProperty);
 
         if (propertyToUpdate.Owners.Count == 0)

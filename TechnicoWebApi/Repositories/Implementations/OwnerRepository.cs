@@ -25,6 +25,26 @@ public class OwnerRepository : IOwnerRepository
         return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
     }
 
+    public async Task<List<PropertyItem>> GetOwnerProperties(int id)
+    {
+        var allOwnerRepairs = await _context.Owners
+                                .Include(p => p.Properties)
+                                .Where(o => o.Id == id)
+                                .Select(o => o.Properties)
+                                .SingleOrDefaultAsync();
+        return allOwnerRepairs;
+    }
+
+    public async Task<List<Repair>> GetOwnerRepairs(int id)
+    {
+        var allOwnerRepairs = await _context.Owners
+                                .Include(r => r.AllRepairs)
+                                .Where(o => o.Id == id)
+                                .Select(o => o.AllRepairs)
+                                .SingleOrDefaultAsync();
+        return allOwnerRepairs;
+    }
+
     public async Task<bool> CreateOwner(Owner owner)
     {
         if (!OwnerExists(owner.Id, owner.VAT, owner.Email, owner.PhoneNumber).Result)
@@ -66,13 +86,4 @@ public class OwnerRepository : IOwnerRepository
         var saved = _context.SaveChangesAsync();
         return await saved > 0;
     }
-    
-    /*public async Task<List<Repair>> GetRepairByOwnerId(int id)
-    {
-        var a = _context.Owners?
-            .Include(r => r.AllRepairs)
-            .Where(r => r.Id == id)
-            .Select(r => r.AllRepairs);
-        return await a;
-    }*/
 }

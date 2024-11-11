@@ -15,19 +15,6 @@ public class OwnerService : IOwnerService
         _ownerRepository = ownerRepository;
     }
 
-    public async Task<Result<OwnerDTOCreate>> CreateOwner(OwnerDTOCreate ownerDto)
-    {
-        Owner ow1 = Converters.ConvertToOwnerPw(ownerDto);
-
-        var ownerCreated = await _ownerRepository.CreateOwner(ow1);
-        if (!ownerCreated)
-        {
-            return Result.Failure<OwnerDTOCreate>("Owner could not be saved (already exists)!");
-        }
-
-        return Result.Success(ownerDto);
-    }
-
     public async Task<Result<List<OwnerDTO>>> GetAllOwners()
     {
         var ownersList = await _ownerRepository.GetOwners();
@@ -44,6 +31,35 @@ public class OwnerService : IOwnerService
         }
 
         return Result.Success(Converters.ConvertToOwnerDTO(owner));
+    }
+
+    public async Task<Result<List<OwnerWithPropertiesDTO>>> GetOwnerProperties(int id)
+    {
+        var owner = await _ownerRepository.GetOwnerById(id);
+        var ownerPropsList = await _ownerRepository.GetOwnerProperties(id);
+        var ownerPropsListDto = ownerPropsList.Select(property => Converters.ConvertToOwnerWithPropertiesDTO(owner));
+        return ownerPropsListDto.ToList();
+    }
+
+    public async Task<Result<List<OwnerWithRepairsDTO>>> GetOwnerRepairs(int id)
+    {
+        var owner = await _ownerRepository.GetOwnerById(id);
+        var ownerRepsList = await _ownerRepository.GetOwnerRepairs(id);
+        var ownerRepsListDto = ownerRepsList.Select(repair => Converters.ConvertToOwnerWithRepairsDTO(owner));
+        return ownerRepsListDto.ToList();
+    }
+
+    public async Task<Result<OwnerDTOCreate>> CreateOwner(OwnerDTOCreate ownerDto)
+    {
+        Owner ow1 = Converters.ConvertToOwnerPw(ownerDto);
+
+        var ownerCreated = await _ownerRepository.CreateOwner(ow1);
+        if (!ownerCreated)
+        {
+            return Result.Failure<OwnerDTOCreate>("Owner could not be saved (already exists)!");
+        }
+
+        return Result.Success(ownerDto);
     }
 
     public async Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwnerDto)

@@ -4,5 +4,5 @@ namespace Technico.Models;
 
 public enum RepairStatus
 {
-    Pending, InProgress, Complete
+    Pending, InProgress, Complete, Deactivated
 }

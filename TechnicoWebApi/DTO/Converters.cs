@@ -5,7 +5,7 @@ namespace Technico.DTO;
 
 public static class Converters
 {
-    public static OwnerDTOCreate ConvertToOwnerPwDTO(this Owner owner)
+    public static OwnerDTOCreate ConvertToOwnerPwDTO(this Owner owner) // Owner PW -> PW DTO
     {
         return new OwnerDTOCreate()
         {
@@ -21,7 +21,7 @@ public static class Converters
         };
     }
 
-    public static OwnerDTO ConvertToOwnerDTO(this Owner owner)
+    public static OwnerDTO ConvertToOwnerDTO(this Owner owner) // Owner -> DTO
     {
         return new OwnerDTO()
         {
@@ -36,7 +36,7 @@ public static class Converters
         };
     }
 
-    public static Owner ConvertToOwnerPw(this OwnerDTOCreate ownerDtoPw)
+    public static Owner ConvertToOwnerPw(this OwnerDTOCreate ownerDtoPw) // Pw DTO -> Owner PW
     {
         return new Owner()
         {
@@ -52,7 +52,7 @@ public static class Converters
         };
     }
 
-    public static Owner ConvertToOwner(this OwnerDTO ownerDto)
+    public static Owner ConvertToOwner(this OwnerDTO ownerDto) // DTO -> Owner
     {
         return new Owner()
         {
@@ -67,19 +67,50 @@ public static class Converters
         };
     }
 
-    public static PropertyItem ConvertPropertyItem(PropertyDTO propertyDto)
+    public static OwnerWithPropertiesDTO ConvertToOwnerWithPropertiesDTO(this Owner owner)
+    {
+        return new OwnerWithPropertiesDTO()
+        {
+            Id = owner.Id,
+            VAT = owner.VAT,
+            Name = owner.Name,
+            Surname = owner.Surname,
+            Address = owner.Address,
+            PhoneNumber = owner.PhoneNumber,
+            Email = owner.Email,
+            OwnerType = owner.OwnerType,
+            OwnerProperties = owner.Properties.Select(p => p.ConvertToPropertyDTO()).ToList()
+        };
+    }
+
+    public static OwnerWithRepairsDTO ConvertToOwnerWithRepairsDTO(this Owner owner)
+    {
+        return new OwnerWithRepairsDTO()
+        {
+            Id = owner.Id,
+            VAT = owner.VAT,
+            Name = owner.Name,
+            Surname = owner.Surname,
+            Address = owner.Address,
+            PhoneNumber = owner.PhoneNumber,
+            Email = owner.Email,
+            OwnerType = owner.OwnerType,
+            OwnerRepairs = owner.AllRepairs.Select(r => r.ConvertToRepairDTOOwner()).ToList()
+        };
+    }
+
+    public static PropertyItem ConvertToPropertyItem(this PropertyDTO propertyDto)
     {
         return new PropertyItem()
         { 
             IdentificationNumber = propertyDto.IdentificationNumber,
             Address = propertyDto.Address,
             ConstructionYear = propertyDto.ConstructionYear,
-            PropertyType = propertyDto.PropertyType,
-
+            PropertyType = propertyDto.PropertyType
         };
     }
 
-    public static PropertyDTO ConvertToPropertyDto(PropertyItem propertyItem)
+    public static PropertyDTO ConvertToPropertyDTO(this PropertyItem propertyItem)
     {
         return new PropertyDTO()
         {   Id = propertyItem.Id,
@@ -89,14 +120,6 @@ public static class Converters
             PropertyType = propertyItem.PropertyType,
         };
     }
-
-    /*public static PropertyDTO ConvertProperty(this PropertyItem owner)
-    {
-        return new PropertyDTO()
-        {
-            //Id = owner.Id,
-        };
-    }*/
 
     public static RepairDTOEmployee ConvertToRepairDTOEmployee(this Repair repair) 
     {

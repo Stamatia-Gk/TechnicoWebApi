@@ -45,9 +45,7 @@ public class TechnicoDbContext : DbContext
                     Address = "123 Elm St",
                     PhoneNumber = "123-456-7890",
                     Email = "alice.smith@example.com",
-                    Password = "A1!abcde",
-
-
+                    Password = "A1!abcde"
                 },
 
                 new Owner

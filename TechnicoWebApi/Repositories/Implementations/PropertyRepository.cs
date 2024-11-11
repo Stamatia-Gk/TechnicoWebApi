@@ -76,12 +76,12 @@ public class PropertyRepository : IPropertyRepository
         return await saved > 0;
     }
     
-    public async Task<PropertyItem?> GetPropertyByIdentNum(string IdentNum)
+    public async Task<PropertyItem?> GetPropertyByIdentNum(string IdentNum) // Do we want that for sure since we're working with IDs?
     {
         return await _context.Properties.Where(p => p.IdentificationNumber.Equals(IdentNum)).Include(p => p.Owners).FirstOrDefaultAsync();
     }
 
-    public async Task<bool> PropertyExists(string identificationNumber)
+    public async Task<bool> PropertyExists(string identificationNumber) // Do we want that for sure since we're working with IDs?
     {
         return await _context.Properties.AnyAsync(p => p.IdentificationNumber.Trim().Equals(identificationNumber));
     }

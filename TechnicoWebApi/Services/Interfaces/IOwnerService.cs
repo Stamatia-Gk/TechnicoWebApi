@@ -8,6 +8,8 @@ namespace Technico.Services.Interfaces
     {
         Task<Result<OwnerDTO>> GetOwner(int id);
         Task<Result<List<OwnerDTO>>> GetAllOwners();
+        Task<Result<List<OwnerWithPropertiesDTO>>> GetOwnerProperties(int id);
+        Task<Result<List<OwnerWithRepairsDTO>>> GetOwnerRepairs(int id);
         Task<Result<OwnerDTOCreate>> CreateOwner(OwnerDTOCreate owner);
         Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwner);
         Task<Result> DeleteOwner(int ownerId);

@@ -27,20 +27,8 @@ public class RepairRepository : IRepairRepository
         return await _context.Repairs.Where(r => r.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<bool> RepairExists(int id)
-    {
-        return await _context.Repairs.AnyAsync(r => r.Id == id);
-    }
-
-    public async Task<List<Repair>> Search(DateTime startDate , DateTime endDate , int ownerId) 
-    {
-        return await _context.Repairs.Where(r => r.Id  == ownerId
-        && r.ScheduledRepair >= startDate
-        && r.ScheduledRepair <= endDate)
-            .ToListAsync();
-    }
     public async Task<bool> CreateRepair(Repair repair)
-    {       
+    {
         _context.Repairs.Add(repair);
         return await Save();
     }
@@ -58,6 +46,19 @@ public class RepairRepository : IRepairRepository
     {
         _context.Remove(repair);
         return Save();
+    }
+
+    public async Task<List<Repair>> Search(DateTime startDate , DateTime endDate , int ownerId) 
+    {
+        return await _context.Repairs.Where(r => r.Id  == ownerId
+        && r.ScheduledRepair >= startDate
+        && r.ScheduledRepair <= endDate)
+            .ToListAsync();
+    }
+
+    public async Task<bool> RepairExists(int id)
+    {
+        return await _context.Repairs.AnyAsync(r => r.Id == id);
     }
 
     public async Task<bool> Save()
