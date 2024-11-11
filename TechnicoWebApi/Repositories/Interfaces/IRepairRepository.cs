@@ -7,6 +7,7 @@ namespace Technico.Repositories.Interfaces
     {
         Task<List<Repair>> GetRepairs();
         Task<Repair?> GetRepairById(int id);
+        Task<List<Repair?>> GetRepairsByOwnerId(int id);
         Task<bool> CreateRepair(Repair repair);
         Task<bool> UpdateRepair(Repair repair);
         Task<bool> DeleteRepair(Repair repair);

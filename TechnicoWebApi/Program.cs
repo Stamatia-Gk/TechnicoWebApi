@@ -4,6 +4,9 @@ using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using Technico.Validator;
 using TechnicoWebApi.Services.Implementations;
+using FluentValidation.AspNetCore;
+using Technico.DTO;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,14 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddDbContext<TechnicoDbContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
-builder.Services.AddDbContext<TechnicoDbContext>();
 
-
-builder.Services.AddDbContext<TechnicoDbContext>();
 builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<OwnerValidator>();
@@ -26,6 +28,10 @@ builder.Services.AddScoped<OwnerValidator>();
 builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();
 builder.Services.AddScoped<RepairValidator>();
+
+builder.Services.AddControllers().AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<OwnerDTO>(); fv.AutomaticValidationEnabled = true; });
+builder.Services.AddValidatorsFromAssemblyContaining<OwnerDTO>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

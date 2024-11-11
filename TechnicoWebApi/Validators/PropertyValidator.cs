@@ -1,16 +1,10 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using FluentValidation;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Technico.Models;
+using Technico.DTO;
 
 namespace Technico.Validator;
 
-public class PropertyValidator : AbstractValidator<PropertyItem>
+public class PropertyValidator : AbstractValidator<PropertyDTO>
 {
     public PropertyValidator()
     {
@@ -23,10 +17,8 @@ public class PropertyValidator : AbstractValidator<PropertyItem>
             .InclusiveBetween(1800, DateTime.Now.Year)
             .WithMessage("Year of construction must be between 1800 and the current year.");
 
-
         RuleFor(p => p.PropertyType)
             .IsInEnum()
             .WithMessage("Property type must be a valid enum value.");
-
     }
 }

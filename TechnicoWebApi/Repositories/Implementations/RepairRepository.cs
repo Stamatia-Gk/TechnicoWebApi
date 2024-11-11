@@ -27,6 +27,11 @@ public class RepairRepository : IRepairRepository
         return await _context.Repairs.Where(r => r.Id == id).FirstOrDefaultAsync();
     }
 
+    public async Task<List<Repair?>> GetRepairsByOwnerId(int id)
+    {
+        return await _context.Repairs.Where(r => r.Owner.Id == id).ToListAsync();
+    }
+
     public async Task<bool> CreateRepair(Repair repair)
     {
         _context.Repairs.Add(repair);

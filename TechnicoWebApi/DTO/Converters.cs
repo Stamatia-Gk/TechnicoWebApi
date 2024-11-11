@@ -67,38 +67,6 @@ public static class Converters
         };
     }
 
-    public static OwnerWithPropertiesDTO ConvertToOwnerWithPropertiesDTO(this Owner owner)
-    {
-        return new OwnerWithPropertiesDTO()
-        {
-            Id = owner.Id,
-            VAT = owner.VAT,
-            Name = owner.Name,
-            Surname = owner.Surname,
-            Address = owner.Address,
-            PhoneNumber = owner.PhoneNumber,
-            Email = owner.Email,
-            OwnerType = owner.OwnerType,
-            OwnerProperties = owner.Properties.Select(p => p.ConvertToPropertyDTO()).ToList()
-        };
-    }
-
-    public static OwnerWithRepairsDTO ConvertToOwnerWithRepairsDTO(this Owner owner)
-    {
-        return new OwnerWithRepairsDTO()
-        {
-            Id = owner.Id,
-            VAT = owner.VAT,
-            Name = owner.Name,
-            Surname = owner.Surname,
-            Address = owner.Address,
-            PhoneNumber = owner.PhoneNumber,
-            Email = owner.Email,
-            OwnerType = owner.OwnerType,
-            OwnerRepairs = owner.AllRepairs.Select(r => r.ConvertToRepairDTOOwner()).ToList()
-        };
-    }
-
     public static PropertyItem ConvertToPropertyItem(this PropertyDTO propertyDto)
     {
         return new PropertyItem()
@@ -121,9 +89,9 @@ public static class Converters
         };
     }
 
-    public static RepairDTOEmployee ConvertToRepairDTOEmployee(this Repair repair) 
+    public static RepairDTO ConvertToRepairDTO(this Repair repair) 
     {
-        return new RepairDTOEmployee()
+        return new RepairDTO()
         {
             Id = repair.Id,
             Description = repair.Description,
@@ -135,7 +103,7 @@ public static class Converters
         };
     }
 
-    public static Repair ConvertToRepairEmployee(this RepairDTOEmployee repairDTO) 
+    public static Repair ConvertToRepairEmployee(this RepairDTO repairDTO) 
     {
         return new Repair()
         {
@@ -143,29 +111,6 @@ public static class Converters
             Address = repairDTO.Address,
             Cost = repairDTO.Cost,
             RepairStatus = repairDTO.RepairStatus,
-            RepairType = repairDTO.RepairType,
-            ScheduledRepair = repairDTO.ScheduledRepair,
-        };
-    }
-
-    public static RepairDTOOwner ConvertToRepairDTOOwner(this Repair repair)
-    {
-        return new RepairDTOOwner()
-        {
-            Id = repair.Id,
-            Description = repair.Description,
-            Address = repair.Address,
-            RepairType = repair.RepairType,
-            ScheduledRepair = repair.ScheduledRepair
-        };
-    }
-
-    public static Repair ConvertToRepairOwner(this RepairDTOOwner repairDTO)
-    {
-        return new Repair()
-        {
-            Description = repairDTO.Description,
-            Address = repairDTO.Address,
             RepairType = repairDTO.RepairType,
             ScheduledRepair = repairDTO.ScheduledRepair,
         };

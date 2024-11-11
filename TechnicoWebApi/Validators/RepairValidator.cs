@@ -1,15 +1,10 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Technico.Models;
+using Technico.DTO;
 
 namespace Technico.Validator;
 
-public class RepairValidator : AbstractValidator<Repair>
+public class RepairValidator : AbstractValidator<RepairDTO>
 {
     public RepairValidator()
     {
