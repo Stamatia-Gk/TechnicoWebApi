@@ -31,6 +31,17 @@ namespace TechnicoWebApi.Controllers
 
         }
 
+        [HttpGet("{ownerId}/Properties")]
+        public async Task<ActionResult> GetPropertiesByOwnerId(int ownerId)
+        {
+            var result = await _propertyService.GetAllPropertiesOfAnOwner(ownerId);
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)

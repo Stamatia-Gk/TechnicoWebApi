@@ -6,6 +6,7 @@ namespace Technico.Repositories.Interfaces
     public interface IPropertyRepository
     {
         Task<List<PropertyItem>> GetProperties();
+        Task<List<PropertyItem?>> GetPropertiesByOwnerId(int id);
         Task<PropertyItem?> GetPropertyById(int id);
         Task<bool> CreateProperty(PropertyItem property, int ownerId);
         Task<bool> UpdateProperty(PropertyItem property);

@@ -19,6 +19,10 @@ public class PropertyRepository : IPropertyRepository
     {
         return await _context.Properties.OrderBy(p => p.ConstructionYear).ToListAsync();
     }
+    public async Task<List<PropertyItem?>> GetPropertiesByOwnerId(int id)
+    {
+        return await _context.Properties.Where(p => p.Owners.Any(o => o.Id == id)).ToListAsync();
+    }
 
     public async Task<PropertyItem?> GetPropertyById(int id)
     {
@@ -85,4 +89,6 @@ public class PropertyRepository : IPropertyRepository
     {
         return await _context.Properties.AnyAsync(p => p.IdentificationNumber.Trim().Equals(identificationNumber));
     }
+
+  
 }
