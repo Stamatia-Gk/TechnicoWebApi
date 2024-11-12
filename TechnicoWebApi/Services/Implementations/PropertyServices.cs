@@ -104,12 +104,18 @@ public class PropertyService : IPropertyService
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
-    /*public async Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat)
+    public async Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat)
     {
-        return await _propertyRepository
+        var propertyList = await _propertyRepository.Search(propertyId, ownerVat);
+        if ( propertyList.Count == 0)
+        {
+            return Result.Failure<List<PropertyDTO>>("No properties found for this search");
+        }
 
-
-    }*/
+        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
+        
+        return Result.Success(propertyListDto);
+    }
 
     private static PropertyItem Clone(PropertyItem oldProperty, PropertyItem newProperty)
     {

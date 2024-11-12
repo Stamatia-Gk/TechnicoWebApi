@@ -57,8 +57,8 @@ namespace TechnicoWebApi.Controllers
             return Ok(result.Value);
         }
 
-        /*[HttpGet, Route("searchproperties")]
-        public async Task<ActionResult<List<OwnerDTO>>> Search(int propertyId, string ownerVat)
+        [HttpGet, Route("searchproperties")]
+        public async Task<ActionResult> Search(int propertyId = 0, string ownerVat = null)
         {
             var result = await _propertyService.SearchProperty(propertyId, ownerVat);
             if (result.IsFailure)
@@ -66,8 +66,8 @@ namespace TechnicoWebApi.Controllers
                 return NotFound(result.Error);
             }
 
-            return Ok(result.Value.ToList());
-        }*/
+            return Ok(result.Value);
+        }
 
         // POST api/<ValuesController>
         [HttpPost]

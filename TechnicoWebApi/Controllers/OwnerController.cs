@@ -45,8 +45,8 @@ namespace TechnicoWebApi.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet, Route("searchowners")]
-        public async Task<ActionResult<List<OwnerDTO>>> Search(string vat, string email)
+        [HttpGet, Route("searchowner")]
+        public async Task<ActionResult> Search(string? vat = null , string? email = null)
         {
             var result = await _ownerService.SearchOwner(vat, email);
             if (result.IsFailure)
@@ -54,7 +54,7 @@ namespace TechnicoWebApi.Controllers
                 return NotFound(result.Error);
             }
 
-            return Ok(result.Value.ToList());
+            return Ok(result.Value);
         }
 
         // POST api/<ValuesController>

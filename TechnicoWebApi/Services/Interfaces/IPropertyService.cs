@@ -12,6 +12,6 @@ namespace Technico.Services.Interfaces
         Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, int ownerId);
         Task<Result<PropertyDTO>> UpdateProperty(int oldPropertyId, PropertyDTO propertyDto);
         Task<Result> DeleteProperty(int propertyId);
-        //Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat);
+        Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat);
     }
 }

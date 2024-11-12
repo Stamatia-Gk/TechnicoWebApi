@@ -57,9 +57,24 @@ public class OwnerRepository : IOwnerRepository
         return await Save();
     }
 
-    public async Task<List<Owner>> Search(string vat, string email)
+    public async Task<Owner> Search(string? vat, string? email)
     {
-        return await _context.Owners.Where(o => o.VAT.Equals(vat) || o.Email.Equals(email)).ToListAsync();
+        if (vat == null && email == null)
+        {
+            return null;
+        }
+
+        if (vat == null)
+        {
+            return await _context.Owners.Where(o => o.Email == email).FirstOrDefaultAsync();
+        }
+
+        if (email == null)
+        {
+            return await _context.Owners.Where(o => o.VAT == vat).FirstOrDefaultAsync();
+        }
+        
+        return await _context.Owners.Where(o => o.VAT == vat && o.Email == email).FirstOrDefaultAsync();
     }
 
     public async Task<bool> OwnerExists(int id, string vatNumber, string email, string phone)

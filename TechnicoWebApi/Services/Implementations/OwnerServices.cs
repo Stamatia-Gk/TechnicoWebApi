@@ -88,15 +88,15 @@ public class OwnerService : IOwnerService
         return ownerDeleted ? Result.Success("Owner successfully deleted.") : Result.Failure("Delete failed.");
     }
 
-    public async Task<Result<List<OwnerDTO>>> SearchOwner(string vat, string email)
+    public async Task<Result<OwnerDTO>> SearchOwner(string? vat, string? email)
     {
-        var owners = await _ownerRepository.Search(vat, email);
-        if(owners == null)
+        var owner = await _ownerRepository.Search(vat, email);
+        if(owner == null)
         {
-            return Result.Failure<List<OwnerDTO>>("No owners found with the specified criteria.");
+            return Result.Failure<OwnerDTO>("No owner found with the specified criteria.");
         }
 
-        var ownersDTO = owners.Select(Converters.ConvertToOwnerDTO).ToList();
+        var ownersDTO = Converters.ConvertToOwnerDTO(owner);
 
         return Result.Success(ownersDTO);
     }

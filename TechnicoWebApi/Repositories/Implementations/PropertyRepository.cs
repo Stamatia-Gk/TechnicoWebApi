@@ -68,12 +68,24 @@ public class PropertyRepository : IPropertyRepository
         return await Save();
     }
 
-    /*public async Task<List<PropertyItem>> Search(int propertyId, int ownerVat)
+    public async Task<List<PropertyItem>>? Search(int propertyId, string? ownerVat)
     {
-        return await _context.Properties
+        if (propertyId == 0 && ownerVat == null )
+        {
+            return new List<PropertyItem>();
+        }
+        if (propertyId == 0 )
+        {
+            return await _context.Properties.Where(p => p.Owners.Any(o => o.VAT == ownerVat)).ToListAsync();
+        } 
+        if (ownerVat == null)
+        {
+            return await _context.Properties.Where(p => p.Id == propertyId).ToListAsync();
+        }
         
+        return await _context.Properties.Where(p => p.Owners.Any(o => o.VAT == ownerVat) && p.Id == propertyId).ToListAsync();
         
-    }*/
+    }
 
     public async Task<bool> PropertyExists(int id)
     {
