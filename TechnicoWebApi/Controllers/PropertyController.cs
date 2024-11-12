@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Technico.DTO;
 using Technico.Services.Interfaces;
+using TechnicoWebApi.Services.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -55,6 +56,18 @@ namespace TechnicoWebApi.Controllers
 
             return Ok(result.Value);
         }
+
+        /*[HttpGet, Route("searchproperties")]
+        public async Task<ActionResult<List<OwnerDTO>>> Search(int propertyId, string ownerVat)
+        {
+            var result = await _propertyService.SearchProperty(propertyId, ownerVat);
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
+            }
+
+            return Ok(result.Value.ToList());
+        }*/
 
         // POST api/<ValuesController>
         [HttpPost]

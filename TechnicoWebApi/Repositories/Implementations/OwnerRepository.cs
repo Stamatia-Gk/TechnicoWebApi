@@ -22,7 +22,12 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<Owner?> GetOwnerById(int id)
     {
-        return await _context.Owners.Where(o => o.Id == id).Include(p => p.Properties).FirstOrDefaultAsync();
+        return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<Owner?> GetOwnerByVAT(string vat)
+    {
+        return await _context.Owners.Where(o => o.VAT == vat).FirstOrDefaultAsync();
     }
 
     public async Task<bool> CreateOwner(Owner owner)
@@ -50,6 +55,11 @@ public class OwnerRepository : IOwnerRepository
         }
 
         return await Save();
+    }
+
+    public async Task<List<Owner>> Search(string vat, string email)
+    {
+        return await _context.Owners.Where(o => o.VAT.Equals(vat) || o.Email.Equals(email)).ToListAsync();
     }
 
     public async Task<bool> OwnerExists(int id, string vatNumber, string email, string phone)

@@ -7,9 +7,11 @@ namespace Technico.Repositories.Interfaces
     {
         Task<List<Owner>> GetOwners();
         Task<Owner?> GetOwnerById(int id);
+        Task<Owner?> GetOwnerByVAT(string vat);
         Task<bool> CreateOwner(Owner owner);
         Task<bool> UpdateOwner(Owner owner);
         Task<bool> DeleteOwner(Owner owner);
+        Task<List<Owner>> Search(string vat, string email);
         Task<bool> OwnerExists(int id, string vatNumber, string email, string phone);
         Task<bool> Save();
     }

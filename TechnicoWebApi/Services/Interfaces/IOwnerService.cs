@@ -11,5 +11,6 @@ namespace Technico.Services.Interfaces
         Task<Result<OwnerDTOCreate>> CreateOwner(OwnerDTOCreate owner);
         Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwner);
         Task<Result> DeleteOwner(int ownerId);
+        Task<Result<List<OwnerDTO>>> SearchOwner(string vat, string email);
     }
 }

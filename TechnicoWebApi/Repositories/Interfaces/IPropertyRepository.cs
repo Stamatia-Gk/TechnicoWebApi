@@ -11,6 +11,7 @@ namespace Technico.Repositories.Interfaces
         Task<bool> CreateProperty(PropertyItem property, int ownerId);
         Task<bool> UpdateProperty(PropertyItem property);
         Task<bool> DeleteProperty(PropertyItem property);
+        //Task<List<PropertyItem>> Search(int propertyId, int ownerVat);
         Task<bool> PropertyExists(int id);
         Task<bool> Save();
     }

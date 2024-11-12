@@ -10,6 +10,7 @@ namespace TechnicoWebApi.Services.Implementations;
 public class PropertyService : IPropertyService
 {
     private readonly IPropertyRepository _propertyRepository;
+
     public PropertyService(IPropertyRepository propertyRepository)
     {
         _propertyRepository = propertyRepository;
@@ -102,6 +103,13 @@ public class PropertyService : IPropertyService
 
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
+
+    /*public async Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat)
+    {
+        return await _propertyRepository
+
+
+    }*/
 
     private static PropertyItem Clone(PropertyItem oldProperty, PropertyItem newProperty)
     {

@@ -68,6 +68,13 @@ public class PropertyRepository : IPropertyRepository
         return await Save();
     }
 
+    /*public async Task<List<PropertyItem>> Search(int propertyId, int ownerVat)
+    {
+        return await _context.Properties
+        
+        
+    }*/
+
     public async Task<bool> PropertyExists(int id)
     {
         return await _context.Properties.AnyAsync(p => p.Id == id);

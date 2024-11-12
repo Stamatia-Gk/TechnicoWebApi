@@ -2,6 +2,7 @@
 using CSharpFunctionalExtensions;
 using Technico.DTO;
 using Technico.Models;
+using Technico.Repositories.Implementations;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 
@@ -85,6 +86,19 @@ public class OwnerService : IOwnerService
 
         var ownerDeleted = await _ownerRepository.DeleteOwner(ownerToDelete);
         return ownerDeleted ? Result.Success("Owner successfully deleted.") : Result.Failure("Delete failed.");
+    }
+
+    public async Task<Result<List<OwnerDTO>>> SearchOwner(string vat, string email)
+    {
+        var owners = await _ownerRepository.Search(vat, email);
+        if(owners == null)
+        {
+            return Result.Failure<List<OwnerDTO>>("No owners found with the specified criteria.");
+        }
+
+        var ownersDTO = owners.Select(Converters.ConvertToOwnerDTO).ToList();
+
+        return Result.Success(ownersDTO);
     }
 
     private static Owner Clone(Owner oldOwner, Owner newOwner)

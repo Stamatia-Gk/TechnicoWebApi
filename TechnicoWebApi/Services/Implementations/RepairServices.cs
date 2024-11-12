@@ -60,7 +60,7 @@ public class RepairService : IRepairService
 
         if (owner == null)
         {
-            return Result.Failure<RepairDTO>("Owner does not exist");
+            return Result.Failure<RepairDTO>("Owner does not exist!");
         }
 
         Repair newRepair = Converters.ConvertToRepairEmployee(repairDto);
@@ -68,7 +68,7 @@ public class RepairService : IRepairService
         var repairCreated = await _repairRepository.CreateRepair(newRepair);
         if (!repairCreated)
         {
-            return Result.Failure<RepairDTO>("Failed to create repair");
+            return Result.Failure<RepairDTO>("Failed to create repair.");
         }
 
         RepairDTO createdRepairDto = Converters.ConvertToRepairDTO(newRepair);
@@ -81,7 +81,7 @@ public class RepairService : IRepairService
         var repairToUpdate = await _repairRepository.GetRepairById(oldRepairId);
         if (repairToUpdate == null)
         {
-            return Result.Failure<RepairDTO>("The repair you want to update was not found");
+            return Result.Failure<RepairDTO>("The repair you want to update was not found.");
         }
 
         Repair newRepair = Converters.ConvertToRepairEmployee(newRepairDto);
@@ -97,7 +97,7 @@ public class RepairService : IRepairService
 
         if (!repairUpdated)
         {
-            return Result.Failure<RepairDTO>("Update failed");
+            return Result.Failure<RepairDTO>("Update failed.");
         }
         return Result.Success(newRepairDto);
     }
@@ -107,25 +107,25 @@ public class RepairService : IRepairService
         var repairToDelete = await _repairRepository.GetRepairById(repairId);
         if (repairToDelete == null)
         {
-            return Result.Failure("This repair does not exist");
+            return Result.Failure("This repair does not exist!");
         }
 
         var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
 
-        return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
+        return repairDeleted ? Result.Success("Repair successfully deleted.") : Result.Failure("Delete failed.");
     }
 
     public async Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId)
     {
         if (endDate < startDate)
         {
-            return Result.Failure<List<RepairDTO>>("End date must be greater or equal than the start date");
+            return Result.Failure<List<RepairDTO>>("End date must be greater or equal than the start date.");
         }
         var owner = await _ownerRepository.GetOwnerById(userId);
 
         if (owner == null)
         {
-            return Result.Failure<List<RepairDTO>>("Owner does not exist");
+            return Result.Failure<List<RepairDTO>>("Owner does not exist!");
         }
         var repairs = await _repairRepository.Search(startDate, endDate, owner.Id);
 
