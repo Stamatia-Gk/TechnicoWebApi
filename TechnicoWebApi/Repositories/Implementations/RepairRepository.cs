@@ -9,12 +9,10 @@ namespace Technico.Repositories.Implementations;
 public class RepairRepository : IRepairRepository
 {
     private readonly TechnicoDbContext _context;
-    private readonly IOwnerRepository _ownerRepository;
 
-    public RepairRepository(TechnicoDbContext context, IOwnerRepository ownerRepository)
+    public RepairRepository(TechnicoDbContext context)
     {
         _context = context;
-        _ownerRepository = ownerRepository;
     }
 
     public async Task<List<Repair>> GetRepairs()
@@ -55,7 +53,7 @@ public class RepairRepository : IRepairRepository
 
     public async Task<List<Repair>> Search(DateTime startDate , DateTime endDate , int ownerId) 
     {
-        return await _context.Repairs.Where(r => r.Id  == ownerId
+        return await _context.Repairs.Where(r => r.Owner.Id  == ownerId
         && r.ScheduledRepair >= startDate
         && r.ScheduledRepair <= endDate)
             .ToListAsync();
