@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 using Technico.DTO;
 using Technico.Models;
-using Technico.Repositories.Implementations;
 using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using Technico.Validator;
@@ -20,6 +19,39 @@ public class RepairService : IRepairService
         _ownerRepository = ownerRepository;
         _repairRepository = repairRepository;
         _repairValidator = repairValidator;
+    }
+
+    public async Task<Result<List<RepairDTO>>> GetAllRepairs()
+    {
+        var repairs = await _repairRepository.GetRepairs();
+        if (repairs == null)
+        {
+            return Result.Failure<List<RepairDTO>>("No repairs found!");
+        }
+        var repairDTOs = repairs.Select(Converters.ConvertToRepairDTO).ToList();
+        return Result.Success(repairDTOs);
+    }
+
+    public async Task<Result<RepairDTO>> GetRepairById(int id)
+    {
+        var repair = await _repairRepository.GetRepairById(id);
+        if (repair == null)
+        {
+            return Result.Failure<RepairDTO>("Repair not found!");
+        }
+        return Result.Success(Converters.ConvertToRepairDTO(repair));
+    }
+
+    public async Task<Result<List<RepairDTO>>> GetAllRepairsOfAnOwner(int id)
+    {
+        var ownerRepairs = await _repairRepository.GetRepairsByOwnerId(id);
+        if (ownerRepairs == null)
+        {
+            return Result.Failure<List<RepairDTO>>("No repairs found for this onwer.");
+        }
+
+        var onwerRepairsDTO = ownerRepairs.Select(r => Converters.ConvertToRepairDTO(r)).ToList();
+        return onwerRepairsDTO;
     }
 
     public async Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId)
@@ -44,37 +76,43 @@ public class RepairService : IRepairService
         return Result.Success(createdRepairDto);
     }
 
-    public async Task<Result<RepairDTO>> GetRepair(int id)
+    public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
     {
-        var repair = await _repairRepository.GetRepairById(id);
-        if (repair == null)
+        var repairToUpdate = await _repairRepository.GetRepairById(oldRepairId);
+        if (repairToUpdate == null)
         {
-            return Result.Failure<RepairDTO>("Repair not found!");
+            return Result.Failure<RepairDTO>("The repair you want to update was not found");
         }
-        return Result.Success(Converters.ConvertToRepairDTO(repair));
+
+        Repair newRepair = Converters.ConvertToRepairEmployee(newRepairDto);
+
+        if (repairToUpdate.Owner != null)
+        {
+            newRepair.Owner = repairToUpdate.Owner;
+        }
+
+        repairToUpdate = Clone(repairToUpdate, newRepair);
+
+        var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
+
+        if (!repairUpdated)
+        {
+            return Result.Failure<RepairDTO>("Update failed");
+        }
+        return Result.Success(newRepairDto);
     }
 
-    public async Task<Result<List<RepairDTO>>> GetAllRepairs()
+    public async Task<Result> DeleteRepair(int repairId)
     {
-        var repairs = await _repairRepository.GetRepairs();
-        if (repairs == null)
+        var repairToDelete = await _repairRepository.GetRepairById(repairId);
+        if (repairToDelete == null)
         {
-            return Result.Failure<List<RepairDTO>>("No repairs found!");
-        }
-        var repairDTOs = repairs.Select(Converters.ConvertToRepairDTO).ToList();
-        return Result.Success(repairDTOs);
-    }
-
-    public async Task<Result<List<RepairDTO>>> GetAllRepairsOfAnOwner(int id)
-    {
-        var ownerRepairs = await _repairRepository.GetRepairsByOwnerId(id);
-        if(ownerRepairs == null)
-        {
-            return Result.Failure<List<RepairDTO>>("No repairs found for this onwer.");
+            return Result.Failure("This repair does not exist");
         }
 
-        var onwerRepairsDTO = ownerRepairs.Select(r => Converters.ConvertToRepairDTO(r)).ToList();
-        return onwerRepairsDTO;
+        var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
+
+        return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
     }
 
     public async Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId)
@@ -99,46 +137,6 @@ public class RepairService : IRepairService
         var repairsDTO = repairs.Select(Converters.ConvertToRepairDTO).ToList();
 
         return Result.Success(repairsDTO);
-    }
-
-    public async Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto)
-    {
-        
-        var repairToUpdate = await _repairRepository.GetRepairById(oldRepairId);
-        if (repairToUpdate == null)
-        {
-            return Result.Failure<RepairDTO>("The repair you want to update was not found");
-        }
-
-        Repair newRepair = Converters.ConvertToRepairEmployee(newRepairDto);
-
-        if (repairToUpdate.Owner != null)
-        {
-            newRepair.Owner = repairToUpdate.Owner;
-        }
-        
-        repairToUpdate = Clone(repairToUpdate, newRepair);
-
-        var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
-
-        if (!repairUpdated)
-        {
-            return Result.Failure<RepairDTO>("Update failed");
-        }
-        return Result.Success(newRepairDto);
-    }
-
-    public async Task<Result> DeleteRepair(int repairId)
-    {
-        var repairToDelete = await _repairRepository.GetRepairById(repairId);
-        if (repairToDelete == null)
-        {
-            return Result.Failure("This repair does not exist");
-        }
-
-        var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
-
-        return repairDeleted ? Result.Success("Repair successfully deleted") : Result.Failure("Delete failed");
     }
 
     private static Repair Clone(Repair oldRepair, Repair newRepair)

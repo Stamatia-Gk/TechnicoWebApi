@@ -24,19 +24,6 @@ public class PropertyService : IPropertyService
         return Result.Success(propertiesListDto);
     }
 
-    public async Task<Result<List<PropertyDTO>>> GetAllPropertiesOfAnOwner(int ownerId)
-    {
-        var propertyList = await _propertyRepository.GetPropertiesByOwnerId(ownerId);
-        if (propertyList.Count == 0)
-        {
-            return Result.Failure<List<PropertyDTO>>("No properties found for this owner");
-        }
-
-        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
-
-        return Result.Success(propertyListDto);
-    }
-
     public async Task<Result<PropertyDTO>> GetPropertyById(int id)
     {
         var property = await _propertyRepository.GetPropertyById(id);
@@ -48,6 +35,19 @@ public class PropertyService : IPropertyService
         var propertyDto = Converters.ConvertToPropertyDTO(property);
 
         return Result.Success(propertyDto);
+    }
+
+    public async Task<Result<List<PropertyDTO>>> GetAllPropertiesOfAnOwner(int ownerId)
+    {
+        var propertyList = await _propertyRepository.GetPropertiesByOwnerId(ownerId);
+        if (propertyList.Count == 0)
+        {
+            return Result.Failure<List<PropertyDTO>>("No properties found for this owner");
+        }
+
+        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
+
+        return Result.Success(propertyListDto);
     }
 
     public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, int ownerId)

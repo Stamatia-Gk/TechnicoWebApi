@@ -35,7 +35,7 @@ namespace TechnicoWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RepairDTO>> Get(int id)
         {
-            var result = await _repairService.GetRepair(id);
+            var result = await _repairService.GetRepairById(id);
             if (result.IsFailure)
             {
                 return BadRequest(result.Error);
