@@ -21,7 +21,7 @@ namespace TechnicoWebApi.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public async Task<ActionResult<List<OwnerDTO>>> GetOwners()
+        public async Task<ActionResult> GetOwners()
         {
             var result = await _ownerService.GetAllOwners();
             if(result.IsFailure)
@@ -34,7 +34,7 @@ namespace TechnicoWebApi.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OwnerDTO>> GetOwnerById(int id)
+        public async Task<ActionResult> GetOwnerById(int id)
         {
             var result = await _ownerService.GetOwnerById(id);
             if (result.IsFailure)
@@ -59,7 +59,7 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<ActionResult<OwnerDTO>> Post([FromBody] OwnerDTOCreate ownerDtoCreate)
+        public async Task<ActionResult> Post([FromBody] OwnerDTOCreate ownerDtoCreate)
         {
             var result = await _ownerService.CreateOwner(ownerDtoCreate);
             if (result.IsFailure)
@@ -72,7 +72,7 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<OwnerDTO>> Put(int id, [FromBody] OwnerDTO ownerDto)
+        public async Task<ActionResult> Put(int id, [FromBody] OwnerDTO ownerDto)
         {
             var result = await _ownerService.UpdateOwner(id, ownerDto);
             if(result.IsFailure)
@@ -85,7 +85,7 @@ namespace TechnicoWebApi.Controllers
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete([FromRoute] int id)
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
             var result = await _ownerService.DeleteOwner(id);
             if (result.IsFailure)

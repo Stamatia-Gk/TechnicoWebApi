@@ -20,7 +20,7 @@ namespace TechnicoWebApi.Controllers
 
         // GET: api/<RepairController>
         [HttpGet]
-        public async Task<ActionResult<List<RepairDTO>>> Get()
+        public async Task<ActionResult> Get()
         {
             var result = await _repairService.GetAllRepairs();
             if (result.IsFailure)
@@ -33,7 +33,7 @@ namespace TechnicoWebApi.Controllers
 
         // GET api/<RepairController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<RepairDTO>> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
             var result = await _repairService.GetRepairById(id);
             if (result.IsFailure)
@@ -45,7 +45,7 @@ namespace TechnicoWebApi.Controllers
         }
 
         [HttpGet, Route("ownerrepairs/{id}")]
-        public async Task<ActionResult<RepairDTO>> GetRepairsByOwnerId(int id)
+        public async Task<ActionResult> GetRepairsByOwnerId(int id)
         {
             var result = await _repairService.GetAllRepairsOfAnOwner(id);
             if (result.IsFailure)
@@ -57,7 +57,7 @@ namespace TechnicoWebApi.Controllers
         }
 
         [HttpGet, Route("searchrepairs")]
-        public async Task<ActionResult<List<RepairDTO>>> Search(DateTime startDate, DateTime endDate, int id)
+        public async Task<ActionResult> Search(DateTime startDate, DateTime endDate, int id)
         {
             var result = await _repairService.SearchRepair(startDate, endDate, id);
             if (result.IsFailure)
@@ -70,7 +70,7 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<RepairController>
         [HttpPost]
-        public async Task<ActionResult<RepairDTO>> Post([FromBody] RepairDTO repairDTO , int ownerId)
+        public async Task<ActionResult> Post([FromBody] RepairDTO repairDTO , int ownerId)
         {
             var result = await _repairService.CreateRepair(repairDTO,ownerId);
             if (result.IsFailure) 
@@ -83,7 +83,7 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<RepairController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<RepairDTO>> Put(int id, [FromBody] RepairDTO repairDTO)
+        public async Task<ActionResult> Put(int id, [FromBody] RepairDTO repairDTO)
         {
             var result = await _repairService.UpdateRepair(id, repairDTO);
             if (result.IsFailure)
@@ -96,7 +96,7 @@ namespace TechnicoWebApi.Controllers
 
         // DELETE api/<RepairController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<RepairDTO>> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var result = await _repairService.DeleteRepair(id);
             if (result.IsFailure)
