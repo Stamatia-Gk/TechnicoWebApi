@@ -1,10 +1,11 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
+
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
-using Technico.Models;
-using Technico.Repositories.Interfaces;
+using TechnicoWebApi.Models;
+using TechnicoWebApi.Repositories.Interfaces;
 
-namespace Technico.Repositories.Implementations;
+namespace TechnicoWebApi.Repositories.Implementations;
 
 public class OwnerRepository : IOwnerRepository
 {
@@ -25,7 +26,7 @@ public class OwnerRepository : IOwnerRepository
         return await _context.Owners.Where(o => o.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<Owner?> GetOwnerByVAT(string vat)
+    public async Task<Owner?> GetOwnerByVat(string vat)
     {
         return await _context.Owners.Where(o => o.VAT == vat).FirstOrDefaultAsync();
     }

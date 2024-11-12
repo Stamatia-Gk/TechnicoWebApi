@@ -1,7 +1,7 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.AspNetCore.Mvc;
-using Technico.DTO;
 using Technico.Services.Interfaces;
+using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Services.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -71,7 +71,7 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PropertyDTO propertyDto,[FromQuery] int ownerId)
+        public async Task<ActionResult> Post([FromBody] PropertyDto propertyDto,[FromQuery] int ownerId)
         {
             var result = await _propertyService.CreateProperty(propertyDto, ownerId);
             if (result.IsFailure)
@@ -84,7 +84,7 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut]
-        public async Task<ActionResult> Put([FromQuery] int oldPropertyId, [FromBody] PropertyDTO propertyDto)
+        public async Task<ActionResult> Put([FromQuery] int oldPropertyId, [FromBody] PropertyDto propertyDto)
         {
             var result = await _propertyService.UpdateProperty(oldPropertyId, propertyDto);
             if (result.IsFailure)

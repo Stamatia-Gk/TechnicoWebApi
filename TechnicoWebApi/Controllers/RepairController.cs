@@ -1,7 +1,7 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.AspNetCore.Mvc;
-using Technico.DTO;
 using Technico.Services.Interfaces;
+using TechnicoWebApi.Dtos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,6 +26,19 @@ namespace TechnicoWebApi.Controllers
             if (result.IsFailure)
             {
                 return NotFound(result.Error); 
+            }
+
+            return Ok(result.Value);
+        }
+
+        [HttpGet("ongoing")]
+
+        public async Task<ActionResult> GetAllOnGoing()
+        {
+            var result = await _repairService.GetOngoingRepairs();
+            if (result.IsFailure)
+            {
+                return NotFound(result.Error);
             }
 
             return Ok(result.Value);
@@ -70,7 +83,7 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<RepairController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] RepairDTO repairDTO , int ownerId)
+        public async Task<ActionResult> Post([FromBody] RepairDto repairDTO , int ownerId)
         {
             var result = await _repairService.CreateRepair(repairDTO,ownerId);
             if (result.IsFailure) 
@@ -83,7 +96,7 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<RepairController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] RepairDTO repairDTO)
+        public async Task<ActionResult> Put(int id, [FromBody] RepairDto repairDTO)
         {
             var result = await _repairService.UpdateRepair(id, repairDTO);
             if (result.IsFailure)

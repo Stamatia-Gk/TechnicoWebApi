@@ -1,12 +1,11 @@
 using Technico.Data;
-using Technico.Repositories.Implementations;
-using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
 using Technico.Validator;
 using TechnicoWebApi.Services.Implementations;
 using FluentValidation.AspNetCore;
-using Technico.DTO;
 using FluentValidation;
+using TechnicoWebApi.Repositories.Implementations;
+using TechnicoWebApi.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

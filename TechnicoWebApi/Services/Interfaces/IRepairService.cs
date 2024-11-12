@@ -1,17 +1,18 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.DTO;
+using TechnicoWebApi.Dtos;
 
 namespace Technico.Services.Interfaces
 {
     public interface IRepairService
     {
-        Task<Result<List<RepairDTO>>> GetAllRepairs();
-        Task<Result<RepairDTO>> GetRepairById(int id);
-        Task<Result<List<RepairDTO>>> GetAllRepairsOfAnOwner(int id);
-        Task<Result<RepairDTO>> CreateRepair(RepairDTO repairDto, int ownerId);
-        Task<Result<RepairDTO>> UpdateRepair(int oldRepairId, RepairDTO newRepairDto);
+        Task<Result<List<RepairDto>>> GetAllRepairs();
+        Task<Result<List<RepairDto>>> GetOngoingRepairs();
+        Task<Result<RepairDto>> GetRepairById(int id);
+        Task<Result<List<RepairDto>>> GetAllRepairsOfAnOwner(int id);
+        Task<Result<RepairDto>> CreateRepair(RepairDto repairDto, int ownerId);
+        Task<Result<RepairDto>> UpdateRepair(int oldRepairId, RepairDto newRepairDto);
         Task<Result> DeleteRepair(int repairId);
-        Task<Result<List<RepairDTO>>> SearchRepair(DateTime startDate, DateTime endDate, int userId);
+        Task<Result<List<RepairDto>>> SearchRepair(DateTime startDate, DateTime endDate, int userId);
     }
 }

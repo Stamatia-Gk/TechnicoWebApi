@@ -1,10 +1,12 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
+
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Models;
-using Technico.Repositories.Interfaces;
+using TechnicoWebApi.Models;
+using TechnicoWebApi.Repositories.Interfaces;
 
-namespace Technico.Repositories.Implementations;
+namespace TechnicoWebApi.Repositories.Implementations;
 
 public class RepairRepository : IRepairRepository
 {
@@ -18,6 +20,11 @@ public class RepairRepository : IRepairRepository
     public async Task<List<Repair>> GetRepairs()
     {
         return await _context.Repairs.OrderBy(r => r.ScheduledRepair).ToListAsync();
+    }
+
+    public async Task<List<Repair>> GetRepairsInProgress()
+    {
+        return await _context.Repairs.Where(r => r.RepairStatus == RepairStatus.InProgress).ToListAsync();
     }
 
     public async Task<Repair?> GetRepairById(int id)

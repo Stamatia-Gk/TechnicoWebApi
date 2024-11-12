@@ -1,8 +1,10 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using Technico.Models;
 
-namespace Technico.DTO;
-public class OwnerDTO
+using Technico.Models;
+using TechnicoWebApi.Models;
+
+namespace TechnicoWebApi.Dtos;
+public class GetOwnerDto
 {
     public int Id { get; set; }
     public string VAT { get; set; } = string.Empty; // unique identifier

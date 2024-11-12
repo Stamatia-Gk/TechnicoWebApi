@@ -1,9 +1,10 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.DTO;
 using Technico.Models;
-using Technico.Repositories.Interfaces;
 using Technico.Services.Interfaces;
+using TechnicoWebApi.Dtos;
+using TechnicoWebApi.Models;
+using TechnicoWebApi.Repositories.Interfaces;
 
 namespace TechnicoWebApi.Services.Implementations;
 
@@ -16,59 +17,59 @@ public class PropertyService : IPropertyService
         _propertyRepository = propertyRepository;
     }
 
-    public async Task<Result<List<PropertyDTO>>> GetAllProperties()
+    public async Task<Result<List<PropertyDto>>> GetAllProperties()
     {
         var propertiesList = await _propertyRepository.GetProperties();
 
-        var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
+        var propertiesListDto =  propertiesList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
 
         return Result.Success(propertiesListDto);
     }
 
-    public async Task<Result<PropertyDTO>> GetPropertyById(int id)
+    public async Task<Result<PropertyDto>> GetPropertyById(int id)
     {
         var property = await _propertyRepository.GetPropertyById(id);
         if (property == null)
         {
-            return Result.Failure<PropertyDTO>("Property Not Found");
+            return Result.Failure<PropertyDto>("Property Not Found");
         }
 
-        var propertyDto = Converters.ConvertToPropertyDTO(property);
+        var propertyDto = Converters.ConvertToPropertyDto(property);
 
         return Result.Success(propertyDto);
     }
 
-    public async Task<Result<List<PropertyDTO>>> GetAllPropertiesOfAnOwner(int ownerId)
+    public async Task<Result<List<PropertyDto>>> GetAllPropertiesOfAnOwner(int ownerId)
     {
         var propertyList = await _propertyRepository.GetPropertiesByOwnerId(ownerId);
         if (propertyList.Count == 0)
         {
-            return Result.Failure<List<PropertyDTO>>("No properties found for this owner");
+            return Result.Failure<List<PropertyDto>>("No properties found for this owner");
         }
 
-        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
+        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
 
         return Result.Success(propertyListDto);
     }
 
-    public async Task<Result<PropertyDTO>> CreateProperty(PropertyDTO propertyDto, int ownerId)
+    public async Task<Result<PropertyDto>> CreateProperty(PropertyDto propertyDto, int ownerId)
     {
         var propertyToCreate = Converters.ConvertToPropertyItem(propertyDto);
         var propertyCreated = await _propertyRepository.CreateProperty(propertyToCreate, ownerId);
         if (!propertyCreated)
         {
-            return Result.Failure<PropertyDTO>("Owners not found");
+            return Result.Failure<PropertyDto>("Owners not found");
         }
         
         return Result.Success(propertyDto);
     }
 
-    public async Task<Result<PropertyDTO>> UpdateProperty(int oldPropertyId, PropertyDTO propertyDto)
+    public async Task<Result<PropertyDto>> UpdateProperty(int oldPropertyId, PropertyDto propertyDto)
     {
         var propertyToUpdate = await _propertyRepository.GetPropertyById(oldPropertyId);
         if (propertyToUpdate == null)
         {
-            return Result.Failure<PropertyDTO>("The property you want to update was not found");
+            return Result.Failure<PropertyDto>("The property you want to update was not found");
         }
        
         var oldOwners = propertyToUpdate.Owners;
@@ -84,7 +85,7 @@ public class PropertyService : IPropertyService
 
         if (!propertyUpdated)
         {
-            return Result.Failure<PropertyDTO>("Update failed");
+            return Result.Failure<PropertyDto>("Update failed");
         }
         
         return Result.Success(propertyDto);
@@ -104,15 +105,15 @@ public class PropertyService : IPropertyService
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
-    public async Task<Result<List<PropertyDTO>>> SearchProperty(int propertyId, string ownerVat)
+    public async Task<Result<List<PropertyDto>>> SearchProperty(int propertyId, string ownerVat)
     {
         var propertyList = await _propertyRepository.Search(propertyId, ownerVat);
         if ( propertyList.Count == 0)
         {
-            return Result.Failure<List<PropertyDTO>>("No properties found for this search");
+            return Result.Failure<List<PropertyDto>>("No properties found for this search");
         }
 
-        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDTO(p)).ToList();
+        var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
         
         return Result.Success(propertyListDto);
     }

@@ -1,11 +1,13 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
+
 using Technico.Models;
 
-namespace Technico.Repositories.Interfaces
+namespace TechnicoWebApi.Repositories.Interfaces
 {
     public interface IRepairRepository
     {
         Task<List<Repair>> GetRepairs();
+        Task<List<Repair>> GetRepairsInProgress();
         Task<Repair?> GetRepairById(int id);
         Task<List<Repair?>> GetRepairsByOwnerId(int id);
         Task<bool> CreateRepair(Repair repair);

@@ -1,7 +1,9 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using Technico.Models;
 
-namespace Technico.Repositories.Interfaces
+using Technico.Models;
+using TechnicoWebApi.Models;
+
+namespace TechnicoWebApi.Repositories.Interfaces
 {
     public interface IPropertyRepository
     {

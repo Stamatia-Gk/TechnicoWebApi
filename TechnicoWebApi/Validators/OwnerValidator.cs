@@ -1,10 +1,10 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using FluentValidation;
-using Technico.DTO;
+using TechnicoWebApi.Dtos;
 
 namespace Technico.Validator;
 
-public class OwnerValidator : AbstractValidator<OwnerDTOCreate>
+public class OwnerValidator : AbstractValidator<CreateOwnerDto>
 {
     public OwnerValidator()
     {

@@ -1,10 +1,11 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 
 using Technico.Models;
+using TechnicoWebApi.Models;
 
-namespace Technico.DTO;
+namespace TechnicoWebApi.Dtos;
 
- public class RepairDTO()
+ public class RepairDto()
 {
     public int Id { get; set; }
     public DateTime ScheduledRepair { get; set; }

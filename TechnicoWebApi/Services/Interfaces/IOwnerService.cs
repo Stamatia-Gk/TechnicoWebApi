@@ -1,16 +1,16 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.DTO;
+using TechnicoWebApi.Dtos;
 
 namespace Technico.Services.Interfaces
 {
     public interface IOwnerService
     {
-        Task<Result<OwnerDTO>> GetOwnerById(int id);
-        Task<Result<List<OwnerDTO>>> GetAllOwners();
-        Task<Result<OwnerDTOCreate>> CreateOwner(OwnerDTOCreate owner);
-        Task<Result<OwnerDTO>> UpdateOwner(int oldOwnerId, OwnerDTO newOwner);
+        Task<Result<GetOwnerDto>> GetOwnerById(int id);
+        Task<Result<List<GetOwnerDto>>> GetAllOwners();
+        Task<Result<CreateOwnerDto>> CreateOwner(CreateOwnerDto createOwner);
+        Task<Result<GetOwnerDto>> UpdateOwner(int oldOwnerId, GetOwnerDto newGetOwner);
         Task<Result> DeleteOwner(int ownerId);
-        Task<Result<OwnerDTO>> SearchOwner(string? vat, string? email);
+        Task<Result<GetOwnerDto>> SearchOwner(string? vat, string? email);
     }
 }

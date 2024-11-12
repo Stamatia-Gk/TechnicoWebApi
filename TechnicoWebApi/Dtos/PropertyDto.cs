@@ -1,10 +1,11 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 
 using Technico.Models;
+using TechnicoWebApi.Models;
 
-namespace Technico.DTO;
+namespace TechnicoWebApi.Dtos;
 
-public class PropertyDTO()
+public class PropertyDto()
 {
     public int Id { get; set; }
     public string IdentificationNumber { get; set; } = string.Empty; // unique

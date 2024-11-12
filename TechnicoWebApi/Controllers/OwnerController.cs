@@ -1,7 +1,7 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.AspNetCore.Mvc;
-using Technico.DTO;
 using Technico.Services.Interfaces;
+using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Services.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -59,9 +59,9 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] OwnerDTOCreate ownerDtoCreate)
+        public async Task<ActionResult> Post([FromBody] CreateOwnerDto createOwnerDto)
         {
-            var result = await _ownerService.CreateOwner(ownerDtoCreate);
+            var result = await _ownerService.CreateOwner(createOwnerDto);
             if (result.IsFailure)
             {
                 return BadRequest(result.Error);
@@ -72,9 +72,9 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] OwnerDTO ownerDto)
+        public async Task<ActionResult> Put(int id, [FromBody] GetOwnerDto getOwnerDto)
         {
-            var result = await _ownerService.UpdateOwner(id, ownerDto);
+            var result = await _ownerService.UpdateOwner(id, getOwnerDto);
             if(result.IsFailure)
             {
                 return BadRequest(result.Error);

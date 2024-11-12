@@ -1,8 +1,8 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 
-namespace Technico.DTO;
+namespace TechnicoWebApi.Dtos;
 
-public class OwnerDTOCreate : OwnerDTO
+public class CreateOwnerDto : GetOwnerDto
 {
     public string Password { get; set; } = string.Empty;
 }

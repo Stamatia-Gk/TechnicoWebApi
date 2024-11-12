@@ -1,10 +1,11 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
+
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
-using Technico.Models;
-using Technico.Repositories.Interfaces;
+using TechnicoWebApi.Models;
+using TechnicoWebApi.Repositories.Interfaces;
 
-namespace Technico.Repositories.Implementations;
+namespace TechnicoWebApi.Repositories.Implementations;
 
 public class PropertyRepository : IPropertyRepository
 {
