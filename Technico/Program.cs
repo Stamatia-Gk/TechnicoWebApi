@@ -1,10 +1,11 @@
 using Technico.Data;
+using Technico.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddDbContext<TechnicoDbContext>();
 
 var app = builder.Build();
