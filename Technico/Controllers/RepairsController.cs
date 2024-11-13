@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
-using TechnicoWebApi.Models;
+using Technico.Models;
 
 namespace Technico.Controllers
 {
-    public class OwnersController : Controller
+    public class RepairsController : Controller
     {
         private readonly TechnicoDbContext _context;
 
-        public OwnersController(TechnicoDbContext context)
+        public RepairsController(TechnicoDbContext context)
         {
             _context = context;
         }
 
-        // GET: Owners
+        // GET: Repairs
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Repairs.ToListAsync());
         }
-        
-        // GET: Owners/Details/5
+
+        // GET: Repairs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var repair = await _context.Repairs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+            if (repair == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
+            return View(repair);
         }
 
-        // GET: Owners/Create
+        // GET: Repairs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Owners/Create
+        // POST: Repairs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
+        public async Task<IActionResult> Create([Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] Repair repair)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(owner);
+                _context.Add(repair);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+            return View(repair);
         }
 
-        // GET: Owners/Edit/5
+        // GET: Repairs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
+            var repair = await _context.Repairs.FindAsync(id);
+            if (repair == null)
             {
                 return NotFound();
             }
-            return View(owner);
+            return View(repair);
         }
 
-        // POST: Owners/Edit/5
+        // POST: Repairs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] Repair repair)
         {
-            if (id != owner.Id)
+            if (id != repair.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Technico.Controllers
             {
                 try
                 {
-                    _context.Update(owner);
+                    _context.Update(repair);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OwnerExists(owner.Id))
+                    if (!RepairExists(repair.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Technico.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+            return View(repair);
         }
 
-        // GET: Owners/Delete/5
+        // GET: Repairs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var repair = await _context.Repairs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+            if (repair == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
+            return View(repair);
         }
 
-        // POST: Owners/Delete/5
+        // POST: Repairs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner != null)
+            var repair = await _context.Repairs.FindAsync(id);
+            if (repair != null)
             {
-                _context.Owners.Remove(owner);
+                _context.Repairs.Remove(repair);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OwnerExists(int id)
+        private bool RepairExists(int id)
         {
-            return _context.Owners.Any(e => e.Id == id);
+            return _context.Repairs.Any(e => e.Id == id);
         }
     }
 }
