@@ -2,7 +2,7 @@
 
 namespace TechnicoWebApi.Dtos;
 
-public class CreateOwnerDto : GetOwnerDto
+public class OwnerRequestDto : OwnerResponseDto
 {
     public string Password { get; set; } = string.Empty;
 }

@@ -1,5 +1,4 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using TechnicoWebApi.Models;
@@ -85,7 +84,6 @@ public class PropertyRepository : IPropertyRepository
         }
         
         return await _context.Properties.Where(p => p.Owners.Any(o => o.VAT == ownerVat) && p.Id == propertyId).ToListAsync();
-        
     }
 
     public async Task<bool> PropertyExists(int id)
@@ -109,6 +107,4 @@ public class PropertyRepository : IPropertyRepository
     {
         return await _context.Properties.AnyAsync(p => p.IdentificationNumber.Trim().Equals(identificationNumber));
     }
-
-  
 }

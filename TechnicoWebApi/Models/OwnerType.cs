@@ -4,5 +4,5 @@ namespace TechnicoWebApi.Models;
 
 public enum OwnerType
 {
-    Owner, Employee, Deactivated
+    Owner, Admin, Deactivated
 }

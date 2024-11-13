@@ -4,7 +4,7 @@ using TechnicoWebApi.Dtos;
 
 namespace Technico.Validator;
 
-public class OwnerValidator : AbstractValidator<CreateOwnerDto>
+public class OwnerValidator : AbstractValidator<OwnerRequestDto>
 {
     public OwnerValidator()
     {

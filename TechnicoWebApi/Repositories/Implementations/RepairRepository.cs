@@ -1,5 +1,4 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Models;

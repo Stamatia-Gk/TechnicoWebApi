@@ -44,9 +44,10 @@ public class TechnicoDbContext : DbContext
                     Name = "Alice",
                     Surname = "Smith",
                     Address = "123 Elm St",
-                    PhoneNumber = "123-456-7890",
+                    PhoneNumber = "6971234567",
                     Email = "alice.smith@example.com",
-                    Password = "A1!abcde"
+                    Password = "A1!abcde",
+                    OwnerType = OwnerType.Admin
                 },
 
                 new Owner
@@ -56,7 +57,7 @@ public class TechnicoDbContext : DbContext
                     Name = "Johnathan",              
                     Surname = "Doe",                     
                     Address = "123 Main St, Anytown, USA",
-                    PhoneNumber = "123-456-7892",         
+                    PhoneNumber = "6987523641",         
                     Email = "john.doe@example.com",       
                     OwnerType = OwnerType.Owner,               
                     Password = "Secure@123" 

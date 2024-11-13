@@ -7,9 +7,9 @@ namespace TechnicoWebApi.Dtos;
 
 public static class Converters
 {
-    public static CreateOwnerDto ConvertToOwnerPwDto(this Owner owner) // Owner PW -> PW DTO
+    public static OwnerRequestDto ConvertToOwnerPwDto(this Owner owner) // Owner PW -> PW DTO
     {
-        return new CreateOwnerDto()
+        return new OwnerRequestDto()
         {
             Id = owner.Id,
             VAT = owner.VAT,
@@ -23,9 +23,9 @@ public static class Converters
         };
     }
 
-    public static GetOwnerDto ConvertToOwnerDto(this Owner owner) // Owner -> DTO
+    public static OwnerResponseDto ConvertToOwnerDto(this Owner owner) // Owner -> DTO
     {
-        return new GetOwnerDto()
+        return new OwnerResponseDto()
         {
             Id = owner.Id,
             VAT = owner.VAT,
@@ -38,7 +38,7 @@ public static class Converters
         };
     }
 
-    public static Owner ConvertToOwnerPw(this CreateOwnerDto createOwnerDtoPw) // Pw DTO -> Owner PW
+    public static Owner ConvertToOwnerPw(this OwnerRequestDto createOwnerDtoPw) // Pw DTO -> Owner PW
     {
         return new Owner()
         {
@@ -54,7 +54,7 @@ public static class Converters
         };
     }
 
-    public static Owner ConvertToOwner(this GetOwnerDto getOwnerDto) // DTO -> Owner
+    public static Owner ConvertToOwner(this OwnerResponseDto getOwnerDto) // DTO -> Owner
     {
         return new Owner()
         {

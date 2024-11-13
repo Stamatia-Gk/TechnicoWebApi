@@ -15,5 +15,6 @@ namespace TechnicoWebApi.Repositories.Interfaces
         Task<Owner?> Search(string vat, string email);
         Task<bool> OwnerExists(int id, string vatNumber, string email, string phone);
         Task<bool> Save();
+        Task<Owner> Login(string email, string password);
     }
 }

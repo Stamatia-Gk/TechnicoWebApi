@@ -92,4 +92,15 @@ public class OwnerRepository : IOwnerRepository
         var saved = _context.SaveChangesAsync();
         return await saved > 0;
     }
+
+    public async Task<Owner> Login(string email, string password)
+    {
+        if(email == null || password == null)
+        { 
+            return null; 
+        }
+
+        var owner = await _context.Owners.Where(o => o.Email == email && o.Password == password).FirstOrDefaultAsync();
+        return owner;
+    }
 }

@@ -59,9 +59,9 @@ namespace TechnicoWebApi.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateOwnerDto createOwnerDto)
+        public async Task<ActionResult> Post([FromBody] OwnerRequestDto ownerRequestDto)
         {
-            var result = await _ownerService.CreateOwner(createOwnerDto);
+            var result = await _ownerService.CreateOwner(ownerRequestDto);
             if (result.IsFailure)
             {
                 return BadRequest(result.Error);
@@ -72,9 +72,9 @@ namespace TechnicoWebApi.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] GetOwnerDto getOwnerDto)
+        public async Task<ActionResult> Put(int id, [FromBody] OwnerResponseDto OwnerResponseDto)
         {
-            var result = await _ownerService.UpdateOwner(id, getOwnerDto);
+            var result = await _ownerService.UpdateOwner(id, OwnerResponseDto);
             if(result.IsFailure)
             {
                 return BadRequest(result.Error);
@@ -94,6 +94,19 @@ namespace TechnicoWebApi.Controllers
             }
 
             return Ok();
+        }
+
+        // POST api/<ValuesController>
+        [HttpPost("{email},{password}")]
+        public async Task<ActionResult> Login([FromRoute] string email, [FromRoute] string password)
+        {
+            var result = await _ownerService.Login(email, password);
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
     }
 }

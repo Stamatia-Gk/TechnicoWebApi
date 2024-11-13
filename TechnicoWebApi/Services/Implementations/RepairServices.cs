@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 using Technico.Models;
 using Technico.Services.Interfaces;
-using Technico.Validator;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Repositories.Interfaces;
 
@@ -12,13 +11,11 @@ public class RepairService : IRepairService
 {
     private readonly IOwnerRepository _ownerRepository;
     private readonly IRepairRepository _repairRepository;
-    private readonly RepairValidator _repairValidator;
 
-    public RepairService(IOwnerRepository ownerRepository, IRepairRepository repairRepository, RepairValidator repairValidator)
+    public RepairService(IOwnerRepository ownerRepository, IRepairRepository repairRepository)
     {
         _ownerRepository = ownerRepository;
         _repairRepository = repairRepository;
-        _repairValidator = repairValidator;
     }
 
     public async Task<Result<List<RepairDto>>> GetAllRepairs()
@@ -30,7 +27,6 @@ public class RepairService : IRepairService
         }
        
         var repairDtOs = repairs.Select(Converters.ConvertToRepairDto).ToList();
-        
         return Result.Success(repairDtOs);
     }
 
@@ -41,10 +37,9 @@ public class RepairService : IRepairService
         {
             return Result.Failure<List<RepairDto>>("No ongoing repairs found for this user");
         }
+
         var onGoingRepairsDtoList = onGoingRepairs.Select(r => Converters.ConvertToRepairDto(r)).ToList();
-
         return Result.Success(onGoingRepairsDtoList);
-
     }
 
     public async Task<Result<RepairDto>> GetRepairById(int id)
@@ -54,6 +49,7 @@ public class RepairService : IRepairService
         {
             return Result.Failure<RepairDto>("Repair not found!");
         }
+
         return Result.Success(Converters.ConvertToRepairDto(repair));
     }
 
@@ -87,7 +83,6 @@ public class RepairService : IRepairService
         }
 
         RepairDto createdRepairDto = Converters.ConvertToRepairDto(newRepair);
-
         return Result.Success(createdRepairDto);
     }
 
@@ -107,13 +102,13 @@ public class RepairService : IRepairService
         }
 
         repairToUpdate = Clone(repairToUpdate, newRepair);
-
         var repairUpdated = await _repairRepository.UpdateRepair(repairToUpdate);
 
         if (!repairUpdated)
         {
             return Result.Failure<RepairDto>("Update failed.");
         }
+
         return Result.Success(newRepairDto);
     }
 
@@ -126,7 +121,6 @@ public class RepairService : IRepairService
         }
 
         var repairDeleted = await _repairRepository.DeleteRepair(repairToDelete);
-
         return repairDeleted ? Result.Success("Repair successfully deleted.") : Result.Failure("Delete failed.");
     }
 
@@ -150,7 +144,6 @@ public class RepairService : IRepairService
         }
 
         var repairsDTO = repairs.Select(Converters.ConvertToRepairDto).ToList();
-
         return Result.Success(repairsDTO);
     }
 

@@ -1,6 +1,5 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.Models;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
@@ -35,7 +34,6 @@ public class PropertyService : IPropertyService
         }
 
         var propertyDto = Converters.ConvertToPropertyDto(property);
-
         return Result.Success(propertyDto);
     }
 
@@ -48,7 +46,6 @@ public class PropertyService : IPropertyService
         }
 
         var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
-
         return Result.Success(propertyListDto);
     }
 
@@ -101,7 +98,6 @@ public class PropertyService : IPropertyService
         }
 
         var ownerDeleted = await _propertyRepository.DeleteProperty(propertyToDelete);
-
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
@@ -114,7 +110,6 @@ public class PropertyService : IPropertyService
         }
 
         var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
-        
         return Result.Success(propertyListDto);
     }
 

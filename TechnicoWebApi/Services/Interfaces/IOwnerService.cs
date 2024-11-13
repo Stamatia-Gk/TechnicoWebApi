@@ -6,11 +6,12 @@ namespace Technico.Services.Interfaces
 {
     public interface IOwnerService
     {
-        Task<Result<GetOwnerDto>> GetOwnerById(int id);
-        Task<Result<List<GetOwnerDto>>> GetAllOwners();
-        Task<Result<CreateOwnerDto>> CreateOwner(CreateOwnerDto createOwner);
-        Task<Result<GetOwnerDto>> UpdateOwner(int oldOwnerId, GetOwnerDto newGetOwner);
+        Task<Result<OwnerResponseDto>> GetOwnerById(int id);
+        Task<Result<List<OwnerResponseDto>>> GetAllOwners();
+        Task<Result<OwnerRequestDto>> CreateOwner(OwnerRequestDto createOwner);
+        Task<Result<OwnerResponseDto>> UpdateOwner(int oldOwnerId, OwnerResponseDto newGetOwner);
         Task<Result> DeleteOwner(int ownerId);
-        Task<Result<GetOwnerDto>> SearchOwner(string? vat, string? email);
+        Task<Result<OwnerResponseDto>> SearchOwner(string? vat, string? email);
+        Task<Result<OwnerResponseDto>> Login(string email, string password);
     }
 }

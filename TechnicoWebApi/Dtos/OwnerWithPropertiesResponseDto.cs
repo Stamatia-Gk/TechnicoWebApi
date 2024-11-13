@@ -2,7 +2,7 @@
 
 namespace TechnicoWebApi.Dtos;
 
-public class GetOwnerWithPropertiesDto: GetOwnerDto
+public class OwnerWithPropertiesResponseDto: OwnerResponseDto
 {
     public List<PropertyDto>? OwnerProperties { get; set; }
 }

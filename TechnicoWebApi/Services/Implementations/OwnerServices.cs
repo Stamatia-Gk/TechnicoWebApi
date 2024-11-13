@@ -1,6 +1,5 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.Models;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
@@ -16,43 +15,43 @@ public class OwnerService : IOwnerService
         _ownerRepository = ownerRepository;
     }
 
-    public async Task<Result<List<GetOwnerDto>>> GetAllOwners()
+    public async Task<Result<List<OwnerResponseDto>>> GetAllOwners()
     {
         var ownersList = await _ownerRepository.GetOwners();
         var ownerDtos = ownersList.Select(owner => Converters.ConvertToOwnerDto(owner));
         return ownerDtos.ToList();
     }
 
-    public async Task<Result<GetOwnerDto>> GetOwnerById(int id)
+    public async Task<Result<OwnerResponseDto>> GetOwnerById(int id)
     {
         var owner = await _ownerRepository.GetOwnerById(id);
         if (owner == null)
         {
-            return Result.Failure<GetOwnerDto>("Owner not found!");
+            return Result.Failure<OwnerResponseDto>("Owner not found!");
         }
 
         return Result.Success(Converters.ConvertToOwnerDto(owner));
     }
 
-    public async Task<Result<CreateOwnerDto>> CreateOwner(CreateOwnerDto createOwnerDto)
+    public async Task<Result<OwnerRequestDto>> CreateOwner(OwnerRequestDto createOwnerDto)
     {
         Owner ow1 = Converters.ConvertToOwnerPw(createOwnerDto);
 
         var ownerCreated = await _ownerRepository.CreateOwner(ow1);
         if (!ownerCreated)
         {
-            return Result.Failure<CreateOwnerDto>("Owner could not be saved (already exists)!");
+            return Result.Failure<OwnerRequestDto>("Owner could not be saved (already exists)!");
         }
 
         return Result.Success(createOwnerDto);
     }
 
-    public async Task<Result<GetOwnerDto>> UpdateOwner(int oldOwnerId, GetOwnerDto newGetOwnerDto)
+    public async Task<Result<OwnerResponseDto>> UpdateOwner(int oldOwnerId, OwnerResponseDto newGetOwnerDto)
     {
         var ownerToUpdate = await _ownerRepository.GetOwnerById(oldOwnerId);
         if (ownerToUpdate == null)
         {
-            return Result.Failure<GetOwnerDto>("The owner you want to update was not found!");
+            return Result.Failure<OwnerResponseDto>("The owner you want to update was not found!");
         }
 
         var newOwner = Converters.ConvertToOwner(newGetOwnerDto);
@@ -61,7 +60,7 @@ public class OwnerService : IOwnerService
 
         if(ownerFieldsAlreadyUsed)
         {
-            return Result.Failure<GetOwnerDto>("Update failed (duplicated info with existing owner).");
+            return Result.Failure<OwnerResponseDto>("Update failed (duplicated info with existing owner).");
         }
 
         ownerToUpdate = Clone(ownerToUpdate, newOwner);
@@ -69,7 +68,7 @@ public class OwnerService : IOwnerService
 
         if (!ownerUpdated)
         {
-            return Result.Failure<GetOwnerDto>("Update failed!");
+            return Result.Failure<OwnerResponseDto>("Update failed!");
         }
 
         return Result.Success(newGetOwnerDto);
@@ -88,16 +87,15 @@ public class OwnerService : IOwnerService
         return ownerDeleted ? Result.Success("Owner successfully deleted.") : Result.Failure("Delete failed.");
     }
 
-    public async Task<Result<GetOwnerDto>> SearchOwner(string? vat, string? email)
+    public async Task<Result<OwnerResponseDto>> SearchOwner(string? vat, string? email)
     {
         var owner = await _ownerRepository.Search(vat, email);
         if(owner == null)
         {
-            return Result.Failure<GetOwnerDto>("No owner found with the specified criteria.");
+            return Result.Failure<OwnerResponseDto>("No owner found with the specified criteria.");
         }
 
         var ownersDTO = Converters.ConvertToOwnerDto(owner);
-
         return Result.Success(ownersDTO);
     }
 
@@ -114,5 +112,17 @@ public class OwnerService : IOwnerService
         if (newOwner.AllRepairs != null) oldOwner.AllRepairs = newOwner.AllRepairs;
 
         return oldOwner;
+    }
+
+    public async Task<Result<OwnerResponseDto>> Login(string email, string password)
+    {
+        var owner = await _ownerRepository.Login(email, password);
+        if(owner == null)
+        {
+            return Result.Failure<OwnerResponseDto>("Invalid credentials!");
+        }
+
+        var ownerDTO = Converters.ConvertToOwnerDto(owner);
+        return Result.Success(ownerDTO);
     }
 }
