@@ -10,22 +10,22 @@ using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
-    public class OwnersController : Controller
+    public class PropertyItemsController : Controller
     {
         private readonly TechnicoDbContext _context;
 
-        public OwnersController(TechnicoDbContext context)
+        public PropertyItemsController(TechnicoDbContext context)
         {
             _context = context;
         }
 
-        // GET: Owners
+        // GET: PropertyItems
         public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Properties.ToListAsync());
         }
-        /*
-        // GET: Owners/Details/5
+
+        // GET: PropertyItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var propertyItem = await _context.Properties
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+            if (propertyItem == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
+            return View(propertyItem);
         }
 
-        // GET: Owners/Create
+        // GET: PropertyItems/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Owners/Create
+        // POST: PropertyItems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
+        public async Task<IActionResult> Create([Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(owner);
+                _context.Add(propertyItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+            return View(propertyItem);
         }
 
-        // GET: Owners/Edit/5
+        // GET: PropertyItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
+            var propertyItem = await _context.Properties.FindAsync(id);
+            if (propertyItem == null)
             {
                 return NotFound();
             }
-            return View(owner);
+            return View(propertyItem);
         }
 
-        // POST: Owners/Edit/5
+        // POST: PropertyItems/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
         {
-            if (id != owner.Id)
+            if (id != propertyItem.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Technico.Controllers
             {
                 try
                 {
-                    _context.Update(owner);
+                    _context.Update(propertyItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OwnerExists(owner.Id))
+                    if (!PropertyItemExists(propertyItem.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Technico.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+            return View(propertyItem);
         }
 
-        // GET: Owners/Delete/5
+        // GET: PropertyItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace Technico.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var propertyItem = await _context.Properties
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+            if (propertyItem == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
+            return View(propertyItem);
         }
 
-        // POST: Owners/Delete/5
+        // POST: PropertyItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner != null)
+            var propertyItem = await _context.Properties.FindAsync(id);
+            if (propertyItem != null)
             {
-                _context.Owners.Remove(owner);
+                _context.Properties.Remove(propertyItem);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OwnerExists(int id)
+        private bool PropertyItemExists(int id)
         {
-            return _context.Owners.Any(e => e.Id == id);
-        }*/
+            return _context.Properties.Any(e => e.Id == id);
+        }
     }
 }
