@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Services;
+using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
@@ -29,8 +30,13 @@ namespace Technico.Controllers
         // GET: PropertyItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
-            return View();
+            var propertyDto = await _propertyService.GetPropertyById(1);
+            if (propertyDto == null)
+            {
+                return NotFound();
+            }
+
+            return View(propertyDto);
         }
 
         // GET: PropertyItems/Create
@@ -44,16 +50,17 @@ namespace Technico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
+        public async Task<IActionResult> Create(
+            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyDto)
         {
-            
-            return View(propertyItem);
+            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
+            return View(propertyDto);
         }
 
         // GET: PropertyItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-           
+
             return View();
         }
 
@@ -62,20 +69,22 @@ namespace Technico.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
+        public async Task<IActionResult> Edit(int id,
+            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
         {
-            
+
             return View(propertyItem);
         }
 
         // GET: PropertyItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
+       /* public async Task<IActionResult> Delete(int id)
+        {   
+            _propertyService.DeleteProperty(id);
             return View();
-        }
+        }*/ //inconsistent 
 
         // POST: PropertyItems/Delete/5
-        [HttpPost, ActionName("Delete")]
+        /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -86,5 +95,6 @@ namespace Technico.Controllers
         {
             return true;
         }
+    }*/
     }
 }
