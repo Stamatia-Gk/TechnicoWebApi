@@ -55,13 +55,22 @@ namespace Technico.Controllers
         }
 
         [HttpPost, Route("Login")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(OwnerCredentialsDto ownerCredentials)
         {
             var loggedInOwner = await _ownerService.Login(ownerCredentials.Email, ownerCredentials.Password);
-
-            
-
-            return View(loggedInOwner);
+           
+            if (loggedInOwner.OwnerType == 0)
+            {
+                Console.WriteLine("User");
+                return RedirectToAction(nameof(Index));
+                
+            }
+            else
+            {
+                Console.WriteLine("Admin");
+                return RedirectToAction(nameof(Privacy));
+            }
         }
 
         public IActionResult Privacy()
