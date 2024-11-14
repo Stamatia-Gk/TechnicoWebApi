@@ -48,7 +48,7 @@ public class OwnerService : IOwnerService
         return ownerDto;
     }
 
-    public async Task<bool> CreateOwner([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password")] OwnerRequestDto ownerDto)
+    public async Task<OwnerResponseDto> CreateOwner(OwnerRequestDto ownerDto)
     {
         var url = $"http://localhost:5037/api/Owner";
 
@@ -62,31 +62,12 @@ public class OwnerService : IOwnerService
         var response = await httpClient.PostAsync(url, content);
 
         // Check if the request was successful and return true or false
-        return response.IsSuccessStatusCode;
-    }
-
-    /*
-     
-     public async Task<RepairDto> CreateRepair (RepairDto repairDto , int ownerId)
-    {
-        // Add ownerId as a query parameter in the URL
-        var url = $"http://localhost:5037/api/Repair?ownerId={ownerId}";
-
-        // Serialize the PropertyDto object to JSON
-        var jsonContent = JsonConvert.SerializeObject(repairDto);
-
-        // Create the HttpContent with the JSON string, setting the correct media type
-        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-        // Perform the POST request and await the response
-        var response = await httpClient.PostAsync(url, content);
-
         if (response.IsSuccessStatusCode)
         {
             // If successful, deserialize the response content to a RepairDto
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var createdRepair = JsonConvert.DeserializeObject<RepairDto>(jsonResponse);
-            return createdRepair;
+            var createdOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
+            return createdOwner;
         }
         else
         {
@@ -94,8 +75,6 @@ public class OwnerService : IOwnerService
             return null;
         }
     }
-     
-     */
 
     public async Task<OwnerResponseDto> UpdateOwner(int id, OwnerResponseDto ownerDto)
     {
@@ -119,13 +98,20 @@ public class OwnerService : IOwnerService
         }
     }
 
-    public async Task<bool> DeleteOwner(int id)
+    public async Task<List<OwnerResponseDto>> DeleteOwner(int id)
     {
         var url = $"http://localhost:5037/api/Owner/{id}";
         var response = await httpClient.DeleteAsync(url);
 
-        // Return true if delete was successful, false otherwise
-        return response.IsSuccessStatusCode;
+        if (response.IsSuccessStatusCode)
+        {
+            var owners = await GetAllOwners();
+            return owners;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
