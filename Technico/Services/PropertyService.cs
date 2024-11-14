@@ -106,12 +106,19 @@ public class PropertyService : IPropertyService
         }
     }
 
-    public async Task<bool> DeleteProperty(int id)
+    public async Task<List<PropertyDto>> DeleteProperty(int id)
     {
         var url = $"http://localhost:5037/api/Property/{id}";
         var response = await httpClient.DeleteAsync(url);
-        
-        // Return true if delete was successful, false otherwise
-        return response.IsSuccessStatusCode;
+
+        if (response.IsSuccessStatusCode)
+        {
+            var repairs = await GetProperties();
+            return repairs;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

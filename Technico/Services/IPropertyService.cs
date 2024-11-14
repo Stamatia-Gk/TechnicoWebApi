@@ -11,6 +11,5 @@ public interface IPropertyService
     Task<PropertyDto> GetPropertyById(int id);
     Task<List<PropertyDto>> GetPropertiesByOwnerId(int id);
     Task<PropertyDto> UpdateProperty(PropertyDto repairDto, int id);
-   
-    Task<bool> DeleteProperty(int id);
+    Task<List<PropertyDto>> DeleteProperty(int id);
 }
