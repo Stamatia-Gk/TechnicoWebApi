@@ -77,5 +77,8 @@ public class OwnerService : IOwnerService
     }
 
     //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
-    //public async Task<OwnerResponseDto> Login(string email, string password) {}
+    //public async Task<OwnerRequestDto> Login(string email, string password) 
+    //{
+        
+    //}
 }
