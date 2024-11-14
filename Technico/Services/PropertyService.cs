@@ -86,7 +86,7 @@ public class PropertyService : IPropertyService
     
     public async Task<PropertyDto> UpdateProperty (PropertyDto repairDto , int id)
     {
-        var url = $"http://localhost:5000/api/Property?oldPropertyId={id}";
+        var url = $"http://localhost:5037/api/Property?oldPropertyId={id}";
         var jsonContent = JsonConvert.SerializeObject(repairDto);
 
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
