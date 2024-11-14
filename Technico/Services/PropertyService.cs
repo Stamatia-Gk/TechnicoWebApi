@@ -83,6 +83,28 @@ public class PropertyService : IPropertyService
         // Pass the ownerList to the View
         return propertyListDto;
     }
+    
+    public async Task<PropertyDto> UpdateProperty (PropertyDto repairDto , int id)
+    {
+        var url = $"http://localhost:5000/api/Property?oldPropertyId={id}";
+        var jsonContent = JsonConvert.SerializeObject(repairDto);
+
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        var response = await httpClient.PutAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // If successful, deserialize the response content to a PropertyDto
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var updatedPropertyDto = JsonConvert.DeserializeObject<PropertyDto>(jsonResponse);
+            return updatedPropertyDto;
+        }
+        else
+        {
+            // Return null if creation was unsuccessful
+            return null;
+        }
+    }
 
     public async Task<bool> DeleteProperty(int id)
     {

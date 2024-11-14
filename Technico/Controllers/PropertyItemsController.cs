@@ -58,10 +58,20 @@ namespace Technico.Controllers
         }
 
         // GET: PropertyItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
 
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var repairToEdit = await _propertyService.GetPropertyById(id);
+            if (repairToEdit == null)
+            {
+                return NotFound();
+            }
+            return View(repairToEdit);
         }
 
         // POST: PropertyItems/Edit/5
@@ -70,10 +80,24 @@ namespace Technico.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyItem propertyItem)
+            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyItem)
         {
 
-            return View(propertyItem);
+            if (!ModelState.IsValid)
+            {
+                return View(propertyItem);
+            }
+
+            var updateRepair = await _propertyService.UpdateProperty(propertyItem, id);
+            if (updateRepair != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the Property.");
+                return View(propertyItem);
+            }
         }
 
         // GET: PropertyItems/Delete/5
