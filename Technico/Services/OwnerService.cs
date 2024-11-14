@@ -1,6 +1,8 @@
 ﻿
 
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using TechnicoWebApi.Dtos;
 
@@ -46,7 +48,7 @@ public class OwnerService : IOwnerService
         return ownerDto;
     }
 
-    public async Task<bool> CreateOwner(OwnerRequestDto ownerDto)
+    public async Task<bool> CreateOwner([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password")] OwnerRequestDto ownerDto)
     {
         var url = $"http://localhost:5037/api/Owner";
 
