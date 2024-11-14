@@ -110,32 +110,34 @@ namespace Technico.Controllers
         // GET: Repairs/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var updatedRepairs = await _repairService.DeleteRepair(id);
+            var repair = await _repairService.GetRepairById(id);
 
-            if (updatedRepairs!= null)
+            if (repair == null)
             {
-                return View("Index", updatedRepairs);
+                return NotFound();
+            }
+            else
+            {
+                return View(repair);
+            }
+        }
+
+       // POST: Repairs/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var repairToDelete = await _repairService.DeleteRepair(id);
+            if (repairToDelete != null)
+            {
+                return RedirectToAction(nameof(Index));
             }
             else
             {
                 return View("Error");
             }
+            
         }
-
-        // POST: Repairs/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var repair = await _context.Repairs.FindAsync(id);
-        //    if (repair != null)
-        //    {
-        //        _context.Repairs.Remove(repair);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         //private bool RepairExists(int id)
         //{
