@@ -14,5 +14,5 @@ public interface IOwnerService
     Task<OwnerResponseDto> UpdateOwner(int oldOwnerId, OwnerResponseDto newGetOwner);
     Task<List<OwnerResponseDto>> DeleteOwner(int ownerId);
     //Task<OwnerResponseDto> SearchOwner(string? vat, string? email);
-    //Task<OwnerResponseDto> Login(string email, string password);
+    Task<OwnerResponseDto> Login(string email, string password);
 }

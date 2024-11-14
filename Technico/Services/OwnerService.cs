@@ -115,8 +115,33 @@ public class OwnerService : IOwnerService
     }
 
     //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
-    //public async Task<OwnerResponseDto> Login(string email, string password) 
-    //{
+    public async Task<OwnerResponseDto> Login(string email, string password) 
+    {
+        var url = $"http://localhost:5037/api/Owner/Login";
 
-    //}
+        var credentialDto = new OwnerCredentialsDto { Email = email, Password = password };
+
+        // Serialize the OwnerCredentialsDto object to JSON
+        var jsonContent = JsonConvert.SerializeObject(credentialDto);
+
+        // Create the HttpContent with the JSON string, setting the correct media type
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+        // Perform the POST request and await the response
+        var response = await httpClient.PostAsync(url, content);
+
+        // Check if the request was successful and return true or false
+        if (response.IsSuccessStatusCode)
+        {
+            // If successful, deserialize the response content to a RepairDto
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var loggedInOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
+            return loggedInOwner;
+        }
+        else
+        {
+            // Return null if creation was unsuccessful
+            return null;
+        }
+    }
 }
