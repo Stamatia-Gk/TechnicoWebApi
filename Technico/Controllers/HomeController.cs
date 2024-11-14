@@ -27,9 +27,10 @@ namespace Technico.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerRequestDto requestDto ) 
+        public async Task<IActionResult> SignUp([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerRequestDto requestDto) 
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +47,6 @@ namespace Technico.Controllers
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
                 return View(requestDto);
             }
-            
         }
 
         public IActionResult Login()
@@ -54,7 +54,15 @@ namespace Technico.Controllers
             return View();
         }
 
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login(OwnerCredentialsDto ownerCredentials)
+        {
+            var loggedInOwner = await _ownerService.Login(ownerCredentials.Email, ownerCredentials.Password);
 
+            
+
+            return View(loggedInOwner);
+        }
 
         public IActionResult Privacy()
         {
