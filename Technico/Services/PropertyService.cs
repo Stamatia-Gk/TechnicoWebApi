@@ -3,7 +3,6 @@
 using System.Text;
 using Newtonsoft.Json;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Services;
 
@@ -17,15 +16,14 @@ public class PropertyService : IPropertyService
         // Await the response to complete the asynchronous task
         var response = await httpClient.GetAsync(url);
         
-            // Await the content to get the JSON string result
+        // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            // Deserialize the JSON string to a list of Owner objects
+        // Deserialize the JSON string to a list of PropertyDto objects
         var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
 
-            // Pass the ownerList to the View
+        // Pass the propertyList to the View
         return propertyList;
-
     }
 
     public async Task<bool> CreateProperty(PropertyDto propertyDto, int ownerId)
@@ -59,7 +57,7 @@ public class PropertyService : IPropertyService
         // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
-        // Deserialize the JSON string to a list of Owner objects
+        // Deserialize the JSON string to a list of PropertyDto objects
         var propertyDto = JsonConvert.DeserializeObject<PropertyDto>(jsonResponse);
 
         // Pass the ownerList to the View
