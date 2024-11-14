@@ -64,7 +64,39 @@ public class OwnerService : IOwnerService
         // Check if the request was successful and return true or false
         return response.IsSuccessStatusCode;
     }
-    
+
+    /*
+     
+     public async Task<RepairDto> CreateRepair (RepairDto repairDto , int ownerId)
+    {
+        // Add ownerId as a query parameter in the URL
+        var url = $"http://localhost:5037/api/Repair?ownerId={ownerId}";
+
+        // Serialize the PropertyDto object to JSON
+        var jsonContent = JsonConvert.SerializeObject(repairDto);
+
+        // Create the HttpContent with the JSON string, setting the correct media type
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+        // Perform the POST request and await the response
+        var response = await httpClient.PostAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // If successful, deserialize the response content to a RepairDto
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var createdRepair = JsonConvert.DeserializeObject<RepairDto>(jsonResponse);
+            return createdRepair;
+        }
+        else
+        {
+            // Return null if creation was unsuccessful
+            return null;
+        }
+    }
+     
+     */
+
     public async Task<OwnerResponseDto> UpdateOwner(int id, OwnerResponseDto ownerDto)
     {
         var url = $"http://localhost:5037/api/Owner/{id}";
@@ -97,8 +129,9 @@ public class OwnerService : IOwnerService
     }
 
     //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
-    //public async Task<OwnerResponseDto> Login(string email, string password) 
-    //{
-
-    //}
+    /*public async Task<OwnerResponseDto> Login(string email, string password) 
+    {
+        var url = $"http://localhost:5037/api/Owner/{email},{password}";
+        var repsonse = await httpClient.PostAsync(url, content);
+    }*/
 }
