@@ -17,12 +17,14 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<TechnicoDbContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IPropertyService, PropertyService>();
-builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 
 builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<OwnerValidator>();
+
+builder.Services.AddScoped<IPropertyService, PropertyService>();
+builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
+builder.Services.AddScoped<PropertyValidator>();
 
 builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();

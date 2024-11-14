@@ -5,153 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Technico.Data;
+using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
     public class OwnersController : Controller
     {
-        private readonly TechnicoDbContext _context;
-
-        public OwnersController(TechnicoDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Owners
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        
-        // GET: Owners/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            HttpClient httpClient = new HttpClient();
+            string url = "http://localhost:5012/api/Owner";
+            // Await the response to complete the asynchronous task
+            var response = await httpClient.GetAsync(url);
+
+            if(response.IsSuccessStatusCode)
             {
-                return NotFound();
-            }
+                // Await the content to get the JSON string result
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(jsonResponse);
 
-            var owner = await _context.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+                // Deserialize the JSON string to a list of Owner objects
+                var ownerList = JsonConvert.DeserializeObject<List<Owner>>(jsonResponse);
+
+                // Pass the ownerList to the View
+                return View(ownerList);
+            }
+            else
             {
-                return NotFound();
+                // Handle the error case, e.g., log it or return an error view
+                Console.WriteLine("Error: Unable to retrieve data.");
+                return View("Error");
             }
-
-            return View(owner);
-        }
-
-        // GET: Owners/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Owners/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(owner);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
-        }
-
-        // GET: Owners/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-            return View(owner);
-        }
-
-        // POST: Owners/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] Owner owner)
-        {
-            if (id != owner.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
-        }
-
-        // GET: Owners/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var owner = await _context.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-
-            return View(owner);
-        }
-
-        // POST: Owners/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner != null)
-            {
-                _context.Owners.Remove(owner);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool OwnerExists(int id)
-        {
-            return _context.Owners.Any(e => e.Id == id);
         }
     }
 }
