@@ -75,6 +75,28 @@ public class RepairService : IRepairService
         }
     }
 
+    public async Task<RepairDto> UpdateRepair (RepairDto repairDto , int id)
+    {
+        var url = $"http://localhost:5037/api/Repair/{id}";
+        var jsonContent = JsonConvert.SerializeObject(repairDto);
+
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        var response = await httpClient.PutAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // If successful, deserialize the response content to a RepairDto
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var updatedRepair = JsonConvert.DeserializeObject<RepairDto>(jsonResponse);
+            return updatedRepair;
+        }
+        else
+        {
+            // Return null if creation was unsuccessful
+            return null;
+        }
+    }
+
     public async Task<List<RepairDto>> DeleteRepair(int id)
     {
         var url = $"http://localhost:5037/api/Repair/{id}";

@@ -9,6 +9,7 @@ using Technico.Data;
 using Technico.Models;
 using Technico.Services;
 using TechnicoWebApi.Dtos;
+using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
@@ -45,8 +46,6 @@ namespace Technico.Controllers
         }
 
         // POST: Repairs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] RepairDto repair , int ownerId)
@@ -69,56 +68,44 @@ namespace Technico.Controllers
 
         }
 
-        //// GET: Repairs/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Repairs/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var repairToEdit = await _repairService.GetRepairById(id);
+            if (repairToEdit == null)
+            {
+                return NotFound();
+            }
+            return View(repairToEdit);
+        }
 
-        //    var repair = await _context.Repairs.FindAsync(id);
-        //    if (repair == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(repair);
-        //}
+        // POST: Repairs/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] RepairDto repairdto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(repairdto);
+            }
 
-        //// POST: Repairs/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] Repair repair)
-        //{
-        //    if (id != repair.Id)
-        //    {
-        //        return NotFound();
-        //    }
+            var updateRepair = await _repairService.UpdateRepair(repairdto, id);
+            if (updateRepair != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
+                return View(repairdto);
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(repair);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!RepairExists(repair.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(repair);
-        //}
+        }
+    
 
         // GET: Repairs/Delete/5
         public async Task<IActionResult> Delete(int id)
