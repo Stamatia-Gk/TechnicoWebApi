@@ -2,7 +2,7 @@
 using CSharpFunctionalExtensions;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 using TechnicoWebApi.Repositories.Interfaces;
 
 namespace TechnicoWebApi.Services.Implementations;

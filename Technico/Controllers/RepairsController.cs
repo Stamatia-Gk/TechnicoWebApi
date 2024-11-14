@@ -9,7 +9,7 @@ using Technico.Data;
 using Technico.Models;
 using Technico.Services;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 
 namespace Technico.Controllers
 {
@@ -65,7 +65,6 @@ namespace Technico.Controllers
                  ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
                  return View(repair);             
             }
-
         }
 
         // GET: Repairs/Edit/5

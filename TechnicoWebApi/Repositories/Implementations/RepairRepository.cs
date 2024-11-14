@@ -1,8 +1,7 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
-using Technico.Models;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 using TechnicoWebApi.Repositories.Interfaces;
 
 namespace TechnicoWebApi.Repositories.Implementations;

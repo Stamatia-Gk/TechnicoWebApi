@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Technico", "Technico\Techni
 		{60DB4CB5-9F19-4988-BD2F-F113A8AFB290} = {60DB4CB5-9F19-4988-BD2F-F113A8AFB290}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicoLibrary", "TechnicoLibrary\TechnicoLibrary.csproj", "{F832DE2A-E868-4530-A82B-DE63B261BC0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{78A8EEE2-5408-4DE8-AE74-AB2D8DCCE43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78A8EEE2-5408-4DE8-AE74-AB2D8DCCE43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78A8EEE2-5408-4DE8-AE74-AB2D8DCCE43F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F832DE2A-E868-4530-A82B-DE63B261BC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F832DE2A-E868-4530-A82B-DE63B261BC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F832DE2A-E868-4530-A82B-DE63B261BC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F832DE2A-E868-4530-A82B-DE63B261BC0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

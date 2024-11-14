@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace TechnicoWebApi.Models;
+namespace TechnicoLibrary.Models;
 
 public class PropertyItem
 {

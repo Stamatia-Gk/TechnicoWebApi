@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Services;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 
 namespace Technico.Controllers
 {
@@ -30,13 +30,12 @@ namespace Technico.Controllers
         // GET: Owners/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var ownerDto = await _ownerService.GetOwnerById(id);
-            if (ownerDto == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            return View(ownerDto);
+            return View(await _ownerService.GetOwnerById(id));
         }
 
         // GET: PropertyItems/Create
@@ -44,5 +43,29 @@ namespace Technico.Controllers
         {
             return View();
         }
+
+        // POST: Repairs/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password")] OwnerRequestDto ownerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ownerDto);
+            }
+
+            var newRepair = await _ownerService.CreateOwner(ownerDto);
+            if (newRepair != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
+                return View(ownerDto);
+            }
+        }
+
+
     }
 }

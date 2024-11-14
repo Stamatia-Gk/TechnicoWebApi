@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Services;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 
 namespace Technico.Controllers
 {

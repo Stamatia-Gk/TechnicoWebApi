@@ -1,7 +1,6 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 
-using Technico.Models;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 
 namespace TechnicoWebApi.Dtos;
 

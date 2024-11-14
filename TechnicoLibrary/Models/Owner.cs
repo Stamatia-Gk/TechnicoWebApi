@@ -1,9 +1,8 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 
 using System.ComponentModel.DataAnnotations;
-using Technico.Models;
 
-namespace TechnicoWebApi.Models;
+namespace TechnicoLibrary.Models;
 
 public class Owner
 {

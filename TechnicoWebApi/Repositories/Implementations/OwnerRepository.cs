@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
-using TechnicoWebApi.Models;
+using TechnicoLibrary.Models;
 using TechnicoWebApi.Repositories.Interfaces;
 
 namespace TechnicoWebApi.Repositories.Implementations;

@@ -1,9 +1,8 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using TechnicoWebApi.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Technico.Models;
+namespace TechnicoLibrary.Models;
 
 public class Repair
 {

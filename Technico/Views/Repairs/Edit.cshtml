@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label asp-for="RepairType" class="control-label"></label>
                 <select asp-for="RepairType" class="form-control">
-                    @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.RepairType)))
+                    @foreach (var type in Enum.GetValues(typeof(TechnicoLibrary.Models.RepairType)))
                     {
                         <option value="@type">@type</option>
                     }
@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label asp-for="RepairStatus" class="control-label"></label>
                 <select asp-for="RepairStatus" class="form-control">
-                    @foreach (var status in Enum.GetValues(typeof(TechnicoWebApi.Models.RepairStatus)))
+                    @foreach (var status in Enum.GetValues(typeof(TechnicoLibrary.Models.RepairStatus)))
                     {
                         <option value="@status">@status</option>
                     }

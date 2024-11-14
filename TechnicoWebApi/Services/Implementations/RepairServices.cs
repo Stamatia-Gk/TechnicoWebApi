@@ -1,6 +1,6 @@
 ﻿// Team Project | European Dynamics | Code.Hub Project 2024
 using CSharpFunctionalExtensions;
-using Technico.Models;
+using TechnicoLibrary.Models;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Repositories.Interfaces;
