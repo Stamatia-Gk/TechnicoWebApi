@@ -1,23 +1,24 @@
 ﻿
 
+using System.Text;
 using Newtonsoft.Json;
 using TechnicoWebApi.Dtos;
+using TechnicoWebApi.Models;
 
 namespace Technico.Services;
 
 public class PropertyService : IPropertyService
-{
+{   
+    HttpClient httpClient = new ();
+    
     public async Task<List<PropertyDto>> GetProperties()
-    {
-        HttpClient httpClient = new HttpClient();
-        string url = "http://localhost:5037/api/Property";
-
+    {   
+        var url = "http://localhost:5037/api/Property";
         // Await the response to complete the asynchronous task
         var response = await httpClient.GetAsync(url);
         
             // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        Console.WriteLine(jsonResponse);
 
             // Deserialize the JSON string to a list of Owner objects
         var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
@@ -27,4 +28,70 @@ public class PropertyService : IPropertyService
 
     }
 
+    public async Task<bool> CreateProperty(PropertyDto propertyDto, int ownerId)
+    {
+        // Add ownerId as a query parameter in the URL
+        var url = $"http://localhost:5037/api/Property?ownerId={ownerId}";
+
+        // Serialize the PropertyDto object to JSON
+        var jsonContent = JsonConvert.SerializeObject(propertyDto);
+
+        // Create the HttpContent with the JSON string, setting the correct media type
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+        // Perform the POST request and await the response
+        var response = await httpClient.PostAsync(url, content);
+
+        // Check if the request was successful and return true or false
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<PropertyDto> GetPropertyById(int id)
+    {
+        var url = $"http://localhost:5037/api/Property/{id}";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            // Return null for any unsuccessful response (including 404)
+            return null;
+        }
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of Owner objects
+        var propertyDto = JsonConvert.DeserializeObject<PropertyDto>(jsonResponse);
+
+        // Pass the ownerList to the View
+        return propertyDto;
+    }
+
+    public async Task<List<PropertyDto>> GetPropertiesByOwnerId(int id)
+    {
+        var url = $"http://localhost:5037/api/Property/{id}/Properties";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            // Return null for any unsuccessful response (including 404)
+            return null;
+        }
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of Owner objects
+        var propertyListDto = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
+
+        // Pass the ownerList to the View
+        return propertyListDto;
+    }
+
+    public async Task<bool> DeleteProperty(int id)
+    {
+        var url = $"http://localhost:5037/api/Property/{id}";
+        var response = await httpClient.DeleteAsync(url);
+        
+        // Return true if delete was successful, false otherwise
+        return response.IsSuccessStatusCode;
+    }
 }
