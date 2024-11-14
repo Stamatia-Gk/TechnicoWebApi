@@ -97,10 +97,10 @@ namespace TechnicoWebApi.Controllers
         }
 
         // POST api/<ValuesController>
-        [HttpPost("{email},{password}")]
-        public async Task<ActionResult> Login([FromRoute] string email, [FromRoute] string password)
+        [HttpPost, Route("Login")]
+        public async Task<ActionResult> Login([FromBody] OwnerCredentialsDto ownerCredentials)
         {
-            var result = await _ownerService.Login(email, password);
+            var result = await _ownerService.Login(ownerCredentials.Email, ownerCredentials.Password);
             if (result.IsFailure)
             {
                 return BadRequest(result.Error);

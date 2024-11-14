@@ -51,7 +51,8 @@ namespace Technico.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyDto)
+            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
+            PropertyDto propertyDto)
         {
             var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
             return View(propertyDto);
@@ -71,6 +72,7 @@ namespace Technico.Controllers
             {
                 return NotFound();
             }
+
             return View(repairToEdit);
         }
 
@@ -80,7 +82,8 @@ namespace Technico.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyItem)
+            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
+            PropertyDto propertyItem)
         {
 
             if (!ModelState.IsValid)
@@ -99,26 +102,39 @@ namespace Technico.Controllers
                 return View(propertyItem);
             }
         }
+        
+        public async Task<IActionResult> Delete(int id)
+        {
+            var property = await _propertyService.GetPropertyById(id);
 
-        // GET: PropertyItems/Delete/5
-       /* public async Task<IActionResult> Delete(int id)
-        {   
-            _propertyService.DeleteProperty(id);
-            return View();
-        }*/ //inconsistent 
-
-        // POST: PropertyItems/Delete/5
-        /*[HttpPost, ActionName("Delete")]
+            if (property == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(property);
+            }
+        }
+        
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return RedirectToAction(nameof(Index));
+            var repairToDelete = await _propertyService.DeleteProperty(id);
+            if (repairToDelete != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View("Error");
+            }
+            
         }
 
-        private bool PropertyItemExists(int id)
-        {
-            return true;
-        }
-    }*/
+        
+
+
     }
 }

@@ -64,8 +64,28 @@ public class OwnerService : IOwnerService
         // Check if the request was successful and return true or false
         return response.IsSuccessStatusCode;
     }
+    
+    public async Task<OwnerResponseDto> UpdateOwner(int id, OwnerResponseDto ownerDto)
+    {
+        var url = $"http://localhost:5037/api/Owner/{id}";
+        var jsonContent = JsonConvert.SerializeObject(ownerDto);
 
-    // public async Task<bool> UpdateOwner(int id, OwnerResponseDto ownerDto) {}
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        var response = await httpClient.PutAsync(url, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // If successful, deserialize the response content to a RepairDto
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var updatedOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
+            return updatedOwner;
+        }
+        else
+        {
+            // Return null if creation was unsuccessful
+            return null;
+        }
+    }
 
     public async Task<bool> DeleteOwner(int id)
     {
@@ -77,8 +97,8 @@ public class OwnerService : IOwnerService
     }
 
     //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
-    //public async Task<OwnerRequestDto> Login(string email, string password) 
+    //public async Task<OwnerResponseDto> Login(string email, string password) 
     //{
-        
+
     //}
 }
