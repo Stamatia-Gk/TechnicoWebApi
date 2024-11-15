@@ -4,7 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	  <OutputPath>/bin/technicomvc</OutputPath>
+	  <OutputPath>/bin/technicomvc/</OutputPath>
+	  <PublishDir>/bin/technicomvc/publish/</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>
