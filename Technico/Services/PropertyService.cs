@@ -24,6 +24,23 @@ public class PropertyService(HttpClient httpClient) : IPropertyService
         return propertyList;
     }
 
+    public async Task<List<PropertyDto>> SearchPropertiesByOwnerOrVatAsync(int id, string vat)
+    {
+        var url = $"http://localhost:5037/api/Property/searchproperties?propertyId={id}&ownerVat={vat}";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        Console.WriteLine(response);
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of PropertyDto objects
+        var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
+
+        // Pass the propertyList to the View
+        return propertyList;
+        
+    }
+
     public async Task<bool> CreateProperty(PropertyDto propertyDto, int ownerId)
     {
         // Add ownerId as a query parameter in the URL
