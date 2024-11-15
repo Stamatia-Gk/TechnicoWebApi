@@ -1,10 +1,10 @@
+
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {

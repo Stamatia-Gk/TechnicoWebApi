@@ -1,5 +1,4 @@
 ﻿
-
 using Newtonsoft.Json;
 using System.Text;
 using TechnicoWebApi.Dtos;
@@ -58,7 +57,7 @@ public class RepairService(HttpClient httpClient) : IRepairService
         }
         // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
-
+       
         // Deserialize the JSON string to a list of repair objects
         var repairList = JsonConvert.DeserializeObject<List<RepairDto>>(jsonResponse);
 

@@ -1,6 +1,7 @@
 ﻿
-
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
@@ -134,25 +135,27 @@ namespace Technico.Controllers
         [HttpPost]
         public async Task<IActionResult> SearchPropertyByIdOrVat(int ownerId, string vatNumber)
         {
-            // Validate inputs if necessary
             if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
             {
                 ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
                 return View();
             }
 
-            // Call the service to fetch properties based on owner ID or VAT number
             var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
 
-            // Check if properties is null or empty
             if (properties == null || !properties.Any())
             {
                 ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
                 return View();
             }
 
-            // Return the list of properties in the "Search" view
             return View("Index",properties);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

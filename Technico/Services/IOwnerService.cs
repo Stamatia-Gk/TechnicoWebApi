@@ -1,7 +1,4 @@
 ﻿
-
-using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Mvc;
 using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
