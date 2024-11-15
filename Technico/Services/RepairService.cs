@@ -46,6 +46,26 @@ public class RepairService(HttpClient httpClient) : IRepairService
         return new List<RepairDto>();
     }
 
+    public async Task<List<RepairDto>> SearchRepairsByDateRange(DateTime startDateTime, DateTime endDateTime, int ownerId)
+    {
+        var url = $"http://localhost:5037/api/Repair/searchrepairs?startDate={startDateTime}&endDate={endDateTime}&id={ownerId}";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+
+        }
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of repair objects
+        var repairList = JsonConvert.DeserializeObject<List<RepairDto>>(jsonResponse);
+
+        // Pass the repairList to the View
+        return repairList;
+    }
+
     public async Task<RepairDto> GetRepairById (int id)
     {
         var url = $"http://localhost:5037/api/Repair/{id}";
