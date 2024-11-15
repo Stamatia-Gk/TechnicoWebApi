@@ -143,12 +143,12 @@ namespace Technico.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult SearchPropertyByIdOrVat()
-        {
-            // Return the initial empty view with input fields
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult SearchPropertyByIdOrVat()
+        //{
+        //    // Return the initial empty view with input fields
+        //    return View();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> SearchPropertyByIdOrVat(int ownerId, string vatNumber)
@@ -171,7 +171,7 @@ namespace Technico.Controllers
             }
 
             // Return the list of properties in the "Search" view
-            return View("Search", properties);
+            return View("Index",properties);
         }
 
     }
