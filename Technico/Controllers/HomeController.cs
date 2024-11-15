@@ -66,12 +66,13 @@ namespace Technico.Controllers
                 Console.WriteLine("User");
                 SessionClass.ownerId = loggedInOwner.Id;
                 SessionClass.ownerType = loggedInOwner.OwnerType;
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "User");
+                
             }
             else
             {
                 Console.WriteLine("Admin");
-                return RedirectToAction(nameof(Privacy));
+                return RedirectToAction("Index","Admin");
             }
         }
 

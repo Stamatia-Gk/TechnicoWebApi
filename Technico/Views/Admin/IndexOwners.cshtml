@@ -2,17 +2,20 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateOwner">Create New Owner</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                #
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.VAT)
             </th>
@@ -41,6 +44,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+               @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.VAT)
             </td>
             <td>
@@ -62,9 +68,7 @@
                 @Html.DisplayFor(modelItem => item.OwnerType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditOwner" asp-route-id="@item.Id">Edit</a> |
             </td>
         </tr>
 }

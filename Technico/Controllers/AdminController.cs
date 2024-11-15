@@ -7,11 +7,13 @@ namespace Technico.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IOwnerService _ownerService;
         private readonly IPropertyService _propertyService;
         private readonly IRepairService _repairService;
         
-        public AdminController(IRepairService repairService , IPropertyService propertyService)
+        public AdminController(IRepairService repairService , IPropertyService propertyService, IOwnerService ownerService)
         {
+            _ownerService = ownerService;
             _propertyService = propertyService;
             _repairService = repairService;
         }
@@ -45,7 +47,7 @@ namespace Technico.Controllers
             var newRepair = await _repairService.CreateRepair(repair, id);
             if (newRepair != null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexRepairs));
             }
             else
             {
@@ -216,6 +218,107 @@ namespace Technico.Controllers
                 return View("Error");
             }
 
+        }
+
+        public async Task<IActionResult> IndexOwners()
+        {
+            return View(await _ownerService.GetAllOwners());
+        }
+
+        // GET: Owners/Create
+        public IActionResult CreateOwner()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateOwner([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerRequestDto ownerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ownerDto);
+            }
+
+            var newOwner = await _ownerService.CreateOwner(ownerDto);
+            if (newOwner != null)
+            {
+                return RedirectToAction(nameof(IndexOwners));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the owner.");
+                return View(ownerDto);
+            }
+        }
+
+        // GET: Owners/Edit/5
+        public async Task<IActionResult> EditOwner(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ownerToEdit = await _ownerService.GetOwnerById(id);
+            if (ownerToEdit == null)
+            {
+                return NotFound();
+            }
+            return View(ownerToEdit);
+        }
+
+        // POST: Owners/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOwner([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerResponseDto ownerDto, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ownerDto);
+            }
+
+            var updateOwner = await _ownerService.UpdateOwner(id, ownerDto);
+            if (updateOwner != null)
+            {
+                return RedirectToAction(nameof(IndexOwners));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while editing the owner.");
+                return View(ownerDto);
+            }
+        }
+
+        // GET: Owners/Delete/5
+        public async Task<IActionResult> DeleteOwner(int id)
+        {
+            var owner = await _ownerService.GetOwnerById(id);
+
+            if (owner == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(owner);
+            }
+        }
+
+        // POST: Repairs/Delete/5
+        [HttpPost, ActionName("DeleteOwner")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedOwner(int id)
+        {
+            var ownerToDelete = await _ownerService.DeleteOwner(id);
+            if (ownerToDelete != null)
+            {
+                return RedirectToAction(nameof(IndexOwners));
+            }
+            else
+            {
+                return View("Error");
+            }
         }
     }
 }
