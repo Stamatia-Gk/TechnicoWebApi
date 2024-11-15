@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Technico.Models;
 using Technico.Services;
+using Technico.Session;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
 
@@ -63,6 +64,8 @@ namespace Technico.Controllers
             if (loggedInOwner.OwnerType == 0)
             {
                 Console.WriteLine("User");
+                SessionClass.ownerId = loggedInOwner.Id;
+                SessionClass.ownerType = loggedInOwner.OwnerType;
                 return RedirectToAction(nameof(Index));
             }
             else

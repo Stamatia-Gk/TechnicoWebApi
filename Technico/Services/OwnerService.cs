@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
+using Technico.Session;
 using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
@@ -25,6 +26,7 @@ public class OwnerService : IOwnerService
         var ownersList = JsonConvert.DeserializeObject<List<OwnerResponseDto>>(jsonResponse);
 
         // Pass the ownerList to the View
+        Console.WriteLine($"owner id = {SessionClass.ownerId}, owner type: {SessionClass.ownerType}.");
         return ownersList;
     }
 
