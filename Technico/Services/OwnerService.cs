@@ -114,7 +114,45 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
         }
     }
 
-    //public async Task<OwnerResponseDto> SearchOwner(string? vat, string? email) {}
+    public async Task<OwnerResponseDto> SearchOwner(string vat = null, string email = null)
+    {
+        var url = $"http://localhost:5037/api/Property/searchowner?";
+        return null;
+
+        /*var url = $"http://localhost:5037/api/Property/searchproperties?vat={vat}&email={email}";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        Console.WriteLine(response);
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of PropertyDto objects
+        var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
+
+        // Pass the propertyList to the View
+        return propertyList;//*/
+    }
+
+    /*
+    
+    public async Task<List<PropertyDto>> SearchPropertiesByOwnerOrVatAsync(int id, string vat)
+    {
+        var url = $"http://localhost:5037/api/Property/searchproperties?propertyId={id}&ownerVat={vat}";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+        Console.WriteLine(response);
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a list of PropertyDto objects
+        var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
+
+        // Pass the propertyList to the View
+        return propertyList; 
+    }
+
+     */
+
     public async Task<OwnerResponseDto> Login(string email, string password) 
     {
         var url = $"http://localhost:5037/api/Owner/Login";
