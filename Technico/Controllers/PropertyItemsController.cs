@@ -34,9 +34,9 @@ namespace Technico.Controllers
         }
 
         // GET: PropertyItems/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            var propertyDto = await _propertyService.GetPropertyById(1);
+            var propertyDto = await _propertyService.GetPropertyById(id);
             if (propertyDto == null)
             {
                 return NotFound();
