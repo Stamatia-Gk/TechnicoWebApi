@@ -1,4 +1,4 @@
-﻿@model TechnicoWebApi.Models.Owner
+﻿@model TechnicoWebApi.Dtos.OwnerResponseDto
 
 @{
     ViewData["Title"] = "Edit";
@@ -43,16 +43,6 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OwnerType" class="control-label"></label>
-                <select asp-for="OwnerType" class="form-control"></select>
-                <span asp-validation-for="OwnerType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

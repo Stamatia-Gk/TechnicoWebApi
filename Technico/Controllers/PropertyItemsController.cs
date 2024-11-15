@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Technico.Data;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
@@ -33,8 +27,6 @@ namespace Technico.Controllers
             return View(await _propertyService.GetPropertiesByOwnerId(SessionClass.ownerId));
         }
         
-       
-
         // GET: PropertyItems/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -62,7 +54,6 @@ namespace Technico.Controllers
             [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
             PropertyDto propertyDto)
         {
-            
             var propertyCreated = _propertyService.CreateProperty(propertyDto, SessionClass.ownerId);
             return View(propertyDto);
         }
@@ -70,7 +61,6 @@ namespace Technico.Controllers
         // GET: PropertyItems/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-
             if (id == null)
             {
                 return NotFound();
@@ -139,15 +129,6 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
-            
-        }
-
-
-        [HttpGet]
-        public IActionResult SearchPropertyByIdOrVat()
-        {
-            // Return the initial empty view with input fields
-            return View();
         }
 
         [HttpPost]
@@ -171,8 +152,7 @@ namespace Technico.Controllers
             }
 
             // Return the list of properties in the "Search" view
-            return View("Search", properties);
+            return View("Index",properties);
         }
-
     }
 }

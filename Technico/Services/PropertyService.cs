@@ -1,15 +1,12 @@
 ﻿
-
 using System.Text;
 using Newtonsoft.Json;
 using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
 
-public class PropertyService : IPropertyService
+public class PropertyService(HttpClient httpClient) : IPropertyService
 {   
-    HttpClient httpClient = new ();
-    
     public async Task<List<PropertyDto>> GetProperties()
     {   
         var url = "http://localhost:5037/api/Property";
@@ -39,8 +36,7 @@ public class PropertyService : IPropertyService
         var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
 
         // Pass the propertyList to the View
-        return propertyList;
-        
+        return propertyList; 
     }
 
     public async Task<bool> CreateProperty(PropertyDto propertyDto, int ownerId)
