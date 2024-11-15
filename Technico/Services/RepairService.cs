@@ -7,10 +7,8 @@ using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
 
-public class RepairService : IRepairService
+public class RepairService(HttpClient httpClient) : IRepairService
 {
-    HttpClient  httpClient = new();
-
     public async Task<List<RepairDto>> GetRepairs()
     {
         var url = "http://localhost:5037/api/Repair";

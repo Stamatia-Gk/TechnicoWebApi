@@ -9,6 +9,7 @@ builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddDbContext<TechnicoDbContext>();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

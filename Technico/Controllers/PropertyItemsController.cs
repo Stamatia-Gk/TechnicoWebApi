@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Technico.Data;
 using Technico.Services;
+using Technico.Session;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
@@ -27,10 +22,15 @@ namespace Technico.Controllers
             return View(await _propertyService.GetProperties());
         }
 
-        // GET: PropertyItems/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> PropertiesOfAnOwner()
         {
-            var propertyDto = await _propertyService.GetPropertyById(1);
+            return View(await _propertyService.GetPropertiesByOwnerId(SessionClass.ownerId));
+        }
+        
+        // GET: PropertyItems/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var propertyDto = await _propertyService.GetPropertyById(id);
             if (propertyDto == null)
             {
                 return NotFound();
@@ -54,14 +54,13 @@ namespace Technico.Controllers
             [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
             PropertyDto propertyDto)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
+            var propertyCreated = _propertyService.CreateProperty(propertyDto, SessionClass.ownerId);
             return View(propertyDto);
         }
 
         // GET: PropertyItems/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-
             if (id == null)
             {
                 return NotFound();
@@ -130,11 +129,30 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
-            
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> SearchPropertyByIdOrVat(int ownerId, string vatNumber)
+        {
+            // Validate inputs if necessary
+            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
 
+            // Call the service to fetch properties based on owner ID or VAT number
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
 
+            // Check if properties is null or empty
+            if (properties == null || !properties.Any())
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            // Return the list of properties in the "Search" view
+            return View("Index",properties);
+        }
     }
 }

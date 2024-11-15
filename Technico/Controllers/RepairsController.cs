@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Technico.Data;
 using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
@@ -85,7 +79,6 @@ namespace Technico.Controllers
                  ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
                  return View(repair);             
             }
-
         }
 
         // GET: Repairs/Edit/5
@@ -123,7 +116,6 @@ namespace Technico.Controllers
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
                 return View(repairdto);
             }
-
         }
     
 
@@ -142,7 +134,7 @@ namespace Technico.Controllers
             }
         }
 
-       // POST: Repairs/Delete/5
+        // POST: Repairs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -156,12 +148,12 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
-            
         }
 
-        //private bool RepairExists(int id)
-        //{
-        //    return _context.Repairs.Any(e => e.Id == id);
-        //}
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
     }
 }
