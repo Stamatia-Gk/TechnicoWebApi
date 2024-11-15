@@ -6,20 +6,21 @@
 }
 
 <h1>Index</h1>
+<p>
+    <a asp-action="CreateRepair">Create New</a>
+</p>
 
 @if (Model == null || !Model.Any())
 {
-    <p>No Ongoing Repairs found.</p>
+    <p>No Repairs found.</p>
 }
 else
 {
-    
+
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    #
-                </th>
+                <th>#</th>
                 <th>
                     @Html.DisplayNameFor(model => model.ScheduledRepair)
                 </th>
@@ -65,6 +66,10 @@ else
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        <a asp-action="EditRepair" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="DeleteRepair" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

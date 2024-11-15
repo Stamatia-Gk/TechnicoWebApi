@@ -1,0 +1,65 @@
+﻿@model IEnumerable<TechnicoWebApi.Dtos.PropertyDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateProperty">Create New</a>
+</p>
+@if (Model == null || !Model.Any())
+{
+    <p>No Properties found.</p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentificationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConstructionYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PropertyType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentificationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConstructionYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyType)
+                </td>
+                <td>
+                    <a asp-action="EditProperty" asp-route-id="@item.Id">Edit</a> ||
+                    <a asp-action="DeleteProperty" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
