@@ -67,7 +67,6 @@ namespace Technico.Controllers
                 SessionClass.ownerId = loggedInOwner.Id;
                 SessionClass.ownerType = loggedInOwner.OwnerType;
                 return RedirectToAction("Index", "User");
-                
             }
             else
             {

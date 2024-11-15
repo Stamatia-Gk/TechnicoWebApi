@@ -39,7 +39,6 @@ namespace Technico.Controllers
             var ongoingRepairs = await _repairService.GetOngoingRepairs();
          
             return View(ongoingRepairs);
-           
         }
 
         public async Task<IActionResult> OwnerRepairs(int id)

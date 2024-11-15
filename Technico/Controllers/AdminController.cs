@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
@@ -54,7 +57,6 @@ namespace Technico.Controllers
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
                 return View(repair);
             }
-
         }
 
         // GET: Repairs/Edit/5
@@ -123,7 +125,6 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
-
         }
 
         public async Task<IActionResult> IndexProperties()
@@ -150,7 +151,6 @@ namespace Technico.Controllers
         // GET: PropertyItems/Edit/5
         public async Task<IActionResult> EditProperty(int id)
         {
-
             if (id == null)
             {
                 return NotFound();
@@ -217,7 +217,6 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
-
         }
 
         public async Task<IActionResult> IndexOwners()
@@ -319,6 +318,12 @@ namespace Technico.Controllers
             {
                 return View("Error");
             }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
