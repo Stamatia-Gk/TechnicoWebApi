@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Services;
+using Technico.Session;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
 
@@ -25,6 +26,11 @@ namespace Technico.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _propertyService.GetProperties());
+        }
+
+        public async Task<IActionResult> PropertiesOfAnOwner()
+        {
+            return View(await _propertyService.GetPropertiesByOwnerId(SessionClass.ownerId));
         }
 
         // GET: PropertyItems/Details/5
@@ -54,7 +60,8 @@ namespace Technico.Controllers
             [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
             PropertyDto propertyDto)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
+            
+            var propertyCreated = _propertyService.CreateProperty(propertyDto, SessionClass.ownerId);
             return View(propertyDto);
         }
 
