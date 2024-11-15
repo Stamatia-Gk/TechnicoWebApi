@@ -56,7 +56,7 @@ namespace Technico.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the owner.");
                 return View(ownerDto);
             }
         }
@@ -94,7 +94,7 @@ namespace Technico.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
+                ModelState.AddModelError(string.Empty, "An error occurred while editing the owner.");
                 return View(ownerDto);
             }
         }
