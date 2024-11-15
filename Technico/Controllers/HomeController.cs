@@ -64,7 +64,6 @@ namespace Technico.Controllers
             {
                 Console.WriteLine("User");
                 return RedirectToAction(nameof(Index));
-                
             }
             else
             {

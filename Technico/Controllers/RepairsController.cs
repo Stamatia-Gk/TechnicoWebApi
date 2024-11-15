@@ -39,6 +39,17 @@ namespace Technico.Controllers
             return View(await _repairService.GetRepairById(id));
         }
 
+        public async Task<IActionResult> RepairsOwnerId(int id)
+        {
+            
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            return View(await _repairService.OwnerRepairs(id));
+        }
+
         // GET: Repairs/Create
         public IActionResult Create()
         {

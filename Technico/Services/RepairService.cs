@@ -112,4 +112,24 @@ public class RepairService : IRepairService
             return null;
         }
     }
+
+    public async Task<List<RepairDto>> OwnerRepairs(int id)
+    {
+        var url = $"http://localhost:5037/api/Repair/ownerrepairs/{id}";
+
+        var response = await httpClient.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            // Return null for any unsuccessful response (including 404)
+            return null;
+        }
+        // Await the content to get the JSON string result
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        // Deserialize the JSON string to a Repair object
+        var repairDto = JsonConvert.DeserializeObject <List<RepairDto>>(jsonResponse);
+
+        // Pass the repair to the View
+        return repairDto;
+    }
 }

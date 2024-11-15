@@ -11,5 +11,6 @@ public interface IRepairService
     public Task<RepairDto> CreateRepair(RepairDto repairDto, int ownerId);
     public Task<RepairDto> UpdateRepair(RepairDto repairDto, int id);
     public Task<List<RepairDto>> DeleteRepair(int id);
+    public Task<List<RepairDto>> OwnerRepairs(int id);
 
 }
