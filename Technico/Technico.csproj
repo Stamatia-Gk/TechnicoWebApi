@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <OutputPath>/bin/technicomvc/</OutputPath>
+	  <PublishDir>/bin/technicomvc/publish/</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>
