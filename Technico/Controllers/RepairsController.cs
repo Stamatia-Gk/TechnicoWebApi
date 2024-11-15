@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Technico.Data;
 using Technico.Models;
 using Technico.Services;
+using Technico.Session;
 using TechnicoWebApi.Dtos;
 using TechnicoWebApi.Models;
 
@@ -39,15 +40,23 @@ namespace Technico.Controllers
             return View(await _repairService.GetRepairById(id));
         }
 
-        public async Task<IActionResult> RepairsOwnerId(int id)
+        public async Task<IActionResult> OngoingRepairs()
         {
-            
-            if (id == null)
+            var ongoingRepairs = await _repairService.GetOngoingRepairs();
+         
+            return View(ongoingRepairs);
+           
+        }
+
+        public async Task<IActionResult> OwnerRepairs(int id)
+        {
+            var ownerId = SessionClass.ownerId;
+            if (ownerId == null)
             {
                 return NotFound();
             }
             
-            return View(await _repairService.OwnerRepairs(id));
+            return View(await _repairService.OwnerRepairs(ownerId));
         }
 
         // GET: Repairs/Create
@@ -65,8 +74,8 @@ namespace Technico.Controllers
             {
                 return View(repair);
             }
-
-            var newRepair = await _repairService.CreateRepair(repair , ownerId);
+            var id = SessionClass.ownerId;
+            var newRepair = await _repairService.CreateRepair(repair , id);
             if(newRepair != null)
             {
                 return RedirectToAction(nameof(Index));

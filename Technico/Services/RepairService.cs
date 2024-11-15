@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 using System.Text;
 using TechnicoWebApi.Dtos;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 
 namespace Technico.Services;
 
@@ -25,6 +25,27 @@ public class RepairService : IRepairService
 
         // Pass the repairList to the View
         return repairList;
+    }
+
+    public async Task<List<RepairDto>> GetOngoingRepairs()
+    {
+        var url = "http://localhost:5037/api/Repair/ongoing";
+        // Await the response to complete the asynchronous task
+        var response = await httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Await the content to get the JSON string result
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+
+            // Deserialize the JSON string to a list of repair objects
+            var ongoingRepairList = JsonConvert.DeserializeObject<List<RepairDto>>(jsonResponse);
+
+            // Pass the repairList to the View
+            return ongoingRepairList ?? new List<RepairDto>();
+        }
+        
+        return new List<RepairDto>();
     }
 
     public async Task<RepairDto> GetRepairById (int id)
@@ -132,4 +153,5 @@ public class RepairService : IRepairService
         // Pass the repair to the View
         return repairDto;
     }
+
 }
