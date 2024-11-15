@@ -32,6 +32,8 @@ namespace Technico.Controllers
         {
             return View(await _propertyService.GetPropertiesByOwnerId(SessionClass.ownerId));
         }
+        
+       
 
         // GET: PropertyItems/Details/5
         public async Task<IActionResult> Details(int id)
@@ -140,8 +142,37 @@ namespace Technico.Controllers
             
         }
 
-        
 
+        [HttpGet]
+        public IActionResult SearchPropertyByIdOrVat()
+        {
+            // Return the initial empty view with input fields
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchPropertyByIdOrVat(int ownerId, string vatNumber)
+        {
+            // Validate inputs if necessary
+            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            // Call the service to fetch properties based on owner ID or VAT number
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+
+            // Check if properties is null or empty
+            if (properties == null || !properties.Any())
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            // Return the list of properties in the "Search" view
+            return View("Search", properties);
+        }
 
     }
 }
