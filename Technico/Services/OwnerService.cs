@@ -9,10 +9,8 @@ using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
 
-public class OwnerService : IOwnerService
+public class OwnerService(HttpClient httpClient) : IOwnerService
 {
-    HttpClient httpClient = new();
-
     public async Task<List<OwnerResponseDto>> GetAllOwners()
     {
         var url = "http://localhost:5037/api/Owner";

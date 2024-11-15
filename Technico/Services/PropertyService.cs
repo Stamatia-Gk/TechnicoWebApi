@@ -6,10 +6,8 @@ using TechnicoWebApi.Dtos;
 
 namespace Technico.Services;
 
-public class PropertyService : IPropertyService
+public class PropertyService(HttpClient httpClient) : IPropertyService
 {   
-    HttpClient httpClient = new ();
-    
     public async Task<List<PropertyDto>> GetProperties()
     {   
         var url = "http://localhost:5037/api/Property";
