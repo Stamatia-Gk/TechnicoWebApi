@@ -1,8 +1,5 @@
 ﻿
-
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
@@ -14,16 +11,11 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
     public async Task<List<OwnerResponseDto>> GetAllOwners()
     {
         var url = "http://localhost:5037/api/Owner";
-        // Await the response to complete the asynchronous task
         var response = await httpClient.GetAsync(url);
-
-        // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
-        // Deserialize the JSON string to a list of OwnerResponseDto objects
         var ownersList = JsonConvert.DeserializeObject<List<OwnerResponseDto>>(jsonResponse);
 
-        // Pass the ownerList to the View
         Console.WriteLine($"owner id = {SessionClass.ownerId}, owner type: {SessionClass.ownerType}.");
         return ownersList;
     }
@@ -31,47 +23,34 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
     public async Task<OwnerResponseDto> GetOwnerById(int id)
     {
         var url = $"http://localhost:5037/api/Owner/{id}";
-        // Await the response to complete the asynchronous task
         var response = await httpClient.GetAsync(url);
+
         if (!response.IsSuccessStatusCode)
         {
-            // Return null for any unsuccessful response (including 404)
             return null;
         }
-        // Await the content to get the JSON string result
-        var jsonResponse = await response.Content.ReadAsStringAsync();
 
-        // Deserialize the JSON string to an OwnerResponseDto object
+        var jsonResponse = await response.Content.ReadAsStringAsync();
         var ownerDto = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
 
-        // Pass ownerDto to the View
         return ownerDto;
     }
 
     public async Task<OwnerResponseDto> CreateOwner(OwnerRequestDto ownerDto)
     {
         var url = $"http://localhost:5037/api/Owner";
-
-        // Serialize the OwnerRequestDto object to JSON
         var jsonContent = JsonConvert.SerializeObject(ownerDto);
-
-        // Create the HttpContent with the JSON string, setting the correct media type
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-        // Perform the POST request and await the response
         var response = await httpClient.PostAsync(url, content);
 
-        // Check if the request was successful and return true or false
         if (response.IsSuccessStatusCode)
         {
-            // If successful, deserialize the response content to a RepairDto
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var createdOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
             return createdOwner;
         }
         else
         {
-            // Return null if creation was unsuccessful
             return null;
         }
     }
@@ -86,14 +65,12 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
 
         if (response.IsSuccessStatusCode)
         {
-            // If successful, deserialize the response content to a RepairDto
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var updatedOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
             return updatedOwner;
         }
         else
         {
-            // Return null if creation was unsuccessful
             return null;
         }
     }
@@ -116,69 +93,30 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
 
     public async Task<OwnerResponseDto> SearchOwner(string vat = null, string email = null)
     {
-        var url = $"http://localhost:5037/api/Property/searchowner?";
-        return null;
-
-        /*var url = $"http://localhost:5037/api/Property/searchproperties?vat={vat}&email={email}";
-        // Await the response to complete the asynchronous task
+        var url = $"http://localhost:5037/api/Property/searchproperties?vat={vat}&email={email}";
         var response = await httpClient.GetAsync(url);
-        Console.WriteLine(response);
-        // Await the content to get the JSON string result
         var jsonResponse = await response.Content.ReadAsStringAsync();
+        var ownerResult = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
 
-        // Deserialize the JSON string to a list of PropertyDto objects
-        var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
-
-        // Pass the propertyList to the View
-        return propertyList;//*/
+        return ownerResult;
     }
-
-    /*
-    
-    public async Task<List<PropertyDto>> SearchPropertiesByOwnerOrVatAsync(int id, string vat)
-    {
-        var url = $"http://localhost:5037/api/Property/searchproperties?propertyId={id}&ownerVat={vat}";
-        // Await the response to complete the asynchronous task
-        var response = await httpClient.GetAsync(url);
-        Console.WriteLine(response);
-        // Await the content to get the JSON string result
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-
-        // Deserialize the JSON string to a list of PropertyDto objects
-        var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
-
-        // Pass the propertyList to the View
-        return propertyList; 
-    }
-
-     */
 
     public async Task<OwnerResponseDto> Login(string email, string password) 
     {
         var url = $"http://localhost:5037/api/Owner/Login";
-
         var credentialDto = new OwnerCredentialsDto { Email = email, Password = password };
-
-        // Serialize the OwnerCredentialsDto object to JSON
         var jsonContent = JsonConvert.SerializeObject(credentialDto);
-
-        // Create the HttpContent with the JSON string, setting the correct media type
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-        // Perform the POST request and await the response
         var response = await httpClient.PostAsync(url, content);
 
-        // Check if the request was successful and return true or false
         if (response.IsSuccessStatusCode)
         {
-            // If successful, deserialize the response content to a RepairDto
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var loggedInOwner = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
             return loggedInOwner;
         }
         else
         {
-            // Return null if creation was unsuccessful
             return null;
         }
     }

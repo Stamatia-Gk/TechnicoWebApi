@@ -1,9 +1,7 @@
 ﻿
-
 using Newtonsoft.Json;
 using System.Text;
 using TechnicoWebApi.Dtos;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Technico.Services;
 

@@ -130,6 +130,26 @@ namespace Technico.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchPropertyByIdOrVat(string vat, string email)
+        {
+            if (string.IsNullOrEmpty(vat) && string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var owner = await _ownerService.SearchOwner(vat, email);
+
+            if (owner == null)
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("Index", owner);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

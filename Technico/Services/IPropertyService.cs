@@ -1,7 +1,5 @@
 ﻿
-
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Models;
 
 namespace Technico.Services;
 
