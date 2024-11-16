@@ -59,6 +59,26 @@ namespace Technico.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchRepair(DateTime startDate, DateTime endDate ,int ownerId)
+        {
+            if (startDate == default(DateTime) || endDate == default(DateTime) || ownerId == 0)
+            {
+                ModelState.AddModelError(string.Empty, "Please provide valid search parameters.");
+                return View();
+            }
+
+            var repairs = await _repairService.SearchRepairsByDateRange(startDate, endDate , ownerId);
+
+            if (repairs == null)
+            {
+                ModelState.AddModelError(string.Empty, "No repairs found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexRepairs", repairs);
+        }
+
         // GET: Repairs/Edit/5
         public async Task<IActionResult> EditRepair(int id)
         {
@@ -303,6 +323,7 @@ namespace Technico.Controllers
                 ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
                 return View();
             }
+
 
             return View("IndexOwners", owner);
         }
