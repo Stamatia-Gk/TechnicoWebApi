@@ -50,11 +50,7 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<bool> DeleteOwner(Owner owner)
     {
-        if (OwnerExists(owner.Id, owner.VAT, owner.Email, owner.PhoneNumber).Result)
-        {
-            _context.Remove(owner);
-        }
-
+        _context.Remove(owner);
         return await Save();
     }
 
