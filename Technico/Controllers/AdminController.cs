@@ -190,6 +190,26 @@ namespace Technico.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchProperty(int ownerId, string vatNumber)
+        {
+            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+
+            if (properties == null || !properties.Any())
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexProperties", properties);
+        }
+
         public async Task<IActionResult> DeleteProperty(int id)
         {
             var property = await _propertyService.GetPropertyById(id);
@@ -319,6 +339,7 @@ namespace Technico.Controllers
                 return View("Error");
             }
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

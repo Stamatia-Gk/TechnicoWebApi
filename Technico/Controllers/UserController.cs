@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
@@ -140,10 +141,23 @@ namespace Technico.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProperty(
             [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyDto)
+            PropertyDto propertyDto, int ownerId)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, SessionClass.ownerId);
-            return View(propertyDto);
+            if (!ModelState.IsValid)
+            {
+                return View(propertyDto);
+            }
+            var id = SessionClass.ownerId;
+            var newProperty = await _propertyService.CreateProperty(propertyDto, id);
+            if (newProperty != null)
+            {
+                return RedirectToAction(nameof(IndexProperties));
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
+                return View(propertyDto);
+            }
         }
 
         // GET: PropertyItems/Edit/5
