@@ -32,31 +32,32 @@ namespace Technico.Controllers
             return View(await _repairService.GetRepairs());
         }
 
+        // GET
         public IActionResult CreateRepair()
         {
-            return View();
+            var allOwners = _ownerService.GetAllOwners();
+            return View(new CreateRepairDto
+            {
+                ownerList = allOwners.Result,
+            });
         }
 
         // POST: Repairs/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateRepair([Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] RepairDto repair, int ownerId)
+        public async Task<IActionResult> CreateRepair(RepairDto repairDto, int ownerId)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(repair);
-            }
-            var id = SessionClass.ownerId;
-            var newRepair = await _repairService.CreateRepair(repair, id);
-            if (newRepair != null)
-            {
+                await _repairService.CreateRepair(repairDto, ownerId);
                 return RedirectToAction(nameof(IndexRepairs));
             }
-            else
+
+            var model = new CreateRepairDto
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
-                return View(repair);
-            }
+                repairDto = repairDto,
+                ownerList = (await _ownerService.GetAllOwners()).ToList()
+            };
+            return View(model);
         }
 
         // GET: Repairs/Edit/5
@@ -132,12 +133,13 @@ namespace Technico.Controllers
             return View(await _propertyService.GetProperties());
         }
 
+        // GET
         public IActionResult CreateProperty()
         {
-            var allowners = _ownerService.GetAllOwners();
+            var allOwners = _ownerService.GetAllOwners();
             return View(new CreatePropertyDto
             {
-                ownerList = allowners.Result,
+                ownerList = allOwners.Result,
             });
         }
 

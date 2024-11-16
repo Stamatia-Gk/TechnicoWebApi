@@ -1,4 +1,5 @@
-﻿namespace TechnicoWebApi.Dtos;
+﻿
+namespace TechnicoWebApi.Dtos;
 
 public class CreatePropertyDto
 {
