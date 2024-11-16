@@ -287,6 +287,26 @@ namespace Technico.Controllers
             return View(ownerToEdit);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchOwner(string vat, string email)
+        {
+            if (string.IsNullOrEmpty(vat) && string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var owner = await _ownerService.SearchOwner(vat, email);
+
+            if (owner == null)
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexOwners", owner);
+        }
+
         // POST: Owners/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
