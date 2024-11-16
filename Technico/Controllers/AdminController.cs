@@ -60,15 +60,15 @@ namespace Technico.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchRepair(DateTime startDate, DateTime endDate ,int ownerId)
+        public async Task<IActionResult> SearchRepair(DateTime? startDate, DateTime? endDate ,int ownerId)
         {
-            if (startDate == default(DateTime) || endDate == default(DateTime) || ownerId == 0)
+            if (!startDate.HasValue || !endDate.HasValue || ownerId == 0)
             {
                 ModelState.AddModelError(string.Empty, "Please provide valid search parameters.");
                 return View();
             }
 
-            var repairs = await _repairService.SearchRepairsByDateRange(startDate, endDate , ownerId);
+            var repairs = await _repairService.SearchRepairsByDateRange(startDate.Value, endDate.Value , ownerId);
 
             if (repairs == null)
             {

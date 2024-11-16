@@ -34,14 +34,15 @@ public class RepairService(HttpClient httpClient) : IRepairService
         return new List<RepairDto>();
     }
 
-    public async Task<List<RepairDto>> SearchRepairsByDateRange(DateTime startDateTime, DateTime endDateTime, int ownerId)
+    public async Task<List<RepairDto>> SearchRepairsByDateRange(DateTime startDate, DateTime endDate, int ownerId)
     {
-        var url = $"http://localhost:5037/api/Repair/searchrepairs?startDate={startDateTime}&endDate={endDateTime}&id={ownerId}";
+        var formattedStartDate = startDate.ToString("yyyy-MM-dd");
+        var formattedEndDate = endDate.ToString("yyyy-MM-dd");
+        var url = $"http://localhost:5037/api/Repair/searchrepairs?startDate={formattedStartDate}&endDate={formattedEndDate}&id={ownerId}";
         var response = await httpClient.GetAsync(url);
         if (!response.IsSuccessStatusCode)
         {
             return null;
-
         }
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
