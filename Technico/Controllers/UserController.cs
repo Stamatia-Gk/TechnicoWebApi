@@ -105,7 +105,7 @@ namespace Technico.Controllers
             var ownerToDelete = await _ownerService.DeleteOwner(id);
             if (ownerToDelete != null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             else
             {

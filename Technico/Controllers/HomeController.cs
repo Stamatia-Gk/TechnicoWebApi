@@ -101,6 +101,12 @@ namespace Technico.Controllers
         public async Task<IActionResult> Login(string email, string password)
         {
             var loggedInOwner = await _ownerService.Login(email, password);
+
+            if (loggedInOwner == null)
+            {
+                ModelState.AddModelError(string.Empty, "No such account exists.");
+                return View();
+            }
             if (loggedInOwner.OwnerType == 0)
             {
                 SessionClass.ownerId = loggedInOwner.Id;
