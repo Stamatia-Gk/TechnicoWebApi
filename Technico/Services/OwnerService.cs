@@ -91,14 +91,15 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
         }
     }
 
-    public async Task<OwnerResponseDto> SearchOwner(string vat, string email)
+    public async Task<List<OwnerResponseDto>> SearchOwner(string vat, string email)
     {
         var url = $"http://localhost:5037/api/Owner/searchowner?vat={vat}&email={email}";
         var response = await httpClient.GetAsync(url);
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var ownerResult = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
 
-        return ownerResult;
+        var newListOwnerResponseDto = new List<OwnerResponseDto> { ownerResult };
+        return newListOwnerResponseDto;
     }
 
     public async Task<OwnerResponseDto> Login(string email, string password) 

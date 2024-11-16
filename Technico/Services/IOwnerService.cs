@@ -7,7 +7,7 @@ public interface IOwnerService
 {
     Task<List<OwnerResponseDto>> GetAllOwners();
     Task<OwnerResponseDto> GetOwnerById(int id);
-    Task<OwnerResponseDto> SearchOwner(string? vat, string? email);
+    Task<List<OwnerResponseDto>> SearchOwner(string? vat, string? email);
     Task<OwnerResponseDto> CreateOwner(OwnerRequestDto ownerDto);
     Task<OwnerResponseDto> UpdateOwner(int oldOwnerId, OwnerResponseDto newGetOwner);
     Task<List<OwnerResponseDto>> DeleteOwner(int ownerId);

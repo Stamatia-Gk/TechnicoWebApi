@@ -41,7 +41,6 @@ public class RepairService(HttpClient httpClient) : IRepairService
         if (!response.IsSuccessStatusCode)
         {
             return null;
-
         }
         
         var jsonResponse = await response.Content.ReadAsStringAsync();

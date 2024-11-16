@@ -204,15 +204,15 @@ namespace Technico.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchProperty(int ownerId, string vatNumber)
+        public async Task<IActionResult> SearchProperty(int propertyId, string vatNumber)
         {
-            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            if (propertyId == 0 && string.IsNullOrEmpty(vatNumber))
             {
                 ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
                 return View();
             }
 
-            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(propertyId, vatNumber);
 
             if (properties == null || !properties.Any())
             {
