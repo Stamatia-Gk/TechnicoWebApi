@@ -12,8 +12,8 @@
 </p>
 <form asp-action="SearchOwner" method="post">
     <div>
-        <label for="vatNumber">VAT Number:</label>
-        <input type="text" id="vatNumber" name="VatNumber" class="form-control" />
+        <label for="vat">VAT Number:</label>
+        <input type="text" id="vat" name="vat" class="form-control" />
     </div>
     <div>
         <label for="email">Email:</label>
@@ -52,10 +52,12 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+    @foreach (var item in Model) 
+    {
         <tr>
             <td>
-               @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VAT)
@@ -82,6 +84,6 @@
                 <a asp-action="EditOwner" asp-route-id="@item.Id">Edit</a> |
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
