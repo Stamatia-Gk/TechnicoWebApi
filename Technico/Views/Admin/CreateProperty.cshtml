@@ -1,4 +1,4 @@
-﻿@model TechnicoWebApi.Dtos.PropertyDto
+﻿@model Technico.Models.OwnersListAndPropertyDto
 
 @{
     ViewData["Title"] = "Create";
@@ -14,7 +14,7 @@
         <form asp-action="CreateProperty">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="IdentificationNumber" class="control-label"></label>
+                <label asp-for="Property.IdentificationNumber" class="control-label"></label>
                 <input asp-for="IdentificationNumber" class="form-control" />
                 <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
             </div>
@@ -39,6 +39,17 @@
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <h2>Owners</h2>
+                <label asp-for="Owners" class="control-label"></label>
+                <select asp-for="Owners" class="form-control">
+                    @foreach (var owner in Model.Owners)
+                    {
+                        <li>@owner.Name (@owner.VAT)</li>
+                    }
+                </select>
+                <span asp-validation-for="Owners" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -51,4 +62,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@
