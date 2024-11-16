@@ -13,7 +13,7 @@ namespace TechnicoWebApi.Repositories.Interfaces
         Task<bool> CreateRepair(Repair repair);
         Task<bool> UpdateRepair(Repair repair);
         Task<bool> DeleteRepair(Repair repair);
-        Task<List<Repair>> Search(DateTime startDate, DateTime endDate, int ownerId);
+        Task<List<Repair>> Search(DateTime startDate, DateTime endDate, int ownerId=0);
         Task<bool> RepairExists(int id);
         Task<bool> Save();
     }

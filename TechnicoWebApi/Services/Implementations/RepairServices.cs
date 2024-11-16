@@ -132,12 +132,13 @@ public class RepairService : IRepairService
         }
         var owner = await _ownerRepository.GetOwnerById(userId);
 
-        if (owner == null)
-        {
-            return Result.Failure<List<RepairDto>>("Owner does not exist!");
-        }
-        var repairs = await _repairRepository.Search(startDate, endDate, owner.Id);
+        //if (owner == null)
+        //{
+        //    return Result.Failure<List<RepairDto>>("Owner does not exist!");
+        //}
+        //var repairs = await _repairRepository.Search(startDate, endDate, owner.Id);
 
+        var repairs = owner != null ? await _repairRepository.Search(startDate, endDate, userId) : await _repairRepository.Search(startDate, endDate);
         if (repairs == null)
         {
             return Result.Failure<List<RepairDto>>("No repairs found with the specified criteria.");

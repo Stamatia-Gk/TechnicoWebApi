@@ -57,9 +57,23 @@ public class RepairRepository : IRepairRepository
         return Save();
     }
 
-    public async Task<List<Repair>> Search(DateTime startDate , DateTime endDate , int ownerId) 
+    public async Task<List<Repair>> Search(DateTime startDate, DateTime endDate, int ownerId=0)
     {
-        return await _context.Repairs.Where(r => r.Owner.Id  == ownerId
+        if (startDate == null && endDate == null && ownerId == 0)
+        {
+            return null;
+        }
+        if ((startDate != null || endDate == null) && ownerId != 0)
+        {
+            return await _context.Repairs.Where(r => r.Owner.Id == ownerId).ToListAsync();
+        }
+
+        if (startDate != null && endDate != null && ownerId == 0)
+        {
+            return await _context.Repairs.Where(r => r.ScheduledRepair >= startDate && r.ScheduledRepair <= endDate).ToListAsync();
+        }
+
+        return await _context.Repairs.Where(r => r.Owner.Id == ownerId
         && r.ScheduledRepair >= startDate
         && r.ScheduledRepair <= endDate)
             .ToListAsync();

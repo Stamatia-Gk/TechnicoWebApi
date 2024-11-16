@@ -97,8 +97,8 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
         var response = await httpClient.GetAsync(url);
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var ownerResult = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
-
-        return ownerResult;
+        var newListOwnerResponseDto = new List<OwnerResponseDto> { ownerResult };
+        return newListOwnerResponseDto;
     }
 
     public async Task<OwnerResponseDto> Login(string email, string password) 
