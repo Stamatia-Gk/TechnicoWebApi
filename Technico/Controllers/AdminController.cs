@@ -320,5 +320,10 @@ namespace Technico.Controllers
                 return View("Error");
             }
         }
+
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
