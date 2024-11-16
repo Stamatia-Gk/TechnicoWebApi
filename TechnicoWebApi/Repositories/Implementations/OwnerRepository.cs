@@ -79,11 +79,10 @@ public class OwnerRepository : IOwnerRepository
     }
 
     public async Task<bool> OwnerExists(int id, string vatNumber, string email, string phone)
-    {
-        var ownerFound = await _context.Owners.AnyAsync(o => o.VAT.Equals(vatNumber.Trim())
-                                                     || o.Email.Equals(email.Trim())
-                                                     || o.PhoneNumber.Equals(phone.Trim())
-                                                     && o.Id != id);
+    {   
+        var ownerFound = await _context.Owners.AnyAsync(o => 
+            (o.VAT.Equals(vatNumber.Trim()) || o.Email.Equals(email.Trim()) || o.PhoneNumber.Equals(phone.Trim())) 
+            && o.Id != id);
         return ownerFound;
     }
 

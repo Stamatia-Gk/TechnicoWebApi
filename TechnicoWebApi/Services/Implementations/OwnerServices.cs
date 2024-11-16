@@ -55,7 +55,7 @@ public class OwnerService : IOwnerService
         }
 
         var newOwner = Converters.ConvertToOwner(newGetOwnerDto);
-
+        newOwner.Id = oldOwnerId;
         var ownerFieldsAlreadyUsed = await _ownerRepository.OwnerExists(newOwner.Id, newOwner.VAT, newOwner.Email, newOwner.PhoneNumber);
 
         if(ownerFieldsAlreadyUsed)
@@ -64,6 +64,7 @@ public class OwnerService : IOwnerService
         }
 
         ownerToUpdate = Clone(ownerToUpdate, newOwner);
+       
         var ownerUpdated = await _ownerRepository.UpdateOwner(ownerToUpdate);
 
         if (!ownerUpdated)
