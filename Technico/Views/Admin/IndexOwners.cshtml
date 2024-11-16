@@ -52,10 +52,12 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+    @foreach (var item in Model) 
+    {
         <tr>
             <td>
-               @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VAT)
@@ -82,6 +84,6 @@
                 <a asp-action="EditOwner" asp-route-id="@item.Id">Edit</a> |
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

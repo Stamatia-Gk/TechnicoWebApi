@@ -46,7 +46,7 @@ namespace TechnicoWebApi.Controllers
         }
 
         [HttpGet, Route("searchowner")]
-        public async Task<ActionResult> Search(string? vat = null , string? email = null)
+        public async Task<ActionResult> Search(string? vat, string? email)
         {
             var result = await _ownerService.SearchOwner(vat, email);
             if (result.IsFailure)

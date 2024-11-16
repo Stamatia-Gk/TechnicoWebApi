@@ -32,31 +32,32 @@ namespace Technico.Controllers
             return View(await _repairService.GetRepairs());
         }
 
+        // GET
         public IActionResult CreateRepair()
         {
-            return View();
+            var allOwners = _ownerService.GetAllOwners();
+            return View(new CreateRepairDto
+            {
+                ownerList = allOwners.Result,
+            });
         }
 
         // POST: Repairs/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateRepair([Bind("Id,ScheduledRepair,RepairType,Description,Address,RepairStatus,Cost")] RepairDto repair, int ownerId)
+        public async Task<IActionResult> CreateRepair(RepairDto repairDto, int ownerId)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(repair);
-            }
-            var id = SessionClass.ownerId;
-            var newRepair = await _repairService.CreateRepair(repair, id);
-            if (newRepair != null)
-            {
+                await _repairService.CreateRepair(repairDto, ownerId);
                 return RedirectToAction(nameof(IndexRepairs));
             }
-            else
+
+            var model = new CreateRepairDto
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
-                return View(repair);
-            }
+                repairDto = repairDto,
+                ownerList = (await _ownerService.GetAllOwners()).ToList()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -152,20 +153,34 @@ namespace Technico.Controllers
             return View(await _propertyService.GetProperties());
         }
 
+        // GET
         public IActionResult CreateProperty()
         {
-            return View();
+            var allOwners = _ownerService.GetAllOwners();
+            return View(new CreatePropertyDto
+            {
+                ownerList = allOwners.Result,
+            });
         }
 
         // POST: PropertyItems/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProperty(
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyDto)
+        public async Task<IActionResult> CreateProperty(PropertyDto propertyDto, int ownerId)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
-            return View(propertyDto);
+            if (ModelState.IsValid)
+            {
+                // Pass both the property data and owner ID to your service
+                await _propertyService.CreateProperty(propertyDto, ownerId);
+                return RedirectToAction(nameof(IndexProperties));
+            }
+    
+            // If we got this far, something failed, redisplay form
+            var model = new CreatePropertyDto
+            {
+                propertyDto = propertyDto,
+                ownerList = (await _ownerService.GetAllOwners()).ToList()
+            };
+            return View(model);
         }
 
         // GET: PropertyItems/Edit/5
@@ -211,15 +226,15 @@ namespace Technico.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchProperty(int ownerId, string vatNumber)
+        public async Task<IActionResult> SearchProperty(int propertyId, string vatNumber)
         {
-            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            if (propertyId == 0 && string.IsNullOrEmpty(vatNumber))
             {
                 ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
                 return View();
             }
 
-            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(propertyId, vatNumber);
 
             if (properties == null || !properties.Any())
             {
