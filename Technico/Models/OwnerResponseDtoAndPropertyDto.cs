@@ -4,8 +4,8 @@ using TechnicoWebApi.Models;
 
 namespace Technico.Models;
 
-public class OwnersListAndPropertyDto : PropertyDto
+public class OwnerResponseDtoAndPropertyDto : PropertyDto
 {
-    public List<Owner> Owners { get; set; } = new();
+    public OwnerResponseDto Owner { get; set; }
     public PropertyDto Property { get; set; }
 }

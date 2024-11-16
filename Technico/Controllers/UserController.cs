@@ -139,9 +139,7 @@ namespace Technico.Controllers
         // POST: PropertyItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProperty(
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyDto, int ownerId)
+        public async Task<IActionResult> CreateProperty([Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyDto, int ownerId)
         {
             if (!ModelState.IsValid)
             {
@@ -180,9 +178,7 @@ namespace Technico.Controllers
         // POST: PropertyItems/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProperty(int id,
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyItem)
+        public async Task<IActionResult> EditProperty(int id, [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyItem)
         {
 
             if (!ModelState.IsValid)

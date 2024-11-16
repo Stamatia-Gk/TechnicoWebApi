@@ -140,11 +140,10 @@ namespace Technico.Controllers
         // POST: PropertyItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProperty(
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyDto)
+        public async Task<IActionResult> CreateProperty([Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")] PropertyDto propertyDto, OwnerResponseDto ownerDto)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
+            var id = ownerDto.Id;
+            var propertyCreated = _propertyService.CreateProperty(propertyDto, id);
             return View(propertyDto);
         }
 
@@ -287,6 +286,26 @@ namespace Technico.Controllers
             return View(ownerToEdit);
         }
 
+        /*
+        public async Task<IActionResult> SearchProperty(int ownerId, string vatNumber)
+        {
+            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+
+            if (properties == null || !properties.Any())
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexProperties", properties);
+        }*/
+
         [HttpPost]
         public async Task<IActionResult> SearchOwner(string vat, string email)
         {
@@ -300,7 +319,7 @@ namespace Technico.Controllers
 
             if (owner == null)
             {
-                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                ModelState.AddModelError(string.Empty, "No owners found for the given criteria.");
                 return View();
             }
 
