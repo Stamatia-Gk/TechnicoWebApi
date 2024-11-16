@@ -13,13 +13,13 @@ namespace Technico.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IOwnerService _ownerService;
 
-        public HomeController(ILogger<HomeController> logger , IOwnerService ownerService)
+        public HomeController(ILogger<HomeController> logger, IOwnerService ownerService)
         {
             _logger = logger;
             _ownerService = ownerService;
         }
 
-        public  IActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -64,7 +64,6 @@ namespace Technico.Controllers
             var newOwner = await _ownerService.CreateOwner(ownerRequestDto);
             if (newOwner != null)
             {
-                // Redirect to Login action with query parameters
                 return RedirectToAction("Login", "Home", new { email = ownerRequestDto.Email, password = ownerRequestDto.Password });
             }
             else
