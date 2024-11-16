@@ -12,7 +12,7 @@ namespace TechnicoWebApi.Repositories.Interfaces
         Task<bool> CreateOwner(Owner owner);
         Task<bool> UpdateOwner(Owner owner);
         Task<bool> DeleteOwner(Owner owner);
-        Task<Owner?> Search(string vat, string email);
+        Task<Owner?> Search(string? vat, string? email);
         Task<bool> OwnerExists(int id, string vatNumber, string email, string phone);
         Task<bool> Save();
         Task<Owner> Login(string email, string password);
