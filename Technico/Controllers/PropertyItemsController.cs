@@ -149,7 +149,7 @@ namespace Technico.Controllers
                 return View();
             }
 
-            return View("Index",properties);
+            return View("IndexProperties",properties);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -190,6 +190,26 @@ namespace Technico.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchProperty(int ownerId, string vatNumber)
+        {
+            if (ownerId == 0 && string.IsNullOrEmpty(vatNumber))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var properties = await _propertyService.SearchPropertiesByOwnerOrVatAsync(ownerId, vatNumber);
+
+            if (properties == null || !properties.Any())
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexProperties", properties);
+        }
+
         public async Task<IActionResult> DeleteProperty(int id)
         {
             var property = await _propertyService.GetPropertyById(id);
@@ -267,6 +287,26 @@ namespace Technico.Controllers
             return View(ownerToEdit);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchOwner(string vat, string email)
+        {
+            if (string.IsNullOrEmpty(vat) && string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError(string.Empty, "Please provide at least one search parameter.");
+                return View();
+            }
+
+            var owner = await _ownerService.SearchOwner(vat, email);
+
+            if (owner == null)
+            {
+                ModelState.AddModelError(string.Empty, "No properties found for the given criteria.");
+                return View();
+            }
+
+            return View("IndexOwners", owner);
+        }
+
         // POST: Owners/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -320,10 +360,16 @@ namespace Technico.Controllers
             }
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Technico.Controllers
             return View();
         }
 
-        [HttpPost, Route("Login")]
+        [HttpPost, Route("Home/Login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(OwnerCredentialsDto ownerCredentials)
         {

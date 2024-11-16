@@ -26,4 +26,11 @@
     <ProjectReference Include="..\TechnicoWebApi\TechnicoWebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\User\IndexRepairs.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

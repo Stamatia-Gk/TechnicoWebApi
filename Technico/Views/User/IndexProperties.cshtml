@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<TechnicoWebApi.Dtos.PropertyDto>
 
-
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 <h1>Index</h1>
@@ -11,24 +10,12 @@
 <p>
     <a asp-action="CreateProperty">Create New</a>
 </p>
-<form asp-action="SearchProperty" method="post">
-    <div>
-        <label for="ownerId">Owner ID:</label>
-        <input type="number" id="ownerId" name="OwnerId" class="form-control" />
-    </div>
-    <div>
-        <label for="vatNumber">VAT Number:</label>
-        <input type="text" id="vatNumber" name="VatNumber" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
 @if (Model == null || !Model.Any())
 {
     <p>No Properties found.</p>
 }
 else
 {
-    
 <table class="table">
     <thead>
         <tr>
