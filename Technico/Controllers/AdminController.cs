@@ -134,18 +134,31 @@ namespace Technico.Controllers
 
         public IActionResult CreateProperty()
         {
-            return View();
+            var allowners = _ownerService.GetAllOwners();
+            return View(new CreatePropertyDto
+            {
+                ownerList = allowners.Result,
+            });
         }
 
         // POST: PropertyItems/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProperty(
-            [Bind("Id,IdentificationNumber,Address,ConstructionYear,PropertyType")]
-            PropertyDto propertyDto)
+        public async Task<IActionResult> CreateProperty(PropertyDto propertyDto, int ownerId)
         {
-            var propertyCreated = _propertyService.CreateProperty(propertyDto, 1);
-            return View(propertyDto);
+            if (ModelState.IsValid)
+            {
+                // Pass both the property data and owner ID to your service
+                await _propertyService.CreateProperty(propertyDto, ownerId);
+                return RedirectToAction(nameof(IndexProperties));
+            }
+    
+            // If we got this far, something failed, redisplay form
+            var model = new CreatePropertyDto
+            {
+                propertyDto = propertyDto,
+                ownerList = (await _ownerService.GetAllOwners()).ToList()
+            };
+            return View(model);
         }
 
         // GET: PropertyItems/Edit/5

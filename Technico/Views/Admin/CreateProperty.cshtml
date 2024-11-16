@@ -1,8 +1,8 @@
-﻿@model TechnicoWebApi.Dtos.PropertyDto
+﻿@model TechnicoWebApi.Dtos.CreatePropertyDto
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+ViewData["Title"] = "Create";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
@@ -13,31 +13,47 @@
     <div class="col-md-4">
         <form asp-action="CreateProperty">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="IdentificationNumber" class="control-label"></label>
-                <input asp-for="IdentificationNumber" class="form-control" />
-                <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+                <label asp-for="propertyDto.IdentificationNumber" class="control-label"></label>
+                <input asp-for="propertyDto.IdentificationNumber" class="form-control" />
+                <span asp-validation-for="propertyDto.IdentificationNumber" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <label asp-for="propertyDto.Address" class="control-label"></label>
+                <input asp-for="propertyDto.Address" class="form-control" />
+                <span asp-validation-for="propertyDto.Address" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="ConstructionYear" class="control-label"></label>
-                <input asp-for="ConstructionYear" class="form-control" />
-                <span asp-validation-for="ConstructionYear" class="text-danger"></span>
+                <label asp-for="propertyDto.ConstructionYear" class="control-label"></label>
+                <input asp-for="propertyDto.ConstructionYear" class="form-control" />
+                <span asp-validation-for="propertyDto.ConstructionYear" class="text-danger"></span>
             </div>
-             <div class="form-group">
-                <label asp-for="PropertyType" class="control-label"></label>
-                <select asp-for="PropertyType" class="form-control">
-                        @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.PropertyType)))
-                        {
-                            <option value="@type">@type</option>
-                        }
+
+            <div class="form-group">
+                <label asp-for="propertyDto.PropertyType" class="control-label"></label>
+                <select asp-for="propertyDto.PropertyType" class="form-control">
+                    @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.PropertyType)))
+                    {
+                    <option value="@type">@type</option>
+                    }
                 </select>
-                <span asp-validation-for="PropertyType" class="text-danger"></span>
+                <span asp-validation-for="propertyDto.PropertyType" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">Owner</label>
+                <select name="ownerId" class="form-control">
+                    <option value="">-- Select Owner --</option>
+                    @foreach (var owner in Model.ownerList)
+                    {
+                    <option value="@owner.Id">@owner.Name @owner.Surname - @owner.Email</option>
+                    }
+                </select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -50,5 +66,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
