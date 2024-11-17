@@ -1,8 +1,12 @@
-﻿@model TechnicoWebApi.Dtos.OwnerResponseDto
+﻿@using Technico.Session
+@using TechnicoWebApi.Models
+@using static TechnicoWebApi.Models.OwnerType
+
+@model TechnicoWebApi.Dtos.OwnerResponseDto
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var ownerType = SessionClass.ownerType;
 }
 
 <h1>Edit</h1>
@@ -52,8 +56,18 @@
 </div>
 
 <div>
-    <a asp-action="DeleteOwner" asp-route-id=@Model.Id>Delete</a>
-    <a asp-action="IndexOwners">Back to List</a>
+    @{
+        if(ownerType==OwnerType.Admin)
+        {
+            <a asp-action="DeleteOwner" asp-route-id=@Model.Id>Delete</a>
+            <a asp-action="IndexOwners">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Details">Back to Details</a>
+        }
+      }
+   
 </div>
 
 @section Scripts {

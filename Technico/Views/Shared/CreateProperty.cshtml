@@ -1,8 +1,12 @@
-﻿@model TechnicoWebApi.Dtos.CreatePropertyDto
+﻿@using Technico.Session
+@using TechnicoWebApi.Models
+@using static TechnicoWebApi.Models.OwnerType
+
+@model TechnicoWebApi.Dtos.CreatePropertyDto
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var ownerType = SessionClass.ownerType;
 }
 
 <h1>Create</h1>
@@ -42,7 +46,8 @@
                 </select>
                 <span asp-validation-for="propertyDto.PropertyType" class="text-danger"></span>
             </div>
-
+            @{
+                if (ownerType == OwnerType.Admin){
             <div class="form-group">
                 <label class="control-label">Owner</label>
                 <select name="ownerId" class="form-control">
@@ -53,6 +58,8 @@
                     }
                 </select>
             </div>
+                }
+            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
             </div>

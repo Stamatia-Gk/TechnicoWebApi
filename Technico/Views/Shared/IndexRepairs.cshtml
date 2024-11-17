@@ -1,14 +1,40 @@
-﻿@model IEnumerable<TechnicoWebApi.Dtos.RepairDto>
+﻿@using Technico.Session
+@using TechnicoWebApi.Models
+@using static TechnicoWebApi.Models.OwnerType
+
+@model IEnumerable<TechnicoWebApi.Dtos.RepairDto>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var ownerType = SessionClass.ownerType;
 }
 
 <h1>Index</h1>
 <p>
     <a asp-action="CreateRepair">Create New</a>
 </p>
+@{
+    if (ownerType == OwnerType.Admin)
+    {
+        <form asp-action="SearchRepair" method="post">
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="form-control"  />
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control"   />
+            </div>
+            <p>OR</p>
+            <div class="form-group">
+                <label for="ownerId">Owner ID:</label>
+                <input type="number" id="ownerId" name="ownerId" class="form-control"  />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    }}
 
 @if (Model == null || !Model.Any())
 {
