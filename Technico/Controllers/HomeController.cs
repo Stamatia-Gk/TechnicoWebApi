@@ -5,6 +5,7 @@ using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
+using TechnicoWebApi.Models;
 
 namespace Technico.Controllers
 {
@@ -107,10 +108,12 @@ namespace Technico.Controllers
                 ModelState.AddModelError(string.Empty, "No such account exists.");
                 return View();
             }
-            if (loggedInOwner.OwnerType == 0)
+
+            SessionClass.ownerId = loggedInOwner.Id;
+            SessionClass.ownerType = loggedInOwner.OwnerType;
+            if (loggedInOwner.OwnerType == OwnerType.Owner)
             {
-                SessionClass.ownerId = loggedInOwner.Id;
-                SessionClass.ownerType = loggedInOwner.OwnerType;
+                
                 return RedirectToAction("Index", "User");
             }
             else
