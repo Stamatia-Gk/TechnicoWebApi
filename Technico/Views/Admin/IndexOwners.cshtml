@@ -10,6 +10,9 @@
 <p>
     <a asp-action="CreateOwner">Create New Owner</a>
 </p>
+<p>
+    <a asp-action="IndexOwners" class="btn btn-dark">Reset</a>
+</p>
 <form asp-action="SearchOwner" method="post">
     <div>
         <label for="vat">VAT Number:</label>
@@ -19,7 +22,7 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-primary mt-4">Search</button>
     <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
 </form>
 

@@ -13,6 +13,9 @@
     <a asp-action="CreateProperty">Create New</a>
 </p>
 @{
+ <p>
+  <a asp-action="IndexProperties" class="btn btn-dark">Reset</a>
+ </p>
     if (ownerType == OwnerType.Admin)
     {
         <form asp-action="SearchProperty" method="post">
@@ -24,7 +27,7 @@
                 <label for="vatNumber">VAT Number:</label>
                 <input type="text" id="vatNumber" name="VatNumber" class="form-control" />
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary mt-4">Search</button>
             <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
         </form>
     }  

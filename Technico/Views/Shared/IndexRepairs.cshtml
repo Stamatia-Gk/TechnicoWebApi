@@ -11,6 +11,10 @@
     <a asp-action="CreateRepair">Create New</a>
 </p>
 @{
+ 
+ <p>
+ <a asp-action="IndexRepairs" class="btn btn-dark">Reset</a>
+ </p>
     if (ownerType == OwnerType.Admin)
     {
         <form asp-action="SearchRepair" method="post">
@@ -28,7 +32,7 @@
                 <input type="number" id="ownerId" name="ownerId" class="form-control"  />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary mt-4">Search</button>
             </div>
             <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
         </form>
