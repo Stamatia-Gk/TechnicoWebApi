@@ -325,7 +325,7 @@ namespace Technico.Controllers
             var repairToDelete = await _repairService.DeleteRepair(id);
             if (repairToDelete != null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexRepairs));
             }
             else
             {

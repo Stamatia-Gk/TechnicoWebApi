@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<TechnicoWebApi.Dtos.RepairDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>On-going Repairs</h1>
 
 
 @if (Model == null || !Model.Any())
@@ -22,10 +22,10 @@ else
                     #
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ScheduledRepair)
+                    Scheduled Repair
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RepairType)
+                    Repair Type
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
@@ -34,7 +34,7 @@ else
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RepairStatus)
+                    Repair Status
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Cost)

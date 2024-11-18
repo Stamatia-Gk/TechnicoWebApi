@@ -3,11 +3,11 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Properties";
     var ownerType = SessionClass.ownerType;
 }
 
-<h1>Index</h1>
+<h1>Properties</h1>
 
 <p>
     <a asp-action="CreateProperty">Create New</a>
@@ -71,7 +71,7 @@
                         @Html.DisplayFor(modelItem => item.PropertyType)
                     </td>
                     <td>
-                        <a asp-action="EditProperty" asp-route-id="@item.Id">Edit</a> ||
+                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="me-2">Edit</a>
                         <a asp-action="DeleteProperty" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
