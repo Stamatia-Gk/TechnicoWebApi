@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Technico.Services.Interfaces;
 using TechnicoWebApi.Dtos;
-using TechnicoWebApi.Services.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

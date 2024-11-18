@@ -19,7 +19,8 @@ public class OwnerValidator : AbstractValidator<OwnerRequestDto>
         RuleFor(o => o.Password)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
-            .Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$").WithMessage("Password must contain a minimum of eight characters, " +
-                                                                            "at least one uppercase letter, one lowercase letter, one number and one special character.");
+            .Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
+            .WithMessage("Password must contain a minimum of eight characters, at least one " +
+            "uppercase letter, one lowercase letter, one number and one special character.");
     }
 }
