@@ -1,5 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Technico.Data;
 using Technico.Services;
+using TechnicoWebApi.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,10 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddDbContext<TechnicoDbContext>();
 builder.Services.AddHttpClient();
+
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<OwnerRequestDto>();
+//builder.Services.AddValidatorsFromAssemblyContaining<PropertyDto>();
 
 var app = builder.Build();
 

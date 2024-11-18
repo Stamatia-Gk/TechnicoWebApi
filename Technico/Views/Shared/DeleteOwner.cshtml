@@ -36,7 +36,7 @@
             @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            Phone Number
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
@@ -48,7 +48,7 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OwnerType)
+            Owner Type
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OwnerType)
@@ -58,6 +58,6 @@
     <form asp-action="DeleteOwner">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Details">Back to Details</a>
+        <a asp-action="IndexOwners">Back to Owners' List</a>
     </form>
 </div>

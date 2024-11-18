@@ -12,13 +12,13 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ScheduledRepair)
+            Scheduled Repair
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ScheduledRepair)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RepairType)
+            Repair Type
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RepairType)
@@ -36,7 +36,7 @@
             @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RepairStatus)
+            Repair Status
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RepairStatus)
@@ -52,6 +52,6 @@
     <form asp-action="DeleteRepair">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="IndexRepairs">Back to List</a>
+        <a asp-action="IndexRepairs">Back to Repairs' List</a>
     </form>
 </div>

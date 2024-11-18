@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="IdentificationNumber" class="control-label"></label>
+                <label asp-for="IdentificationNumber" class="control-label">Identification Number</label>
                 <input asp-for="IdentificationNumber" class="form-control" />
                 <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
             </div>
@@ -24,12 +24,12 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConstructionYear" class="control-label"></label>
+                <label asp-for="ConstructionYear" class="control-label">Construction Year</label>
                 <input asp-for="ConstructionYear" class="form-control" />
                 <span asp-validation-for="ConstructionYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PropertyType" class="control-label"></label>
+                <label asp-for="PropertyType" class="control-label">Property Type</label>
                 <select asp-for="PropertyType" class="form-control">
                     @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.PropertyType)))
                     {
@@ -39,7 +39,7 @@
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary mt-4 mb-3" />
             </div>
         </form>
     </div>

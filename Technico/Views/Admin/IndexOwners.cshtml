@@ -8,12 +8,11 @@
 <h1>Owners</h1>
 
 <p>
-    <a asp-action="CreateOwner">Create New Owner</a>
+    <a asp-action="CreateOwner" class="btn btn-success" style="float: right;">Create New Owner</a>
 </p>
-<p>
-    <a asp-action="IndexOwners" class="btn btn-dark">Reset</a>
-</p>
+
 <form asp-action="SearchOwner" method="post">
+    <p><i>Insert either or both fields to search for an owner.</i></p>
     <div>
         <label for="vat">VAT Number:</label>
         <input type="text" id="vat" name="vat" class="form-control" />
@@ -22,11 +21,14 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary mt-4">Search</button>
+    <div>
+        <button type="submit" class="btn btn-primary mt-4 me-2">Search</button>
+        <a asp-action="IndexOwners" class="btn btn-dark mt-4">Reset</a>
+    </div>
     <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
 </form>
 
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
     <table class="table">
         <thead>
@@ -47,13 +49,13 @@
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    Phone Number
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.OwnerType)
+                    Owner Type
                 </th>
                 <th></th>
             </tr>
@@ -88,7 +90,7 @@
                     @Html.DisplayFor(modelItem => item.OwnerType)
                 </td>
                 <td>
-                    <a asp-action="EditOwner" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="EditOwner" asp-route-id="@item.Id">Edit</a>
                 </td>
             </tr>
         }

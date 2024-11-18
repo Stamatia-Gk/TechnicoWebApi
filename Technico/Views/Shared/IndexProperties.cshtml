@@ -10,15 +10,14 @@
 <h1>Properties</h1>
 
 <p>
-    <a asp-action="CreateProperty">Create New</a>
+    <a asp-action="CreateProperty" class="btn btn-success" style="float: right;">Create New Property</a>
 </p>
+
 @{
- <p>
-  <a asp-action="IndexProperties" class="btn btn-dark">Reset</a>
- </p>
     if (ownerType == OwnerType.Admin)
     {
         <form asp-action="SearchProperty" method="post">
+            <p><i>Insert either or both fields to search for a property.</i></p>
             <div>
                 <label for="propertyId">Property ID:</label>
                 <input type="number" id="propertyId" name="PropertyId" class="form-control" />
@@ -27,29 +26,32 @@
                 <label for="vatNumber">VAT Number:</label>
                 <input type="text" id="vatNumber" name="VatNumber" class="form-control" />
             </div>
-            <button type="submit" class="btn btn-primary mt-4">Search</button>
+            <div>
+                <button type="submit" class="btn btn-primary mt-4 me-2">Search</button>
+                <a asp-action="IndexProperties" class="btn btn-dark mt-4">Reset</a>
+            </div>
             <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
         </form>
-    }  
- }
+    }
+}
 
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IdentificationNumber)
+                    Identification Number
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ConstructionYear)
+                    Construction Year
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PropertyType)
+                    Property Type
                 </th>
                 <th></th>
             </tr>
@@ -74,7 +76,7 @@
                         @Html.DisplayFor(modelItem => item.PropertyType)
                     </td>
                     <td>
-                        <a asp-action="EditProperty" asp-route-id="@item.Id" class="me-2">Edit</a>
+                        <a asp-action="EditProperty" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="DeleteProperty" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>

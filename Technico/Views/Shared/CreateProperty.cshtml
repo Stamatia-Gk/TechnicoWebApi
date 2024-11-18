@@ -16,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="propertyDto.IdentificationNumber" class="control-label"></label>
+                <label asp-for="propertyDto.IdentificationNumber" class="control-label">Identification Number</label>
                 <input asp-for="propertyDto.IdentificationNumber" class="form-control" />
                 <span asp-validation-for="propertyDto.IdentificationNumber" class="text-danger"></span>
             </div>
@@ -28,13 +28,13 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="propertyDto.ConstructionYear" class="control-label"></label>
-                <input asp-for="propertyDto.ConstructionYear" class="form-control" />
+                <label asp-for="propertyDto.ConstructionYear" class="control-label">Construction Year</label>
+                <input asp-for="propertyDto.ConstructionYear" class="form-control"/>
                 <span asp-validation-for="propertyDto.ConstructionYear" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="propertyDto.PropertyType" class="control-label"></label>
+                <label asp-for="propertyDto.PropertyType" class="control-label">Property Type</label>
                 <select asp-for="propertyDto.PropertyType" class="form-control">
                     @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.PropertyType)))
                     {
@@ -59,7 +59,7 @@
                 }
             }
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
+                <input type="submit" value="Create" class="btn btn-primary mt-4 mb-3" />
             </div>
         </form>
     </div>
