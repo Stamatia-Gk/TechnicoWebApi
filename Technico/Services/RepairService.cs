@@ -111,19 +111,18 @@ public class RepairService(HttpClient httpClient) : IRepairService
         }
     }
 
-    public async Task<List<RepairDto>> DeleteRepair(int id)
+    public async Task<bool> DeleteRepair(int id)
     {
         var url = $"http://localhost:5037/api/Repair/{id}";
         var response = await httpClient.DeleteAsync(url);
 
         if (response.IsSuccessStatusCode)
         {
-            var repairs = await GetRepairs();
-            return repairs;
+            return true;
         }
         else
         {
-            return null;
+            return false;
         }
     }
 
