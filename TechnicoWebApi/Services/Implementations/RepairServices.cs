@@ -21,7 +21,7 @@ public class RepairService : IRepairService
     public async Task<Result<List<RepairDto>>> GetAllRepairs()
     {
         var repairs = await _repairRepository.GetRepairs();
-        if (repairs == null)
+        if (repairs.Count == 0)
         {
             return Result.Failure<List<RepairDto>>("No repairs found!");
         }
@@ -56,7 +56,7 @@ public class RepairService : IRepairService
     public async Task<Result<List<RepairDto>>> GetAllRepairsOfAnOwner(int id)
     {
         var ownerRepairs = await _repairRepository.GetRepairsByOwnerId(id);
-        if (ownerRepairs == null)
+        if (ownerRepairs.Count == 0)
         {
             return Result.Failure<List<RepairDto>>("No repairs found for this onwer.");
         }
@@ -68,7 +68,6 @@ public class RepairService : IRepairService
     public async Task<Result<RepairDto>> CreateRepair(RepairDto repairDto, int ownerId)
     {
         var owner = await _ownerRepository.GetOwnerById(ownerId);
-
         if (owner == null)
         {
             return Result.Failure<RepairDto>("Owner does not exist!");
@@ -94,8 +93,7 @@ public class RepairService : IRepairService
             return Result.Failure<RepairDto>("The repair you want to update was not found.");
         }
 
-        Repair newRepair = Converters.ConvertToRepairEmployee(newRepairDto);
-
+        var newRepair = Converters.ConvertToRepairEmployee(newRepairDto);
         if (repairToUpdate.Owner != null)
         {
             newRepair.Owner = repairToUpdate.Owner;
@@ -130,16 +128,10 @@ public class RepairService : IRepairService
         {
             return Result.Failure<List<RepairDto>>("End date must be greater or equal than the start date.");
         }
+
         var owner = await _ownerRepository.GetOwnerById(userId);
-
-        //if (owner == null)
-        //{
-        //    return Result.Failure<List<RepairDto>>("Owner does not exist!");
-        //}
-        //var repairs = await _repairRepository.Search(startDate, endDate, owner.Id);
-
         var repairs = owner != null ? await _repairRepository.Search(startDate, endDate, userId) : await _repairRepository.Search(startDate, endDate);
-        if (repairs == null)
+        if (repairs.Count == 0)
         {
             return Result.Failure<List<RepairDto>>("No repairs found with the specified criteria.");
         }

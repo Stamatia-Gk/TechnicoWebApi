@@ -3,15 +3,12 @@
     Layout = "_Layout";
     var ownerType = SessionClass.ownerType;
 
-        if (ownerType == OwnerType.Owner)
-        {
-            Layout = "_UserLayout";
-        }
-        else
-        {
-            Layout = "_AdminLayout";
-        }
-    
-    
-         
+    if (ownerType == OwnerType.Owner)
+    {
+        Layout = "_UserLayout";
+    }
+    else
+    {
+        Layout = "_AdminLayout";
+    }  
 }

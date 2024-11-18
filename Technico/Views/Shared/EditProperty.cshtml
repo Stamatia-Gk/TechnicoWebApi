@@ -33,7 +33,7 @@
                 <select asp-for="PropertyType" class="form-control">
                     @foreach (var type in Enum.GetValues(typeof(TechnicoWebApi.Models.PropertyType)))
                     {
-                    <option value="@type">@type</option>
+                        <option value="@type">@type</option>
                     }
                 </select>
                 <span asp-validation-for="PropertyType" class="text-danger"></span>
@@ -49,6 +49,9 @@
     <a asp-action="IndexProperties">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts 
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Technico.Models;
 using Technico.Services;
 using Technico.Session;
 using TechnicoWebApi.Dtos;
@@ -23,7 +22,7 @@ namespace Technico.Controllers
         public async Task<IActionResult> Index(int id)
         {
             var ownerId = SessionClass.ownerId;
-            if (ownerId == null)
+            if (ownerId == 0)
             {
                 return NotFound();
             }
@@ -47,7 +46,7 @@ namespace Technico.Controllers
         // GET: Owners/Edit/5
         public async Task<IActionResult> EditOwner(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -161,7 +160,7 @@ namespace Technico.Controllers
         // GET: PropertyItems/Edit/5
         public async Task<IActionResult> EditProperty(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -231,7 +230,7 @@ namespace Technico.Controllers
         public async Task<IActionResult> IndexRepairs(int id)
         {
             var ownerId = SessionClass.ownerId;
-            if (ownerId == null)
+            if (ownerId == 0)
             {
                 return NotFound();
             }
@@ -269,7 +268,7 @@ namespace Technico.Controllers
         // GET: Repairs/Edit/5
         public async Task<IActionResult> EditRepair(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -302,7 +301,6 @@ namespace Technico.Controllers
                 return View(repairdto);
             }
         }
-
 
         // GET: Repairs/Delete/5
         public async Task<IActionResult> DeleteRepair(int id)
@@ -340,6 +338,4 @@ namespace Technico.Controllers
             return RedirectToAction("Index","Home");
         }
     }
-
-
 }

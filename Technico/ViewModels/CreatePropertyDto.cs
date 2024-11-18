@@ -1,5 +1,7 @@
 ﻿
-namespace TechnicoWebApi.Dtos;
+using TechnicoWebApi.Dtos;
+
+namespace Technico.ViewModels;
 
 public class CreatePropertyDto
 {

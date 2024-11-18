@@ -18,7 +18,9 @@ public class OwnerService : IOwnerService
     public async Task<Result<List<OwnerResponseDto>>> GetAllOwners()
     {
         var ownersList = await _ownerRepository.GetOwners();
+
         var ownerDtos = ownersList.Select(owner => Converters.ConvertToOwnerDto(owner));
+
         return ownerDtos.ToList();
     }
 
@@ -57,7 +59,6 @@ public class OwnerService : IOwnerService
         var newOwner = Converters.ConvertToOwner(newGetOwnerDto);
         newOwner.Id = oldOwnerId;
         var ownerFieldsAlreadyUsed = await _ownerRepository.OwnerExists(newOwner.Id, newOwner.VAT, newOwner.Email, newOwner.PhoneNumber);
-
         if(ownerFieldsAlreadyUsed)
         {
             return Result.Failure<OwnerResponseDto>("Update failed (duplicated info with existing owner).");
@@ -66,7 +67,6 @@ public class OwnerService : IOwnerService
         ownerToUpdate = Clone(ownerToUpdate, newOwner);
        
         var ownerUpdated = await _ownerRepository.UpdateOwner(ownerToUpdate);
-
         if (!ownerUpdated)
         {
             return Result.Failure<OwnerResponseDto>("Update failed!");
@@ -78,13 +78,13 @@ public class OwnerService : IOwnerService
     public async Task<Result> DeleteOwner(int ownerId)
     {
         var ownerToDelete = await _ownerRepository.GetOwnerById(ownerId);
-
         if (ownerToDelete == null)
         {
             return Result.Failure("This owner does not exist");
         }
 
         var ownerDeleted = await _ownerRepository.DeleteOwner(ownerToDelete);
+
         return ownerDeleted ? Result.Success("Owner successfully deleted.") : Result.Failure("Delete failed.");
     }
 
@@ -97,6 +97,7 @@ public class OwnerService : IOwnerService
         }
 
         var ownersDTO = Converters.ConvertToOwnerDto(owner);
+
         return Result.Success(ownersDTO);
     }
 

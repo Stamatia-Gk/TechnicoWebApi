@@ -30,29 +30,6 @@ namespace Technico.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignUp([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerRequestDto ownerRequestDto) 
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(ownerRequestDto);
-            }
-
-            var newOwner = await _ownerService.CreateOwner(ownerRequestDto);
-            if (newOwner != null)
-            {
-                SessionClass.ownerId = newOwner.Id;
-                SessionClass.ownerType = newOwner.OwnerType;
-                return RedirectToAction("Index", "User");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the repair.");
-                return View(ownerRequestDto);
-            }
-        }*/
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp([Bind("Id,VAT,Name,Surname,Address,PhoneNumber,Email,Password,OwnerType")] OwnerRequestDto ownerRequestDto)
@@ -78,24 +55,6 @@ namespace Technico.Controllers
         {
             return View();
         }
-
-        /*[HttpPost, Route("Home/Login")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(OwnerCredentialsDto ownerCredentials)
-        {
-            var loggedInOwner = await _ownerService.Login(ownerCredentials.Email, ownerCredentials.Password);
-           
-            if (loggedInOwner.OwnerType == 0)
-            {
-                SessionClass.ownerId = loggedInOwner.Id;
-                SessionClass.ownerType = loggedInOwner.OwnerType;
-                return RedirectToAction("Index", "User");
-            }
-            else
-            {
-                return RedirectToAction("Index","Admin");
-            }
-        }*/
 
         [HttpPost, Route("Home/Login")]
         [ValidateAntiForgeryToken]

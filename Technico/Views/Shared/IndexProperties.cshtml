@@ -4,7 +4,6 @@
 
 @{
     ViewData["Title"] = "Index";
-
     var ownerType = SessionClass.ownerType;
 }
 
@@ -26,60 +25,57 @@
                 <input type="text" id="vatNumber" name="VatNumber" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
+            <p><div asp-validation-summary="ModelOnly" class="text-danger"></div></p>
         </form>
     }  
  }
 
-@if (Model == null || !Model.Any())
+@if (Model != null)
 {
-    <p>No Properties found.</p>
-}
-else
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentificationNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ConstructionYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PropertyType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdentificationNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConstructionYear)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PropertyType)
-                </td>
-                <td>
-                    <a asp-action="EditProperty" asp-route-id="@item.Id">Edit</a> ||
-                    <a asp-action="DeleteProperty" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th>#</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdentificationNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ConstructionYear)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyType)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdentificationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConstructionYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PropertyType)
+                    </td>
+                    <td>
+                        <a asp-action="EditProperty" asp-route-id="@item.Id">Edit</a> ||
+                        <a asp-action="DeleteProperty" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

@@ -11,6 +11,12 @@ public class PropertyService(HttpClient httpClient) : IPropertyService
     {   
         var url = "http://localhost:5037/api/Property";
         var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
 
@@ -21,6 +27,12 @@ public class PropertyService(HttpClient httpClient) : IPropertyService
     {
         var url = $"http://localhost:5037/api/Property/searchproperties?propertyId={id}&ownerVat={vat}";
         var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var propertyList = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonResponse);
 
@@ -33,6 +45,11 @@ public class PropertyService(HttpClient httpClient) : IPropertyService
         var jsonContent = JsonConvert.SerializeObject(propertyDto);
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync(url, content);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return false;
+        }
 
         return response.IsSuccessStatusCode;
     }

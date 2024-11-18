@@ -34,6 +34,7 @@ public class PropertyService : IPropertyService
         }
 
         var propertyDto = Converters.ConvertToPropertyDto(property);
+
         return Result.Success(propertyDto);
     }
 
@@ -46,6 +47,7 @@ public class PropertyService : IPropertyService
         }
 
         var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
+
         return Result.Success(propertyListDto);
     }
 
@@ -72,14 +74,12 @@ public class PropertyService : IPropertyService
         var oldOwners = propertyToUpdate.Owners;
         var newProperty = Converters.ConvertToPropertyItem(propertyDto);
         propertyToUpdate = Clone(propertyToUpdate, newProperty);
-
         if (propertyToUpdate.Owners.Count == 0)
         {
             propertyToUpdate.Owners = oldOwners;
         }
 
         var propertyUpdated = await _propertyRepository.UpdateProperty(propertyToUpdate);
-
         if (!propertyUpdated)
         {
             return Result.Failure<PropertyDto>("Update failed");
@@ -90,7 +90,6 @@ public class PropertyService : IPropertyService
 
     public async Task<Result> DeleteProperty(int propertyId)
     {
-
         var propertyToDelete = await _propertyRepository.GetPropertyById(propertyId);
         if (propertyToDelete == null)
         {
@@ -98,6 +97,7 @@ public class PropertyService : IPropertyService
         }
 
         var ownerDeleted = await _propertyRepository.DeleteProperty(propertyToDelete);
+
         return ownerDeleted ? Result.Success("Property successfully deleted") : Result.Failure("Delete failed");
     }
 
@@ -110,6 +110,7 @@ public class PropertyService : IPropertyService
         }
 
         var propertyListDto = propertyList.Select(p => Converters.ConvertToPropertyDto(p)).ToList();
+
         return Result.Success(propertyListDto);
     }
 

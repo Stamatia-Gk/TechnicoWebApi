@@ -12,11 +12,15 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
     {
         var url = "http://localhost:5037/api/Owner";
         var response = await httpClient.GetAsync(url);
-        var jsonResponse = await response.Content.ReadAsStringAsync();
 
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
         var ownersList = JsonConvert.DeserializeObject<List<OwnerResponseDto>>(jsonResponse);
 
-        Console.WriteLine($"owner id = {SessionClass.ownerId}, owner type: {SessionClass.ownerType}.");
         return ownersList;
     }
 
@@ -95,9 +99,16 @@ public class OwnerService(HttpClient httpClient) : IOwnerService
     {
         var url = $"http://localhost:5037/api/Owner/searchowner?vat={vat}&email={email}";
         var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var ownerResult = JsonConvert.DeserializeObject<OwnerResponseDto>(jsonResponse);
         var newListOwnerResponseDto = new List<OwnerResponseDto> { ownerResult };
+
         return newListOwnerResponseDto;
     }
 

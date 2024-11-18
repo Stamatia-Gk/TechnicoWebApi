@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.Text;
 using TechnicoWebApi.Dtos;
 
-
 namespace Technico.Services;
 
 public class RepairService(HttpClient httpClient) : IRepairService
@@ -12,6 +11,12 @@ public class RepairService(HttpClient httpClient) : IRepairService
     {
         var url = "http://localhost:5037/api/Repair";
         var response = await httpClient.GetAsync(url);
+
+        if(!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var repairList = JsonConvert.DeserializeObject<List<RepairDto>>(jsonResponse);
 
@@ -40,6 +45,7 @@ public class RepairService(HttpClient httpClient) : IRepairService
         var formattedEndDate = endDate.ToString("yyyy-MM-dd");
         var url = $"http://localhost:5037/api/Repair/searchrepairs?startDate={formattedStartDate}&endDate={formattedEndDate}&id={ownerId}";
         var response = await httpClient.GetAsync(url);
+
         if (!response.IsSuccessStatusCode)
         {
             return null;
