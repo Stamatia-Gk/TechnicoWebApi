@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+    var ownerType = SessionClass.ownerType;
 }
 
 <h1>Delete</h1>
@@ -55,9 +56,20 @@
         </dd>
     </dl>
 
+
+
     <form asp-action="DeleteOwner">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="IndexOwners">Back to Owners' List</a>
+        @{
+            if (ownerType == OwnerType.Admin)
+            {
+                <a asp-action="IndexOwners">Back to Owners' List</a>
+            }
+            else
+            {
+                <a asp-action="Details">Back to Owners' List</a>
+            }
+        }
     </form>
 </div>
