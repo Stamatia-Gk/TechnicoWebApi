@@ -6,6 +6,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using TechnicoWebApi.Repositories.Implementations;
 using TechnicoWebApi.Repositories.Interfaces;
+using TechnicoWebApi.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,8 +31,8 @@ builder.Services.AddScoped<IRepairService, RepairService>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();
 builder.Services.AddScoped<RepairValidator>();
 
-//builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-//builder.Services.AddValidatorsFromAssemblyContaining<OwnerDTOCreate>();
+builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<OwnerRequestDto>();
 
 var app = builder.Build();
 

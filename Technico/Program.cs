@@ -16,7 +16,6 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<OwnerRequestDto>();
-//builder.Services.AddValidatorsFromAssemblyContaining<PropertyDto>();
 
 var app = builder.Build();
 
